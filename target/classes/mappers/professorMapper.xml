@@ -89,7 +89,7 @@
 		   ,C.COURSENUM AS COURSENUM
 		FROM
 		   COURSE C
-		WHRE
+		WHERE
 		   C.LECTURENUM = #{lecturenum}
 	</select>
 	
