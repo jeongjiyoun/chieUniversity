@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		 <typeAlias alias="Question" type="com.university.chie.vo.QnAQuestion"/>  
+		 <typeAlias alias="Answer" type="com.university.chie.vo.QnAAnswer"/>  
+		 <typeAlias alias="Assignment" type="com.university.chie.vo.Assignment"/> 
+		 <typeAlias alias="AssignSub" type="com.university.chie.vo.Assignment_Submit"/> 
+		 <typeAlias alias="AssFile" type="com.university.chie.vo.Ass_File"/> 
+		 <typeAlias alias="Professor" type="com.university.chie.vo.Professor"/>  
+		 <typeAlias alias="Student" type="com.university.chie.vo.Student"/>  
+		 <typeAlias alias="NoticeL" type="com.university.chie.vo.Lecture_Notice"/>
+		 <typeAlias alias="NoticeFile" type="com.university.chie.vo.LectureNoticeFile"/>
+		 <typeAlias alias="Student" type="com.university.chie.vo.Student"/>
+		 <typeAlias alias="Score" type="com.university.chie.vo.Score"/>
+		 <typeAlias alias="LectureTime" type="com.university.chie.vo.LectureTime"/>
+		 <typeAlias alias="Major" type="com.university.chie.vo.Major"/>
+		 <typeAlias alias="Payment" type="com.university.chie.vo.Payment"  />
+		 <typeAlias alias="Admin" type="com.university.chie.vo.Admin"  />
+		 <typeAlias alias="Bill" type="com.university.chie.vo.Bill"  />
+		 <typeAlias alias="Applicant" type="com.university.chie.vo.Applicant"  />
+		<typeAlias alias="Transcript" type="com.university.chie.vo.Transcript"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="mappers/subjectMapper.xml"/>
+		<mapper resource="mappers/memberMapper.xml"/>
+		<mapper resource="mappers/scoreMapper.xml"/>
+		<mapper resource="mappers/consultMapper.xml"/>
+		<mapper resource="mappers/examMapper.xml"/>
+		<mapper resource="mappers/professorMapper.xml"/>
+		<mapper resource="mappers/studentMapper.xml"/>
+		<mapper resource="mappers/courseRegisterMapper.xml"/>	
+		<mapper resource="mappers/schoolInfoMapper.xml"/>
+		<mapper resource="mappers/PaymentMapper.xml" />
+		<mapper resource="mappers/adminMapper.xml" />
+		<mapper resource="mappers/BillMapper.xml" />
+		<mapper resource="mappers/certificateMapper.xml" />
+		<mapper resource="mappers/applicantMapper.xml" />
+	</mappers>
+</configuration>
+

@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//java/com/university/chie/controller/CamController.java=UTF-8
+encoding//java/com/university/chie/controller/ConsultController.java=UTF-8
+encoding//java/com/university/chie/controller/MemberController.java=UTF-8
+encoding//java/com/university/chie/controller/ProfessorController.java=UTF-8
+encoding//java/com/university/chie/controller/SchoolInfoController.java=UTF-8
+encoding//java/com/university/chie/controller/ScoreController.java=UTF-8
+encoding//java/com/university/chie/dao/ConsultDAO.java=UTF-8
+encoding//java/com/university/chie/util/PageNavigator.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/main/introduce.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/main/majorIntro.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/main/professorIntro.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/student/courseRegisterS.jsp=UTF-8
+encoding//src/main/webapp/resources/css/full-page-scroll.css=UTF-8
+encoding/<project>=UTF-8

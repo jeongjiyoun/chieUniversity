@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.university.chie.mapper.adminMapper">
+
+	<select id="loginAdmin" resultType="Admin" parameterType="Admin">
+	SELECT 
+		ADMINID,
+ 		PASSWORD
+	From 
+		ADMIN 
+	WHERE 
+		ADMINID=#{adminid} 
+			AND
+		PASSWORD=#{password}
+	</select>
+	
+	<select id="selectApplicantAdmin" resultType="Applicant">
+	select 
+		name,
+		birthday,
+		phoneNum,
+		address,
+		email,
+		wdate,
+		applicantSeq
+	from
+		applicant
+	</select>
+	
+	<select id="pickApplicant" resultType="Applicant" parameterType="String">
+	select
+		address,
+		applicantSeq,
+		birthday,
+		email,
+		majorSeq,
+		name,
+		password,
+		phoneNum,
+		pic_name,
+		requirement_file,
+		wdate
+	from
+		applicant
+	where
+		applicantSeq=#{applicantSeq}
+	</select>
+<!-- 	다양한 검색을 쿼리 하나로 끝내는 sql -->
+		<select id="getStudentAdmin" resultType="map" parameterType="String">
+		SELECT
+			 A.NAME AS NAME
+			,R.STATUSNAME AS STATUS
+			,S.SREGINUM AS SREGNUM
+			,S.APPLICANTSEQ AS APPLICANTSEQ
+			,S.ENTERDATE AS ENTERDATE
+		FROM
+			STUDENT S,
+			APPLICANT A,
+			USERREASON R
+		WHERE
+			S.APPLICANTSEQ = A.APPLICANTSEQ
+			AND
+			S.STATUSNUM = R.STATUSNUM
+			${QUERY}
+	</select>
+	
+<!-- 	학생 그중에 한명 클릭하면 해당 내용이 뜨는것  -->
+	<select id="getStudentInfoAdmin" resultType="map" parameterType="String">
+		SELECT
+			 A.NAME AS NAME
+			,A.ADDRESS AS ADDRESS
+			,A.BIRTHDAY AS BIRTHDAY
+			,A.EMAIL AS EMAIL
+			,A.PHONENUM AS PHONENUM
+			,A.PIC_NAME AS PICNAME
+			,R.STATUSNAME AS STATUS
+			,S.SREGINUM AS SREGNUM
+			,S.APPLICANTSEQ AS APPLICANTSEQ
+			,S.SEMESTER AS SEMESTER
+			,S.ENTERDATE AS ENTERDATE
+		FROM
+			STUDENT S,
+			APPLICANT A,
+			USERREASON R
+		WHERE
+			S.APPLICANTSEQ = A.APPLICANTSEQ
+			AND
+			S.STATUSNUM = R.STATUSNUM
+			AND
+			S.SREGINUM = #{sreginum}
+	</select>
+
+<!-- 	휴학, 복학 등등등등 추방 -->
+	<update id="setStuState" parameterType="map">
+		UPDATE STUDENT
+		SET
+			S.STATUSNUM = #{statusnum}
+		WHERE S.SREGINUM = #{sreginum}
+	</update>
+	
+<!-- 	추방할때 학적 정보안에 넣는것 -->
+	<insert id="insertStuState" parameterType="map">
+		INSERT Student_Status_History (
+			SSSEQ
+			,STATUSNUM
+			,APPLY_DATE
+			,H.ISAUTH AS ISAUTH
+			,H.GRADE AS GRADE			
+		)VALUES(
+			 SSSEQ.NEXTVAL 
+			 ,#{statusnum}
+			 ,SYSDATE
+			 ,'T'
+			 ,(select grade from STUDENT WHERE SREGINUM = #{sreginum})
+		)
+	</insert>
+
+<!-- 학생이 무언갈 신청할때 승인해주는 것  -->
+	<update id="updateStuState" parameterType="map">
+		update Student_Status_History
+		SET
+			 H.ISAUTH = 'T'
+			,AUTHDATE = SYSDATE
+			,WID = #{userId} 
+		WHERE		
+			SSSEQ = #{ssseq}
+		)
+	</update>
+
+	<delete id="deleteApplicant" parameterType="String">
+	delete
+		Applicant
+	where
+		applicantSeq=#{applicantSeq}
+	
+	</delete>
+	
+</mapper>

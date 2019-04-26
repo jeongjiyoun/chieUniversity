@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+#courseTitle{
+	text-align: left;
+	border-color: transparent;
+}
+
+
+.courseContent{
+	text-align: left;
+	padding-left: 20px;
+}
+
+
+#table-title{
+	text-align: center;
+}
+
+.table-title{
+	text-align: center;
+}
+
+.table-nonline{
+	padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid transparent;
+}
+
+.identificationPicture{
+	width: 198px;
+	height: 260px;
+	background-color: blue;
+}

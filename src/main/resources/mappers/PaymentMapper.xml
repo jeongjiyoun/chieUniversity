@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.university.chie.mapper.PaymentMapper">
+
+	<insert id="insertPayment" parameterType="Payment">w
+	<![CDATA[
+	INSERT INTO PAYMENT_STATEMENT
+	(
+		PAYMENTNUM
+		,ENSEQ
+		,ISSUCESS
+		,MEANSOFPAYMENT
+		,RESULTCODE
+		,TOTPRICE
+		,ORDERNUM
+		,INDATE
+		,RECEIPT_URL
+	)
+	VALUES
+	(
+	#{paymentnum},
+	#{enseq},
+	#{issucess},
+	#{meansofpayment},
+	#{resultcode},
+	#{totprice},
+	to_date(#{indate},'yyyy/mm/dd hh24:mi:ss'),
+	#{receipt_url}
+	)
+	]]>
+	</insert>
+</mapper>

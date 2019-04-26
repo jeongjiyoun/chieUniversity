@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.ProfessorMapper">
+
+<!-- 상담을 위해 교수님 이름과 직번을 불러온다. -->
+	<select id="getProfessor" resultType="map" parameterType="String">
+		SELECT
+			 P.PREGINUM AS PREGINUM
+			,P.NAME AS name
+		FROM
+			 PROFESSOR P
+			,USERREASON R
+			,STUDENTMAJOR S
+			,MAJOR_PROFESSOR M
+		WHERE
+			S.SREGINUM = #{userId}
+			AND
+			S.MAJORSEQ = M.MAJORSEQ
+			AND
+			M.PREGINUM = P.PREGINUM
+            AND
+            R.STATUSNUM = P.STATUSNUM
+            AND
+            P.STATUSNUM LIKE '7%'
+	</select>
+	
+	<select id="getMovieListP" parameterType="String" resultType="map">
+		SELECT
+			 C.TITLE AS TITLE
+			,C.COURSESEQ AS COURSESEQ
+			,C.STARTDATE || '~' || C.ENDDATE AS MTIME
+		FROM
+			 COURSE C
+		WHERE
+			C.LECTURENUM = #{lecturenum}
+	</select>
+	
+	<!-- Get mySubject For courseList-->
+	<select id="getSubjectList" parameterType="String" resultType="map">
+		SELECT
+		    L.NAME
+		   ,L.LECTURENUM
+		   ,L.OCCUPANCY
+		FROM
+		    LECTURE L
+		   ,MAJOR_PROFESSOR M
+		WHERE
+		   L.MPSEQ = M.MPSEQ
+		   AND
+		   M.PREGINUM = #{preginum}
+	</select>
+
+<!-- Get mySubject For timetable -->
+	<select id="getSubjectListT" parameterType="String" resultType="map">
+	<![CDATA[
+		SELECT
+		    L.NAME
+		   ,L.LECTURENUM
+		   ,L.OCCUPANCY
+		FROM
+		    LECTURE L
+		   ,MAJOR_PROFESSOR M
+		WHERE
+		   L.MPSEQ = M.MPSEQ
+		   AND
+		   M.PREGINUM = #{preginum}
+		   AND
+		   L.SRSEQ = (SELECT
+					K.SRSEQ 
+				FROM
+					(SELECT SE.SRSEQ FROM SEMESTER SE ORDER BY SRSEQ DESC) K
+				WHERE 
+					ROWNUM<=1)
+									          ]]>
+	</select>
+
+	<!-- GET COURSEDETAIL -->
+	<select id="getCourseList" parameterType="String" resultType="map">
+		SELECT
+		    C.COURSESEQ AS COURSESEQ
+		   ,C.TITLE AS TITLE
+		   ,C.ORG_NAME AS ORG_NAME
+		   ,C.FILE_NAME AS FILE_NAME
+		   ,TO_DATE(C.STARTDATE,'dd/mm/yyyy') AS STARTDATE
+		   ,TO_DATE(C.ENDDATE,'dd/mm/yyyy') AS ENDDATE
+		   ,C.ATTIME  AS ATTIME
+		   ,C.COURSENUM AS COURSENUM
+		FROM
+		   COURSE C
+		WHRE
+		   C.LECTURENUM = #{lecturenum}
+	</select>
+	
+	<!-- UPDATE COURSE INFOMATION -->
+	<update id="setCourse" parameterType="map">
+		UPDATE
+		   COURSE
+		SET
+		    TITLE = #{TITLE}
+		   ,ORG_NAME =#{ORG_NAME}
+		   ,FILE_NAME = #{FILE_NAME}
+		   ,STARTDATE = TO_DATE(#{STARTDATE},'DD/MM/YYYY')
+		   ,ENDDATE = TO_DATE(#{ENDDATE},'DD/MM/YYYY')
+		   ,ATIME = #{ATIME}
+		   ,WID = #{WID}
+		   ,WDATE = SYSDATE
+		   ,COURSENUM = #{COURSENUM}
+		WHERE
+		   COURSESEQ = #{COURSESEQ}
+	
+	</update>
+
+	<select id="getSemesterData" parameterType="String" resultType="map">
+	SELECT
+	        DISTINCT(S.YEAR || '年' || S.SEMESTER) AS SEMESTER
+	       ,S.SRSEQ AS SRSEQ
+	FROM
+	        SEMESTER S
+	       ,LECTURE L
+	       ,MAJOR_PROFESSOR M
+	WHERE
+	       S.SRSEQ = L.SRSEQ
+	       AND
+	       L.MPSEQ = M.MPSEQ
+	       AND
+	       M.PREGINUM = #{preginum}
+    ORDER BY
+           SRSEQ ASC
+	</select>
+
+	<select id="getSubjectManageP" parameterType="String" resultType="map">
+		    SELECT
+		     C.TITLE AS TITLE
+		    ,C.COURSESEQ AS COURSESEQ
+		    ,C.COURSENUM AS COURSENUM
+		    ,L.LECTURENUM AS LECTURENUM
+ 			,TO_CHAR(C.STARTDATE,'DD/MM/YYYY') AS STARTDATE
+ 			,TO_CHAR(C.ENDDATE,'DD/MM/YYYY') AS ENDDATE
+		FROM
+		    LECTURE L
+		    ,COURSE C
+		WHERE
+            C.LECTURENUM = L.LECTURENUM
+            AND
+            C.COURSESEQ = #{courseseq}
+	</select>
+
+	<select id="getSubjectListP" parameterType="map" resultType="map">
+		    SELECT
+		     L.NAME AS TITLE
+		    ,L.LECTURENUM AS LECTURENUM
+		    ,S.YEAR || '年' || S.SEMESTER AS SEMESTER
+		    ,L.IS_REAL_TIME AS ISREALTIME
+		    ,T.TYPENAME AS TYPENAME
+		    ,'['||(SELECT SUBSTR(XMLAGG(XMLELEMENT(A,'|' || STIME) ORDER BY STIME).EXTRACT('//text()'), 2) STIME
+		        FROM 
+                (SELECT
+ 					T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		            ,T.LECTURENUM AS LECTURENUM
+		        FROM
+		            LECTURETIME T,
+		            LECTURE L1
+		        WHERE
+		            L1.LECTURENUM = l.lecturenum
+		            AND
+		            t.lecturenum = L1.LECTURENUM
+		        )
+		        GROUP BY LECTURENUM
+		                    )|| ']' AS STIME
+		FROM
+		     SEMESTER S
+		    ,LECTURE L
+		    ,MAJOR_PROFESSOR M
+		    ,PROFESSOR P
+		    ,LECTURETYPE T
+		WHERE
+			P.PREGINUM = #{preginum}
+		    AND
+		    L.MPSEQ = M.MPSEQ
+		    AND
+		    P.PREGINUM = M.PREGINUM
+		    AND
+		    T.TYPENUM = L.TYPENUM
+            AND
+            L.SRSEQ = S.SRSEQ
+        <if test="SRSEQ != null">
+        	AND
+        	S.SRSEQ = #{SRSEQ}
+        </if>
+        ORDER BY
+            LECTURENUM ASC
+	</select>
+	
+	<select id="getMovieP" parameterType="String" resultType="map">
+		SELECT
+			 C.ENDDATE AS ENDDATE
+			,C.STARTDATE AS STARTDATE
+			,C.TITLE AS TITLE
+			,C.COURSESEQ AS COURSESEQ
+			,C.STARTDATE || '~' || C.ENDDATE AS MTIME
+			,trunc(C.ATIME/60) || ':' || To_char(mod(C.ATIME,60),'00') AS ATIME
+		FROM
+			 COURSE C
+		WHERE
+			C.LECTURENUM = #{lecturenum}
+	</select>
+
+	<select id="getMyConsultData" parameterType="String" resultType="map">
+		SELECT
+			 T.counseq as COUNSELSEQ
+			,To_char(T.STARTTIME,'hh:mi') as STARTTIME
+			,To_char(T.ENDTIME,'hh:mi') as ENDTIME
+			,T.coundate as COUNDATE
+		FROM
+			COUNTIME T,
+			MAJOR_PROFESSOR M
+		WHERE
+            M.PREGINUM = #{loginId}	
+			AND
+			M.MPSEQ = T.MPSEQ
+		ORDER BY
+			COUNDATE ASC, STARTTIME ASC
+	</select>
+
+	<select id ="getMyInfoP" parameterType="String" resultType="map">
+		SELECT
+			P.PREGINUM AS PREGINUM
+			,P.NAME AS NAME
+			,TO_CHAR(P.BIRTHDAY,'YYYY/MM/DD') AS BIRTHDAY
+			,P.PHONENUM AS TEL
+			,P.ADDRESS AS ADDRESS
+			,TO_CHAR(P.ENTERDATE,'YYYY/MM/DD') AS ENTERDATE
+			,P.EMAIL AS EMAIL
+			,R.STATUSNAME AS STATUS
+			,P.PPICTURE AS PPICTURE
+			,M.NAME AS MAJOR
+			,C.NAME AS COLLEGE
+			,J.SUBJECT AS SUBJECT
+			,J.EMAIL AS JMAIL
+			,J.TEL AS JTEL
+			,J.TITLE AS JTITLE
+		FROM
+			PROFESSOR P
+			,USERREASON R
+			,MAJOR M
+			,MAJOR_PROFESSOR J
+			,COLLEGE_CATEGORY C
+		WHERE
+			P.PREGINUM = #{loginId}
+			AND
+			P.PREGINUM = J.PREGINUM
+			AND
+			J.MAJORSEQ = M.MAJORSEQ
+			AND
+			M.CATEGORIES = C.CATEGORIES
+			AND
+			R.STATUSNUM = P.STATUSNUM
+	</select>
+
+	<select id="getUDATEP" parameterType="String" resultType="String">
+		SELECT
+			TO_CHAR(LDATE,'YYYY-MM-DD')
+		FROM
+			PROFESSOR
+		WHERE
+			PREGINUM = #{loginId}
+	</select>
+
+
+	<select id="getSubjectTime" parameterType="String" resultType="map">
+	<![CDATA[
+	SELECT
+		 T.STARTTIME
+		,T.ENDTIME
+		,T.LTSEQ
+		,T.DAY
+	FROM
+		LECTURE L
+		,LECTURETIME T
+		,MAJOR_PROFESSOR M
+		,PROFESSOR P
+	WHERE
+		P.PREGINUM = #{loginId}
+		AND
+		L.LECTURENUM = T.LECTURENUM
+		AND
+		L.MPSEQ = M.MPSEQ
+		AND
+		M.PREGINUM = P.PREGINUM
+		AND
+		L.SRSEQ = (SELECT
+				K.SRSEQ 
+			FROM
+				(SELECT SE.SRSEQ FROM SEMESTER SE ORDER BY SRSEQ DESC) K
+			WHERE 
+				ROWNUM<=1)
+				          ]]>
+	</select>
+</mapper>

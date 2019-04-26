@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.SchoolInfoMapper">
+<select id="selectMajor" resultType="Major" parameterType="String">
+	select
+		categories, explaination, name, goal, majorSeq, roadmap, roadmap_pic
+	from
+		major
+	WHERE 
+		majorSeq=#{majorSeq}
+</select>
+
+<select id="selectMajorProfessor" resultType="Map" parameterType="String">
+	select
+		mp.mpseq, mp.majorSeq, mp.tel, mp.career, mp.subject, mp.title, mp.email, p.name, p.ppicture
+	from
+		major_professor mp, professor p
+	WHERE 
+	 	mp.preginum = p.preginum
+	 and
+	 mp.majorSeq=#{majorSeq}
+</select>
+
+<select id="selectMajorCurriculum" resultType="Map" parameterType="String">
+	select
+	 mcSeq, majorSeq, grade, subject, explanation, credit
+	from
+	 major_curriculum
+	WHERE 
+	 majorSeq=#{majorSeq}
+	order by grade 
+</select>
+<select id="majorList" resultType="Major" parameterType="String">
+	select
+		majorSeq, name, explaination
+	from
+		major
+	WHERE 
+		categories=#{categories}
+</select>
+
+<select id="checkA" parameterType="Map" resultType="Applicant">
+	select
+		address,
+		applicantSeq,
+		TO_CHAR(birthday,'dd/mm/yyyy'),
+		email,
+		indate,
+		majorSeq,
+		name,
+		password,
+		phoneNum,
+		pic_name,
+		procedding,
+		requirement_file,
+		wdate
+	from
+		applicant
+	where
+		phoneNum=#{phoneNum}
+		and password=#{password}
+
+</select>
+
+<insert id="temSubmit" parameterType="Applicant">
+ insert into  
+ 	Applicant
+ (
+		 address
+	 	,birthday
+	 	,email
+	 	,majorSeq
+	 	,name
+	 	,password
+	 	,pic_name
+	 	,requirement_file
+	 	,wdate
+	 	,applicantSeq
+ )VALUES(
+	 	#{address}
+	 	,to_date(#{birthday},'dd/mm/yyyy')
+		,#{email}
+		,#{majorSeq}
+		,#{name}
+		,#{password}
+		,#{pic_name}
+		,#{requirement_file}
+		,sysdate
+		,applicantSeq.nextVal
+)
+</insert>
+
+<update id="temSubmit2" parameterType="Applicant">
+ update  
+ 	Applicant
+ set
+ 	 	address=#{address}
+	 	,birthday=to_date(#{birthday},'dd/mm/yyyy')
+		,email=#{email}
+		,majorSeq=#{majorSeq}
+		,name=#{name}
+		,password=#{password}
+		,pic_name=#{pic_name}
+		,requirement_file=#{requirement_file}
+where
+	phoneNum=#{phoneNum}
+	and password=#{password}
+</update>
+
+<update id="fSubmit" parameterType="Applicant">
+ update  
+ 	Applicant
+ set
+ 	 	address=#{address}
+	 	,birthday=to_date(#{birthday},'dd/mm/yyyy')
+		,email=#{email}
+		,majorSeq=#{majorSeq}
+		,name=#{name}
+		,password=#{password}
+		,pic_name=#{pic_name}
+		,procedding = 'F'
+		,requirement_file=#{requirement_file}
+		,indate = sysdate
+where
+	phoneNum=#{phoneNum}
+	and password=#{password}
+</update>
+<select id="checkMajor" parameterType="String" resultType="String">
+select 
+	name
+from
+	major
+where
+	majorSeq=#{majorSeq}
+</select>
+</mapper>

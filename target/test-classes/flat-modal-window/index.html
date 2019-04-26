@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Flat Modal Window</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <!-- Button -->
+  <div class="page-wrapper">
+    <a class="btn trigger" href="#">顔面認識でログイン</a>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-wrapper">
+    <div class="modal">
+      <div class="head">
+        <a class="btn-close trigger" href="#">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="content">
+        <div style="width: 110px; height: 210px; background: red; float: left; margin-left: 20px;"></div>
+        <div style="width: 350px; height: 210px; float: left;">
+          <video id="myface" width="350" height="210" autoplay=""></video>
+        </div>
+        <div style="visibility: hidden;">
+          <canvas id="canvasFC" width="350" height="260"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+  <script src="js/index.js"></script>
+  <script type="text/javascript">
+
+ </script>
+</body>
+</html>

@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.SubjectMapper">
+
+<!-- QnA -->
+
+<!-- QnA Question -->
+<!-- QnA Question List  -->
+	<select id="selectAllQ" parameterType="String" resultType="map">
+		SELECT
+			s.SNAME AS SNAME
+			,q.QSEQ AS QSEQ
+			,q.LECTURENUM AS LECTURENUM
+			,q.TITLE AS TITLE
+			,q.CONTENTS AS CONTENTS
+			,q.INDATE AS INDATE
+			,q.SREGINUM AS SREGINUM
+			,q.COUNT AS COUNT
+		FROM
+			QNAQUESTION q, STUDENTMEMBER s
+		WHERE
+			q.LECTURENUM = #{lectureNum}	
+			AND q.LECTURENUM = s.LECTURENUM
+		ORDER BY 
+			INDATE DESC
+	</select>
+	<select id="getTotalQ" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			QNAQUESTION
+		WHERE
+			LECTURENUM = #{lectureNum}
+	</select>
+<!-- QnA Question -->
+	<select id="selectQ" parameterType="String" resultType="map">
+		SELECT
+			s.SNAME AS SNAME
+			,q.QSEQ AS QSEQ
+			,q.LECTURENUM AS LECTURENUM
+			,q.TITLE AS TITLE
+			,q.CONTENTS AS CONTENTS
+			,q.INDATE AS INDATE
+			,q.SREGINUM AS SREGINUM
+			,q.COUNT AS COUNT
+		FROM
+			QNAQUESTION q, STUDENTMEMBER s
+		WHERE
+			q.QSEQ=#{qSeq}
+			AND q.LECTURENUM = s.LECTURENUM
+	</select>
+<!-- QnA Question INSERT  -->
+	<insert id="insertQ" parameterType="Question">
+		INSERT INTO QNAQUESTION
+		(
+			QSEQ
+			,LECTURENUM
+			,TITLE
+			,CONTENTS
+			,SREGINUM
+			,COUNT
+		)
+		VALUES
+		(
+			QSEQ.NEXTVAL
+			,#{lectureNum}
+			,#{title}
+			,#{contents}
+			,#{sregiNum}
+			,0
+		)
+		<selectKey keyProperty="qSeq" resultType="String" order="AFTER">
+			SELECT QSEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+<!-- QnA Question UPDATE -->	
+	<update id="updateQ" parameterType="Question">
+		UPDATE 
+			QNAQUESTION
+		SET
+			CONTENTS=#{contents}
+		WHERE
+			QSEQ=#{qSeq}
+	</update>
+	
+<!-- QnA Question DELETE -->
+	<delete id="deleteQ" parameterType="String">
+	DELETE FROM 
+		QNAQUESTION
+	WHERE
+		QSEQ=#{qSeq} 
+	</delete>
+	
+<!-- QnA Answer를 등록시 count증가-->
+	<update id="updateCount" parameterType="String">
+		UPDATE 
+			QNAQUESTION
+		SET
+			COUNT=COUNT+1
+		WHERE
+			QSEQ=#{qSeq}
+	</update>
+	
+<!-- QnA Answer를 삭제시 count감소-->
+	<update id="decCount" parameterType="String">
+		UPDATE 
+			QNAQUESTION
+		SET
+			COUNT=COUNT-1
+		WHERE
+			QSEQ=#{qSeq}
+	</update>
+	
+
+<!-- QnA Answer -->
+<!-- insertQnA Answer -->
+	<insert id="insertA" parameterType="Answer">
+		INSERT INTO QNAAnswer
+		(
+			ASEQ
+			,PREGINUM
+			,QSEQ
+			,TITLE
+			,CONTENTS
+		)
+		VALUES
+		(
+			aSeq.NEXTVAL
+			,#{pregiNum}
+			,#{qSeq}
+			,#{title}
+			,#{contents}
+		)
+	</insert>
+
+		<select id="selectA" parameterType="String" resultType="Answer">
+		SELECT
+			aSeq
+			,qSeq
+			,TITLE
+			,CONTENTS
+			,indate
+			,pregiNum
+		FROM
+			QnAAnswer
+		WHERE
+			qSeq=#{qSeq}
+	</select>
+	
+		<select id="selectACon" parameterType="String" resultType="String">
+		SELECT
+			qSeq
+		FROM 
+			QnAAnswer
+		WHERE
+			aSeq=#{aSeq}
+		</select>
+
+	
+<!-- QnA Answer DELETE -->
+	<delete id="deleteA" parameterType="String">
+	DELETE FROM 
+		QNAANSWER
+	WHERE
+		aSeq=#{aSeq} 
+	</delete>
+
+	<!-- QnA Question UPDATE -->	
+	<update id="updateA" parameterType="Answer">
+		UPDATE 
+			QNAAnswer
+		SET
+			CONTENTS=#{contents}
+		WHERE
+			aSEQ=#{aSeq}
+	</update>
+	
+<!-- Assignment -->
+<!-- INSERT Assignment -->
+	<insert id="insertAssign" parameterType="Assignment">
+		INSERT INTO ASSIGNMENT
+		(
+			ASSSEQ
+			,LECTURENUM
+			,TITLE
+			,CONTENTS
+			,INDATE
+			,STARTDATE
+			,ENDDATE
+		)
+		VALUES
+		(
+			ASSSEQ.NEXTVAL
+			,#{lectureNum}
+			,#{title}
+			,#{contents}
+			,SYSDATE
+			,#{startDate}
+			,#{endDate}
+		)
+		<selectKey keyProperty="assSeq" resultType="String" order="AFTER">
+			SELECT ASSSEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+
+<!-- SELECT All Assignment -->
+	<select id="selectAssignAll" parameterType="String" resultType="Assignment">
+		SELECT
+			ASSSEQ
+			,LECTURENUM
+			,TITLE
+			,CONTENTS
+			,INDATE
+			,STARTDATE
+			,ENDDATE
+		FROM 
+			ASSIGNMENT
+		WHERE
+			LECTURENUM=#{lectureNum}
+		ORDER BY
+			INDATE DESC
+	</select>
+	
+<!-- SELECT AN ASSIGNMENT -->
+	<select id="selectAssign" parameterType="String" resultType="Assignment">
+		SELECT
+			ASSSEQ
+			,LECTURENUM
+			,TITLE
+			,CONTENTS
+			,INDATE
+			,TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STARTDATE
+			,TO_CHAR(ENDDATE,'YYYY-MM-DD') AS ENDDATE
+		FROM 
+			ASSIGNMENT
+		WHERE
+			ASSSEQ=#{assSeq}
+	</select>
+	
+<!-- UPDATE THE ASSIGNMENT -->
+	<update id="updateAssign" parameterType="Assignment">
+		UPDATE 
+			ASSIGNMENT
+		SET
+			CONTENTS=#{contents}
+			,STARTDATE=#{startDate}
+			,ENDDATE=#{endDate}
+		WHERE
+			assSEQ=#{assSeq}
+	</update>
+	
+<!-- DELETE THE ASSIGNMENT -->	
+	<delete id="deleteAssign" parameterType="String">
+		DELETE FROM 
+			ASSIGNMENT
+		WHERE
+			ASSSEQ=#{assSeq} 
+	</delete>
+	
+<!-- ASSIGNMENT Student Submit -->
+<!-- insert assignment -->
+	<insert id="insertAssignS" parameterType="AssignSub">
+		INSERT INTO ASSIGNMENT_SUBMIT
+		(
+			ASUBSEQ
+			,ASSSEQ
+			,TITLE
+			,CONTENTS
+			,INDATE
+			,UDATE
+			,SREGINUM
+		)
+		VALUES
+		(
+			ASUBSEQ.NEXTVAL
+			,#{assSeq}
+			,#{title}
+			,#{contents}
+			,SYSDATE
+			,SYSDATE
+			,#{sregiNum}
+		)
+		<selectKey keyProperty="aSubSeq" resultType="String" order="AFTER">
+			SELECT ASUBSEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<select id="getTotalAssignSP" parameterType="HashMap" resultType="int">
+		SELECT
+			COUNT(A.ASSSEQ) AS COUNT
+		FROM
+			ASSIGNMENT_SUBMIT A, STUDENTMEMBER S,ASSIGNMENT AA
+		WHERE
+			A.ASSSEQ=#{assSeq}
+			AND AA.LECTURENUM = S.LECTURENUM
+            AND A.ASSSEQ = AA.ASSSEQ
+		<if test="search!=null and search!=''">
+			AND
+				(S.SNAME LIKE '%' || #{search} || '%' OR A.TITLE LIKE '%' || #{search} || '%')
+		</if>
+	</select>
+	<select id="selectAllAssignSP" parameterType="HashMap" resultType="HashMap">
+		SELECT 
+			S.SNAME AS SNAME
+			,A.ASUBSEQ AS ASUBSEQ
+			,A.ASSSEQ AS ASSSEQ
+			,A.TITLE AS TITLE
+			,A.CONTENTS AS CONTENTS
+			,A.INDATE AS INDATE
+			,A.UDATE AS UDATE
+			,A.SREGINUM AS SREGINUM
+		FROM
+			ASSIGNMENT_SUBMIT A
+			,STUDENTMEMBER S
+			,ASSIGNMENT AA
+		WHERE
+		
+			AA.LECTURENUM = S.LECTURENUM
+            AND A.ASSSEQ = AA.ASSSEQ
+		<if test="search!=null and search!=''">
+			AND
+				(S.SNAME LIKE '%' || #{search} || '%' OR A.TITLE LIKE '%' || #{search} || '%')
+		</if>
+		ORDER BY
+			INDATE DESC
+		
+	</select>
+	<select id="selectAssignSP" parameterType="String" resultType="HashMap">
+		SELECT 
+			S.SNAME AS SNAME
+			,A.ASUBSEQ AS ASUBSEQ
+			,A.ASSSEQ AS ASSSEQ
+			,A.TITLE AS TITLE
+			,A.CONTENTS AS CONTENTS
+			,A.INDATE AS INDATE
+			,A.UDATE AS UDATE
+			,A.SREGINUM AS SREGINUM
+		FROM
+			ASSIGNMENT_SUBMIT A
+			,STUDENTMEMBER S
+			,ASSIGNMENT AA
+		WHERE
+			A.ASUBSEQ=#{aSubSeq} AND AA.LECTURENUM = S.LECTURENUM
+            AND A.ASSSEQ = AA.ASSSEQ
+
+	</select>
+	<select id="selectAssignS" parameterType="AssignSub" resultType="AssignSub">
+		SELECT 
+			ASUBSEQ
+			,ASSSEQ
+			,TITLE
+			,CONTENTS
+			,INDATE
+			,UDATE
+			,SREGINUM
+		FROM
+			ASSIGNMENT_SUBMIT
+		WHERE
+			ASSSEQ=#{assSeq}
+		AND	SREGINUM=#{sregiNum}
+	</select>
+	<select id="selectAssignSA" parameterType="String" resultType="AssignSub">
+		SELECT 
+			ASUBSEQ
+			,ASSSEQ
+			,TITLE
+			,CONTENTS
+			,INDATE
+			,UDATE
+			,SREGINUM
+		FROM
+			ASSIGNMENT_SUBMIT
+		WHERE
+			ASUBSEQ=#{aSubSeq}
+	</select>
+	
+	<update id="updateAssignS" parameterType="AssignSub">
+		UPDATE 
+			ASSIGNMENT_SUBMIT
+		SET
+			CONTENTS=#{contents},
+			UDATE = SYSDATE
+		WHERE
+			ASUBSEQ=#{aSubSeq}
+			AND SREGINUM=#{sregiNum}
+	</update>
+	<delete id="deleteAssignS" parameterType="String">
+		DELETE FROM 
+			ASSIGNMENT_SUBMIT
+		WHERE
+			ASUBSEQ=#{aSubSeq}
+	</delete>
+<!-- AssFile -->
+	<insert id="insertAssFile" parameterType="AssFile">
+	INSERT INTO ASS_FILE
+	(
+		FILEASEQ
+		,ASUBSEQ
+		,ORG_NAME
+		,NAME
+		,SREGINUM
+		,WDATE
+	)
+	VALUES
+	(
+		FILEASEQ.NEXTVAL
+		,#{aSubSeq}
+		,#{org_Name}
+		,#{name}
+		,#{sregiNum}
+		,SYSDATE
+		
+	)
+	<selectKey keyProperty="fileASeq" resultType="String" order="AFTER">
+			SELECT FILEASEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<select id="selectAssFileAll" parameterType="HashMap" resultType="AssFile">
+		SELECT 
+			FILEASEQ
+			,ASUBSEQ
+			,ORG_NAME
+			,NAME
+			,SREGINUM
+			,WDATE
+		FROM 
+			ASS_FILE
+		WHERE
+			ASUBSEQ=#{aSubSeq}
+		AND
+			SREGINUM=#{sregiNum}
+		<!-- AND SREGINUM #{sregiNum} -->
+		
+	</select>
+	<select id="selectAssFile" parameterType="String" resultType="AssFile">
+		SELECT 
+			FILEASEQ
+			,ASUBSEQ
+			,ORG_NAME
+			,NAME
+			,SREGINUM
+			,WDATE
+		FROM 
+			ASS_FILE
+		WHERE
+			FILEASEQ=#{fileASeq}
+	</select>
+	<delete id="deleteAssFile" parameterType="String">
+		DELETE FROM 
+			ASS_FILE
+		WHERE
+			ASUBSEQ=#{aSubSeq}
+	</delete>
+	<delete id="deleteAssFileF" parameterType="String">
+		DELETE FROM 
+			ASS_FILE
+		WHERE
+			FILEASEQ=#{fileASeq}
+	</delete>
+<!-- Subject Notice -->
+<!-- INSERT NOTICE -->
+	<insert id="insertNotice" parameterType="NoticeL">
+		INSERT INTO LECTURE_NOTICE
+		(
+			LNSEQ
+			,LECTURENUM
+			,PREGINUM
+			,TITLE
+			,CONTENTS
+		)
+		VALUES
+		(
+			LNSEQ.NEXTVAL
+			,#{lectureNum}
+			,#{pregiNum}
+			,#{title}
+			,#{contents}
+		)
+		<selectKey keyProperty="lnSeq" resultType="String" order="AFTER">
+			SELECT LNSEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<select id="getTotalNotice" parameterType="HashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM 
+			LECTURE_NOTICE
+		WHERE
+			LECTURENUM=#{lectureNum}
+		<if test="search!=null and search!=''">
+			AND
+				TITLE LIKE '%' || #{search} || '%'
+		</if>
+	</select>
+	<select id="selectAllNoticeL" parameterType="HashMap" resultType="NoticeL">
+		SELECT
+			LNSEQ
+			,LECTURENUM
+			,PREGINUM
+			,TITLE
+			,CONTENTS
+			,INDATE
+		FROM
+			LECTURE_NOTICE
+		WHERE
+			LECTURENUM=#{lectureNum}
+			<if test="search!=null and search!=''">
+			AND
+				TITLE LIKE '%' || #{search} || '%'
+			</if>
+		ORDER BY
+			INDATE DESC
+	</select>
+	<select id="selectNoticeL" parameterType="String" resultType="NoticeL">
+		SELECT
+			LNSEQ
+			,LECTURENUM
+			,PREGINUM
+			,TITLE
+			,CONTENTS
+			,INDATE
+		FROM
+			LECTURE_NOTICE
+		WHERE
+			LNSEQ=#{lnSeq}	
+	</select>
+	<update id="updateNoticeL" parameterType="NoticeL">
+		UPDATE 
+			LECTURE_NOTICE
+		SET
+			CONTENTS=#{contents}
+		WHERE
+			LNSEQ=#{lnSeq}
+	</update>
+	<delete id="deleteNoticeL" parameterType="String">
+	DELETE FROM 
+		LECTURE_NOTICE
+	WHERE
+		LNSEQ=#{lnSeq} 
+	</delete>
+<!-- INSERT NOTICE FILE-->
+	<insert id="insertNoticeFile" parameterType="NoticeFile">
+		INSERT INTO LECTURENOTICEFILE
+		(
+			FILESEQ
+			,LNSEQ
+			,ORG_NAME
+			,NAME
+			,PREGINUM
+		)
+		VALUES
+		(
+			FILESEQ.NEXTVAL
+			,#{lnSeq}
+			,#{org_Name}
+			,#{name}
+			,#{pregiNum}
+		)
+		<selectKey keyProperty="fileSeq" resultType="String" order="AFTER">
+			SELECT FILESEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<select id="selectNoticeFileL" parameterType="String" resultType="NoticeFile">
+		SELECT
+			FILESEQ
+			,LNSEQ
+			,ORG_NAME
+			,NAME
+			,IDATE
+			,PREGINUM
+		FROM
+			LECTURENOTICEFILE
+		WHERE
+			LNSEQ = #{lnSeq}
+	</select>
+	<select id="selectNoticeFileF" parameterType="String" resultType="NoticeFile">
+		SELECT
+			FILESEQ
+			,LNSEQ
+			,ORG_NAME
+			,NAME
+			,IDATE
+			,PREGINUM
+		FROM
+			LECTURENOTICEFILE
+		WHERE
+			FILESEQ = #{fileSeq}
+	</select>
+	<delete id="deleteNoticeFileL" parameterType="String">
+	DELETE FROM 
+		LECTURENOTICEFILE
+	WHERE
+		LNSEQ = #{lnSeq} 
+	</delete>
+	<delete id="deleteNoticeFileF" parameterType="String">
+	DELETE FROM 
+		LECTURENOTICEFILE
+	WHERE
+		FILESEQ = #{fileSeq}
+	</delete>
+	
+
+</mapper>

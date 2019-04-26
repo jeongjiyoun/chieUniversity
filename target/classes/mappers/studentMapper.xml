@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.StudentMapper">
+
+	<!-- LECTURE LIST -->
+	<select id = "getSubList" parameterType="string" resultType="map">
+		<![CDATA[
+		SELECT
+		    L.NAME AS TITLE
+		    ,L.LECTURENUM AS LECTURENUM
+		    ,P.NAME AS PNAME
+		    ,P.PPICTURE AS PPICTURE
+		    ,L.IS_REAL_TIME AS ISREALTIME
+		    ,T.TYPENAME AS TYPENAME
+		    ,'['||(SELECT SUBSTR(XMLAGG(XMLELEMENT(A,'| ' || STIME) ORDER BY STIME).EXTRACT('//text()'), 2) STIME
+		        FROM (
+		        SELECT
+ 					T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		            ,T.LECTURENUM AS LECTURENUM
+		        FROM
+		            LECTURETIME T,
+		            LECTURE L1
+		        WHERE
+		            L1.LECTURENUM = L.LECTURENUM
+		            AND
+		            t.lecturenum = L.LECTURENUM
+		        )
+		        GROUP BY LECTURENUM
+		                    )|| ']' AS STIME
+		FROM
+		     STUDENTMEMBER S
+		    ,LECTURE L
+		    ,MAJOR_PROFESSOR M
+		    ,PROFESSOR P
+		    ,LECTURETYPE T
+            ,SEMESTER E
+		WHERE
+		    S.SREGINUM = '1110332745'
+		    AND
+		    L.LECTURENUM = S.LECTURENUM
+		    AND
+		    L.MPSEQ = M.MPSEQ
+		    AND
+		    P.PREGINUM = M.PREGINUM
+		    AND
+		    T.TYPENUM = L.TYPENUM
+		    AND
+		    L.SRSEQ = E.SRSEQ
+            AND
+            L.SRSEQ = (SELECT
+				K.SRSEQ 
+			FROM
+				(SELECT SE.SRSEQ FROM SEMESTER SE ORDER BY SRSEQ DESC) K
+			WHERE 
+				ROWNUM<=1
+            )
+          ]]>
+	</select>
+	
+	
+	<!-- LECTURE DETAIL -->
+	<select id="getSubjectDetail" parameterType="String" resultType="map">
+		SELECT
+			 L.NAME AS TITLE
+			,L.LECTURENUM AS LECTURENUM
+			,L.FILENAME AS FILENAME
+			,L.IS_REAL_TIME AS IS_REAL_TIME
+			,M.NAME AS MAJOR
+			,P.NAME AS PNAME
+			,P.PPICTURE AS PPICTURE
+			,T.TYPENAME AS TYPENAME
+			,S.YEAR || '年' || S.SEMESTER AS SEMESTER
+			,(SELECT
+				COUNT(COURSESEQ)
+			  FROM
+			  	COURSE C1
+			  WHERE
+			  	 C1.LECTURENUM = L.LECTURENUM) AS NUMCLASS
+			,(SELECT SUBSTR(XMLAGG(XMLELEMENT(A,'| ' || STIME) ORDER BY STIME).EXTRACT('//text()'), 2) STIME
+		        FROM (
+		        SELECT
+		             T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		            ,T.LECTURENUM AS LECTURENUM
+		        FROM
+		            LECTURETIME T,
+		            LECTURE L
+		        WHERE
+		            L.LECTURENUM = #{lecturenum}
+		            AND
+		            t.lecturenum = L.LECTURENUM
+		        )
+		        GROUP BY LECTURENUM
+		                    ) AS STIME  	 
+		FROM
+			LECTURE L
+			,MAJOR_PROFESSOR J
+			,PROFESSOR P
+			,LECTURETYPE T
+			,MAJOR M
+			,SEMESTER S
+		WHERE
+		    S.SRSEQ = L.SRSEQ
+            AND
+			L.MPSEQ = J.MPSEQ
+			AND
+			J.PREGINUM = P.PREGINUM
+			AND
+			T.TYPENUM = L.TYPENUM
+			AND
+			J.MAJORSEQ = M.MAJORSEQ
+			AND
+			L.LECTURENUM = #{lecturenum}
+	</select>
+	
+	<select id="getMovieList" parameterType="String" resultType="map">
+		SELECT
+			 C.TITLE AS TITLE
+			,C.COURSESEQ AS COURSESEQ
+			,C.MTIME AS MTIME
+			,C.ATIME AS ATIME
+			,C.ATIME2 AS ATIME2
+			,C.WTIME AS WTIME
+			,C.STARTDATE AS STARTDATE
+			,C.ENDDATE AS ENDDATE
+		FROM
+			 STUDENTMEMBER S
+			,(SELECT 
+                 D.TITLE AS TITLE
+                ,D.COURSESEQ AS COURSESEQ
+                ,D.STARTDATE || '~' || D.ENDDATE AS MTIME
+                ,trunc(D.ATIME/60) || ':' || mod(D.ATIME,60) AS ATIME
+                ,D.ATIME AS ATIME2
+                ,trunc(A.ATIME/60) AS WTIME
+                ,D.LECTURENUM AS LECTURENUM
+                ,D.STARTDATE AS STARTDATE
+                ,D.ENDDATE AS ENDDATE
+             FROM
+                ATTENDANCE_DATA A RIGHT OUTER JOIN COURSE D
+             ON A.COURSESEQ = D.COURSESEQ
+             ) C			
+		WHERE
+			C.LECTURENUM = #{arg0}
+			AND
+			C.LECTURENUM = S.LECTURENUM
+			AND
+			S.SREGINUM = #{arg1}
+		ORDER BY
+			C.COURSESEQ ASC
+	</select>
+
+	<select id="getMovie" parameterType="String" resultType="map">
+		SELECT
+		     D.COURSESEQ AS COURSESEQ
+		    ,D.TITLE AS TITLE
+		    ,D.FileContents AS FILECONTENTS
+		    ,D.FILENAME AS FILENAME
+		    ,P.NAME AS PNAME
+		FROM
+		     MAJOR_PROFESSOR J
+		    ,PROFESSOR P
+		    ,LECTURE L
+		    ,(SELECT
+		             C.COURSESEQ AS COURSESEQ
+		            ,C.TITLE AS TITLE
+		            ,F.FILECONTENTS AS FILECONTENTS
+		            ,C.FILE_NAME AS FILENAME
+		            ,C.LECTURENUM AS LECTURENUM
+		        FROM
+		             COURSEFILE F RIGHT OUTER JOIN COURSE C
+		             ON
+		             C.COURSESEQ = F.COURSESEQ) D
+		             
+		WHERE
+		    D.COURSESEQ =  #{courseSeq}
+		    AND
+		    J.PREGINUM = P.PREGINUM
+		    AND
+		    J.MPSEQ = L.MPSEQ
+		    AND
+		    L.LECTURENUM = D.LECTURENUM    
+	</select>
+	
+	<!-- START WATCH -->
+	<insert id="startTime" parameterType="String">
+		INSERT INTO
+		    ATTENDANCE_DATA (
+		     ADSEQ
+		    ,COURSESEQ
+		    ,SMSEQ
+		) VALUES (
+		     ADSEQ.NEXTVAL
+		    ,#{arg0}
+		    ,(SELECT 
+		        S.SMSEQ
+		      FROM
+		         STUDENTMEMBER S
+		        ,COURSE C
+		      WHERE
+		        S.SREGINUM = #{arg1}
+		        AND
+		        S.LECTURENUM = C.LECTURENM
+		        AND
+		        C.COURSESEQ = #{arg0}
+		      )
+		)
+	</insert>
+
+<!-- check pass -->
+	<insert id="checkpass" parameterType="map">
+		INSERT INTO ATTENDANCE_DATA (
+			 ADSEQ
+			,COURSESEQ
+            ,ATIME
+            ,TIME_START
+            ,TIMES_END
+			,SMSEQ
+		) VALUES(
+		     ADSEQ.NEXTVAL
+		    ,#{COURSESEQ}
+		    ,#{ATIME}
+            ,#{TIME_START}
+            ,SYSDATE
+		    ,(SELECT 
+		        S.SMSEQ
+		      FROM
+		         STUDENTMEMBER S
+		        ,COURSE C
+		      WHERE
+		        S.SREGINUM = #{SREGINUM}
+		        AND
+		        S.LECTURENUM = C.LECTURENM
+		        AND
+		        C.COURSESEQ = #{COURSESEQ}
+		)
+	)
+	</insert>
+
+
+<!-- WATCH END -->	
+	<update id="endWatch" parameterType="String">
+
+	    <selectKey resultType="String" keyProperty="atime" order="BEFORE">
+        	SELECT
+		 				SUM(EXTRACT(HOUR FROM DT) * 3600 + EXTRACT(MINUTE FROM DT) * 60 + EXTRACT(SECOND FROM DT))
+				  FROM (
+				        SELECT TIMES_END - TIMES_START AS DT
+				          FROM ATTENDANCE_DATA
+				          WHERE attending_seq = (SELECT 
+											  		  A.ATTENDING_SEQ
+											    FROM
+											   		  ATTEND A
+											   		 ,STUDENTMEMBER S
+											    WHERE
+														 A.COURSESEQ = #{arg0}
+												    AND 
+												    	 S.SREGINUM = #{arg1}
+												    AND
+														 S.SMSEQ = A.SMSEQ)
+				)
+    	</selectKey>
+
+		UPDATE ATTEND
+		SET
+		  ENDDATE = SYSDATE
+		 ,ATIME = #{atime}
+		 ,ISWATCHED = 
+			 CASE WHEN #{atime} > (SELECT
+			  		C.ATIME
+			  FROM 
+			  		COURSE C
+			  WHERE
+			  		C.COURSESEQ = (select a.courseseq FROM attend A WHERE A.ATTENDING_SEQ = (SELECT 
+		  		  A.ATTENDING_SEQ
+		    FROM
+		   		  ATTEND A
+		   		 ,STUDENTMEMBER S
+		    WHERE
+					 A.COURSESEQ = #{arg0}
+			    AND 
+			    	 S.SREGINUM = #{arg1}
+			    AND
+					 S.SMSEQ = A.SMSEQ))) THEN 'T'
+	                 ELSE 'F'  END		 
+		WHERE
+		 attending_Seq = (SELECT 
+		  		  A.ATTENDING_SEQ
+		    FROM
+		   		  ATTEND A
+		   		 ,STUDENTMEMBER S
+		    WHERE
+					 A.COURSESEQ = #{arg0}
+			    AND 
+			    	 S.SREGINUM = #{arg1}
+			    AND
+					 S.SMSEQ = A.SMSEQ)
+
+	</update>
+
+<!-- END TIME-->
+
+<update id="endTime" parameterType="String">
+		UPDATE
+			 ATTENDANCE_DATA
+		SET
+			 TIMES_END = SYSTIMESTAMP
+			,ATIME = (SYSTIMESTAMP - TIMES_START)
+		WHERE
+			ADSEQ = #{adseq}
+</update>
+
+<select id="getMyInfo" parameterType="String" resultType="map">
+		SELECT
+			 TO_CHAR(A.BIRTHDAY,'YYYY/MM/DD') AS BIRTHDAY
+			,TRUNC(S.SEMESTER/2) AS GRADE
+			,A.ADDRESS AS ADDRESS
+			,A.PHONENUM AS TEL
+			,R.STATUSNAME AS STATUS
+			,TO_CHAR(S.ENTERDATE,'YYYY/MM/DD') AS ENTERDATE
+			,A.EMAIL AS EMAIL
+			,(SELECT 
+				M1.NAME
+			  FROM
+			  	STUDENTMAJOR M2,
+                MAJOR M1
+			  WHERE
+			  	M2.TYPE = 'N'
+              AND
+                M2.MAJORSEQ = M1.MAJORSEQ
+			  AND
+			  	SREGINUM = #{loginId} ) AS MAJOR
+        ,(SELECT
+                M1.NAME
+			  FROM
+			  	STUDENTMAJOR M2,
+                MAJOR M1
+			  WHERE
+			  	M2.TYPE = 'B'
+              AND
+                M2.MAJORSEQ = M1.MAJORSEQ
+			  AND
+			  	SREGINUM = #{loginId}) AS MAJOR2
+		FROM
+			 APPLICANT A
+			,USERREASON R
+			,STUDENT S
+		WHERE
+			S.SREGINUM = #{loginId}
+            AND
+			S.APPLICANTSEQ = A.APPLICANTSEQ
+			AND
+			S.STATUSNUM = R.STATUSNUM
+
+</select>
+
+<update id="UpdateMyInfo" parameterType="map">
+	UPDATE (
+		SELECT
+			A.EMAIL AS EMAIL
+			,A.ADDRESS AS ADDRESS
+			,A.PHONENUM AS PHONENUM
+			,S.SREGINUM AS SREGINUM
+		FROM
+			 APPLICANT A
+			,STUDENT S
+		WHERE 
+			S.APPLICANTSEQ = A.APPLICANTSEQ
+		)
+	SET
+		 EMAIL = #{EMAIL}
+		,ADDRESS = #{ADDRESS}
+		,PHONENUM = #{TEL}
+	WHERE
+		SREGINUM = #{SREGINUM}
+</update>
+
+<select id="getUDATE" parameterType="String" resultType="String">
+	SELECT
+		TO_CHAR(UDATE,'YYYY-MM-DD')
+	FROM
+		STUDENT
+	WHERE
+		SREGINUM = #{loginId}
+</select>
+
+<select id="leaveOfAbsence" parameterType="String" resultType="map">
+	SELECT
+		 H.SSSEQ AS SSSEQ
+		,U.STATUSNAME AS STATUSNAME
+		,H.APPLY_DATE AS APPLY_DATE
+		,H.ISAUTH AS ISAUTH
+		,H.GRADE AS GRADE
+	FROM
+		Student_Status_History H
+		,USERREASON U
+	WHERE
+		H.SREGINUM = #{loginId}
+		AND
+		U.STATUSNUM = H.STATUSNUM
+</select>
+
+<select id="getSubjectTime" parameterType="String" resultType="map">
+	<![CDATA[
+	SELECT
+		 T.STARTTIME
+		,T.ENDTIME
+		,T.LTSEQ
+		,T.DAY
+	FROM
+		LECTURE L
+		,LECTURETIME T
+		,STUDENTMEMBER S
+	WHERE
+		S.SREGINUM = #{loginId}
+		AND
+		L.LECTURENUM = T.LECTURENUM
+		AND
+		S.LECTURENUM = L.LECTURENUM
+		AND
+		L.SRSEQ = (SELECT
+				K.SRSEQ 
+			FROM
+				(SELECT SE.SRSEQ FROM SEMESTER SE ORDER BY SRSEQ DESC) K
+			WHERE 
+				ROWNUM<=1)
+				          ]]>
+</select>
+
+<select id="getAssessmentInfo" parameterType="String" resultType="map">
+	SELECT
+		P.NAME AS PNAME
+		,L.NAME AS TITLE
+		,L.LECTURENUM AS LECTURENUM
+		,S.SMSEQ
+	FROM
+		PROFESSOR P
+		,LECTURE L
+		,MAJOR_PROFESSOR J
+		,STUDENTMEMBER S
+	WHERE
+		L.MPSEQ = J.MPSEQ
+        AND
+        S.LECTURENUM = L.LECTURENUM
+		AND
+		J.PREGINUM = P.PREGINUM
+		AND
+		S.SMSEQ = #{smseq}
+</select>
+
+<insert id="assessProfessor" parameterType="map">
+	INSERT INTO ASSESSMENT(
+		ASS_SEQ
+		,SMSEQ
+		,FIDELITY
+		,PROFESSIONALITY
+		,UNDERSTANDING
+		,FIDLITY_REASON
+		,PROFESSION_REASON
+		,UNDERSTANDING_REASON
+	) VALUES(
+		ASS_SEQ.NEXTVAL
+		,#{SMSEQ}
+		,#{FIDELITY}
+		,#{PROFESSIONALITY}
+		,#{UNDERSTANDING}
+		,#{FIDLITY_REASON}
+		,#{PROFESSION_REASON}
+		,#{UNDERSTANDING_REASON}
+	)
+
+</insert>
+
+</mapper>

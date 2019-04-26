@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.CourseRegisterMapper">
+	
+	<select id="selectSemester" resultType="int">
+		<![CDATA[
+			SELECT
+				SRSEQ 
+			FROM
+				(SELECT SRSEQ FROM SEMESTER ORDER BY SRSEQ DESC)
+			WHERE 
+				ROWNUM<=1
+		]]>
+	</select>
+	
+	
+	<!-- this is the list of majors which you need to find courses by major -->
+	<select id="searchMajor" parameterType="String" resultType="HashMap">
+		SELECT
+			MAJORSEQ
+			,NAME
+		FROM
+			MAJOR
+		WHERE
+			CATEGORIES=#{categories}
+		ORDER BY
+			MAJORSEQ
+	
+	</select>
+	
+	
+	<select id="selectCourseType" parameterType="HashMap" resultType="HashMap">
+		 SELECT 
+            L.TYPENUM AS TYPENUM
+            ,Y.TYPENAME AS TYPENAME
+			,L.LECTURENUM AS LECTURENUM
+			,L.NAME AS NAME
+			,L.DIVIDE AS DIVIDE
+			,L.CREDIT AS CREDIT
+			,P.NAME AS PNAME
+			,L.OCCUPANCY AS OCCUPANCY
+            ,(SELECT COUNT(SUSEQ) FROM SIGNUP S WHERE S.LECTURENUM = L.LECTURENUM) AS COUNT
+			,L.IS_REAL_TIME AS REAL
+			,(SELECT SUBSTR(XMLAGG(XMLELEMENT(A,', ' || STIME) ORDER BY STIME).EXTRACT('//text()'), 2) STIME
+		        FROM (
+		        SELECT
+ 					T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		            ,T.LECTURENUM AS LECTURENUM
+		        FROM
+		            LECTURETIME T
+		        WHERE
+		        	L.SRSEQ = #{srSeq}
+		            AND
+		            t.lecturenum = L.LECTURENUM
+		            AND
+		            L.TYPENUM =#{typeNum}
+		        )
+		        GROUP BY LECTURENUM) AS STIME
+			,L.GRADE AS GRADE
+			,L.FILENAME AS FILENAME
+		FROM
+			LECTURE L, PROFESSOR P, MAJOR_PROFESSOR M, LECTURETYPE Y
+        WHERE 
+            L.SRSEQ = #{srSeq}
+		    AND L.TYPENUM = #{typeNum}
+            AND L.MPSEQ = M.MPSEQ
+            AND M.PREGINUM = P.PREGINUM
+            AND L.TYPENUM = Y.TYPENUM
+            
+	</select>
+	
+	<select id="selectCourseMajor" parameterType="HashMap" resultType="HashMap">
+		 SELECT 
+            L.TYPENUM AS TYPENUM
+            ,Y.TYPENAME AS TYPENAME
+			,L.LECTURENUM AS LECTURENUM
+			,L.NAME AS NAME
+			,L.DIVIDE AS DIVIDE
+			,L.CREDIT AS CREDIT
+			,P.NAME AS PNAME
+			,L.OCCUPANCY AS OCCUPANCY
+            ,(SELECT COUNT(SUSEQ) FROM SIGNUP S WHERE S.LECTURENUM = L.LECTURENUM) AS COUNT
+			,L.IS_REAL_TIME AS REAL
+			,(SELECT SUBSTR(XMLAGG(XMLELEMENT(A,', ' || STIME) ORDER BY STIME).EXTRACT('//text()'), 2) STIME
+		        FROM (
+		        SELECT
+ 					T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		            ,T.LECTURENUM AS LECTURENUM
+		        FROM
+		            LECTURETIME T
+		        WHERE
+		    	    L.SRSEQ = #{srSeq}
+		    		AND
+		        	L.TYPENUM = 1
+		            AND
+		            T.lecturenum = L.LECTURENUM
+		        )
+		        GROUP BY LECTURENUM) AS STIME
+			,L.GRADE AS GRADE
+			,L.FILENAME AS FILENAME
+		FROM
+			LECTURE L, PROFESSOR P, MAJOR_PROFESSOR M, LECTURETYPE Y
+        WHERE 
+            L.SRSEQ = #{srSeq}
+		    AND M.MAJORSEQ=#{majorSeq}
+            AND L.TYPENUM = 1
+            AND L.MPSEQ = M.MPSEQ
+            AND M.PREGINUM = P.PREGINUM
+            AND L.TYPENUM = Y.TYPENUM
+            
+	</select>
+	
+	<select id="selectKeyWord" parameterType="HashMap" resultType="HashMap">
+		 SELECT 
+            L.TYPENUM AS TYPENUM
+            ,Y.TYPENAME AS TYPENAME
+			,L.LECTURENUM AS LECTURENUM
+			,L.NAME AS NAME
+			,L.DIVIDE AS DIVIDE
+			,L.CREDIT AS CREDIT
+			,P.NAME AS PNAME
+			,L.OCCUPANCY AS OCCUPANCY
+            ,(SELECT COUNT(SUSEQ) FROM SIGNUP S WHERE S.LECTURENUM = L.LECTURENUM) AS COUNT
+			,L.IS_REAL_TIME AS REAL
+			,(SELECT SUBSTR(XMLAGG(XMLELEMENT(A,', ' || STIME) ORDER BY STIME).EXTRACT('//text()'), 2) STIME
+		        FROM (
+		        SELECT
+ 					T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		            ,T.LECTURENUM AS LECTURENUM
+		        FROM
+		            LECTURETIME T
+		        WHERE
+		        	L.SRSEQ = #{srSeq}
+		        	AND
+		            T.lecturenum = L.LECTURENUM
+		        )
+		        GROUP BY LECTURENUM) AS STIME
+			,L.GRADE AS GRADE
+			,L.FILENAME AS FILENAME
+		FROM
+			LECTURE L, PROFESSOR P, MAJOR_PROFESSOR M, LECTURETYPE Y
+        WHERE 
+            ${option} LIKE '%' ||#{search}|| '%'
+            AND L.SRSEQ = #{srSeq}
+            AND L.MPSEQ = M.MPSEQ
+            AND M.PREGINUM = P.PREGINUM
+            AND L.TYPENUM = Y.TYPENUM
+            
+	</select>
+	
+	<select id="selectLectureInfo" parameterType="String" resultType="HashMap">
+		SELECT
+			TO_CHAR(L.OCCUPANCY) AS OCCUPANCY
+			,L.IS_REAL_TIME AS REAL
+			,(SELECT COUNT(SUSEQ) FROM SIGNUP S WHERE S.LECTURENUM = #{lectureNum}) AS COUNT
+			,L.SRSEQ AS SRSEQ
+			,L.LECTURENUM AS LECTURENUM
+		FROM 
+			LECTURE L
+		WHERE
+			L.LECTURENUM = #{lectureNum}
+		FOR UPDATE WAIT 10
+		
+	
+	</select>
+	<select id="checkRegister" parameterType="HashMap" resultType="int">
+		SELECT 
+			SUSEQ
+		FROM 
+			SIGNUP
+		WHERE
+			LECTURENUM=#{lectureNum}
+			AND SREGINUM=#{sregiNum}
+	
+	</select>
+	<insert id="courseRegister" parameterType="HashMap">
+	INSERT INTO SIGNUP
+	(
+		SUSEQ
+		,SREGINUM
+		,LECTURENUM
+		,SRSEQ
+		,INDATE
+		,TIMESTAMP
+		)
+	VALUES
+	(
+		SUSEQ.NEXTVAL
+		,#{sregiNum}
+		,#{LECTURENUM}
+		,TO_NUMBER(#{SRSEQ})
+		,SYSDATE
+		,SYSTIMESTAMP
+	)
+	<selectKey keyProperty="suSeq" resultType="String" order="AFTER">
+			SELECT SUSEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+
+	<select id="stuRegisInfo" parameterType="HashMap" resultType="HashMap">
+	SELECT
+		S.SUSEQ AS SUSEQ
+		,S.LECTURENUM AS LECTURENUM
+		,LT.LTSEQ AS LTSEQ
+		,LT.STARTTIME AS STARTTIME
+		,LT.ENDTIME AS ENDTIME
+		,TO_CHAR(LT.DAY) AS DAY
+	FROM
+		SIGNUP S, LECTURETIME LT
+	WHERE 
+		S.SREGINUM=#{sregiNum}
+		AND S.SRSEQ = #{srSeq}
+		AND S.LECTURENUM = LT.LECTURENUM
+	
+	</select>
+
+	<select id="TotalstuRegisInfo" parameterType="String" resultType="HashMap">
+		SELECT
+			S.SUSEQ AS SUSEQ
+			,S.LECTURENUM AS LECTURENUM
+			,L.NAME AS NAME
+			,LT.LTSEQ AS LTSEQ
+			,LT.STARTTIME AS STARTTIME
+			,LT.ENDTIME AS ENDTIME
+			,TO_CHAR(LT.DAY) AS DAY
+		FROM
+			SIGNUP S, LECTURETIME LT
+	        ,LECTURE L
+		WHERE 
+			S.LECTURENUM = LT.LECTURENUM
+	        AND 
+	        L.LECTURENUM = LT.LECTURENUM
+	        AND
+			S.SREGINUM=#{sregiNum}
+	</select>
+	
+	<select id="lectureRealTime" parameterType="String" resultType="LectureTime">
+		SELECT
+			LTSEQ
+			,LECTURENUM
+			,STARTTIME
+			,ENDTIME
+			,DAY
+		FROM
+			LECTURETIME
+		WHERE
+			LECTURENUM=#{lectureNum}
+	</select>
+	
+	<select id="selectMySignUp" parameterType="HashMap" resultType="HashMap">
+		SELECT 
+			S.LECTURENUM AS LECTURENUM
+			,L.NAME	AS NAME
+			,L.DIVIDE AS DIVIDE
+			,LT.STARTTIME AS STARTTIME
+			,LT.ENDTIME AS ENDTIME
+			,LT.DAY AS DAY
+		FROM
+			SIGNUP S
+			,LECTURE L
+			,LECTURETIME LT
+		WHERE
+			S.SREGINUM=#{sregiNum}
+			AND S.SRSEQ=#{srSeq}
+			AND S.LECTURENUM = L.LECTURENUM
+			AND	S.LECTURENUM = LT.LECTURENUM
+	</select>
+	
+
+<select id="selectAllCredits" parameterType="HashMap" resultType="int">
+	SELECT	
+		L.CREDIT AS CREDIT
+	FROM 
+		LECTURE L,
+		SIGNUP S
+	WHERE
+		L.LECTURENUM=S.LECTURENUM
+		AND
+		S.SREGINUM=#{sregiNum}
+		AND
+		S.SRSEQ=#{srSeq}
+		
+
+</select>
+	
+
+</mapper>

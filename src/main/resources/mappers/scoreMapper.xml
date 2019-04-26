@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.ScoreMapper">
+
+
+	<select id="selectAll" resultType="Map" parameterType="Map">
+	select M.sname, M.sreginum, M.LectureNum, S.SCORE1, S.SCORE2, S.assignment1, S.assignment2, S.attendscore, S.totalscore,
+		S.etcscore, S.score_seq, S.score_grade
+		from StudentMember M, Score S
+		WHERE 
+		S.SMSeq = M.SMSeq
+		and
+		LectureNum = #{lectureNum}
+		<if test="type !=null">
+		order by s.totalScore ${type}
+		</if>
+		
+	</select>
+	
+	<select id="arrayScore" resultType="Map" parameterType="Map">
+	select M.sname, M.sreginum, M.LectureNum, S.SCORE1, S.SCORE2, S.assignment1, S.assignment2, S.attendscore, S.totalscore,
+		S.etcscore, S.score_seq, S.score_grade
+		from StudentMember M, Score S
+		WHERE 
+		S.SMSeq = M.SMSeq
+		and
+		LectureNum = #{lectureNum}
+		<if test="scoreType !=null">
+		order by s.${scoreType} 
+		</if>
+		
+	</select>
+	
+	<select id="selectScore" resultType="Map" parameterType="String">
+	select M.sname, M.sreginum, S.SCORE1, S.SCORE2, S.assignment1, S.assignment2, S.attendscore, S.totalscore,
+		S.etcscore, S.score_seq, S.smSeq, S.score_grade
+	from StudentMember M, Score S
+	WHERE 
+		S.SMSeq = M.SMSeq
+		and
+		score_seq = #{score_seq} 
+	</select>
+	
+	<select id="selectScorePCT" resultType="Map" parameterType="String">
+	select
+		S.assignment1_pct, S.assignment2_pct, S.score1_pct, S.score2_pct, S.attendscore_pct, S.etcscore_pct
+	from
+		SCORETYPE_SEQ S, lecture L
+	where
+		S.scoreType_Seq = L.scoreType_Seq
+		and	
+		lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="selectScore_grade" parameterType="String" resultType="String">
+		select
+			score_grade
+		from 
+			score s, studentmember m
+		where 
+			s.smseq = m.smseq
+			and
+			m.lectureNum = #{lectureNum}
+	</select>
+<!-- 학생 전체 성적 뽑아오기 -->
+	<select id="selectStudentScore" parameterType="String" resultType="Map">
+   select
+      sm.year,
+      sm.semester,
+      l.name,
+      s.score_grade,
+      a.ass_seq,
+      s.score_seq,
+      m.smseq
+   from
+        semester sm,
+        lecture l,
+        score s,
+        studentMember m left outer join assessment a
+            on m.smseq = a.smseq
+   where
+       sm.srseq=l.srseq 
+       and l.lectureNum = m.lectureNum
+       and m.smseq=s.smseq
+       and m.sreginum=#{sreginum}
+	</select>	
+	
+<!-- 	년도별로 성적 뽑아오기 -->
+	<select id="selectScoreYearType" parameterType="Map" resultType="Map">
+	select
+		sm.year, sm.semester, l.name, s.score_grade, a.ass_seq, s.score_seq, m.smseq
+	from
+  		semester sm, lecture l, score s, studentMember m left outer join assessment a
+		on m.smseq = a.smseq
+	where
+    	sm.srseq=l.srseq 
+    	and l.lectureNum = m.lectureNum
+    	and m.smseq=s.smseq
+   		and m.sreginum=#{sreginum}
+   		<if test="year!=null">
+		and sm.year =#{year}
+		</if>
+   			
+	</select>	
+<!-- 	학기별로 성적 뽑아오기 -->
+		<select id="selectScoreSemesterType" parameterType="Map" resultType="Map">
+	select
+		sm.year, sm.semester, l.name, s.score_grade, a.ass_seq, s.score_seq, m.smseq
+	from
+  		semester sm, lecture l, score s, studentMember m left outer join assessment a
+		on m.smseq = a.smseq
+	where
+    	sm.srseq=l.srseq 
+    	and l.lectureNum = m.lectureNum
+    	and m.smseq=s.smseq
+   		and m.sreginum=#{sreginum}
+   		${year}	
+   		 <if test="semester!=null">
+		and sm.semester =#{semester}
+		</if>
+		
+	</select>
+
+<!-- 	학생이 재적한 년도와 학기를 뽑아옴	 -->
+	<select id="selectSemester" parameterType="String" resultType="Map">
+select distinct
+      sm.year,
+      sm.semester
+   from
+        semester sm,
+        lecture l,
+        score s,
+        studentMember m left outer join assessment a
+            on m.smseq = a.smseq
+   where
+       sm.srseq=l.srseq 
+       and l.lectureNum = m.lectureNum
+       and m.smseq=s.smseq
+       and m.sreginum=#{sreginum}
+
+	
+	</select>
+	
+	<update id="insertScore" parameterType="Score">
+		update
+			SCORE
+		SET
+			assignment1=#{assignment1}
+		   ,assignment2=#{assignment2}
+		   ,attendScore=#{attendScore}
+		   ,etcScore=#{etcScore}
+		   ,score1=#{score1}
+		   ,score2=#{score2}
+		   ,totalScore=#{totalScore}
+		   ,score_grade=#{score_grade}
+		WHERE
+		   score_seq=#{score_seq}
+		
+	</update>
+	
+	<update id="insertScoreGrade" parameterType="String">
+		update
+			SCORE
+		SET
+			score_grade=#{score_grade}
+		WHERE
+		   score_seq=#{score_seq}
+		
+	</update>
+	
+	<update id="changeIsfinal" parameterType="String">
+	update
+		(select s.isFinal, m.lectureNum
+			from score s, studentMember m
+			where lectureNum = #{lectureNum}
+            and s.smSeq = m.smSeq)
+	set
+		isFinal='T'
+	</update>	
+
+</mapper>

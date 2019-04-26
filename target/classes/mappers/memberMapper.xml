@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.MemberMapper">
+
+<!-- Login -->
+<!-- Student Login  -->
+	<select id="loginStudent" resultType="Student" parameterType="map">
+		SELECT
+			 A.NAME AS NAME
+			,A.ADDRESS AS ADDRESS
+			,A.BIRTHDAY AS BIRTHDAY
+			,A.EMAIL AS EMAIL
+			,A.PHONENUM AS PHONENUM
+			,A.PIC_NAME AS PICNAME
+			,R.STATUSNAME AS STATUS
+			,S.PASSWORD AS PASSWORD
+			,S.SREGINUM AS SREGNUM
+			,S.PASSWORD AS PASSWORD
+			,S.APPLICANTSEQ AS APPLICANTSEQ
+			,S.SEMESTER AS SEMESTER
+			,S.ENTERDATE AS ENTERDATE
+		FROM
+			STUDENT S,
+			APPLICANT A,
+			USERREASON R
+		WHERE
+			S.SREGINUM = #{userId}
+			AND
+			S.PASSWORD = #{userPw}
+			AND
+			S.APPLICANTSEQ = A.APPLICANTSEQ
+			AND
+			S.STATUSNUM = R.STATUSNUM
+	</select>
+
+	<!-- getInfo by Picture -->
+	<select id ="getInfo" resultType ="Student" parameterType="String">
+		SELECT
+			 A.NAME AS NAME
+			,A.ADDRESS AS ADDRESS
+			,A.BIRTHDAY AS BIRTHDAY
+			,A.EMAIL AS EMAIL
+			,A.PHONENUM AS PHONENUM
+			,A.PIC_NAME AS PICNAME
+			,R.STATUSNAME AS STATUS
+			,S.PASSWORD AS PASSWORD
+			,S.SREGINUM AS SREGNUM
+			,S.PASSWORD AS PASSWORD
+			,S.APPLICANTSEQ AS APPLICANTSEQ
+			,S.SEMESTER AS SEMESTER
+			,S.ENTERDATE AS ENTERDATE
+		FROM
+			STUDENT S,
+			APPLICANT A,
+			USERREASON R
+		WHERE
+			S.SREGINUM = #{userId}
+			AND
+			S.APPLICANTSEQ = A.APPLICANTSEQ
+			AND
+			S.STATUSNUM = R.STATUSNUM
+	</select>
+
+	<select id="loginProfessor" resultType="Professor" parameterType="map">
+		SELECT
+			 P.PREGINUM AS pRegNum
+			,P.NAME AS name
+			,P.BIRTHDAY AS BIRTHDAY
+			,P.PHONENUM AS PHONENUM
+			,P.ADDRESS AS ADDRESS
+			,P.ENTERDATE AS ENTERDATE
+			,P.EMAIL AS EMAIL
+			,R.STATUSNAME AS STATUS
+			,P.PASSWORD AS PASSWORD
+			,P.PPICTURE AS PICNAME
+		FROM
+			PROFESSOR P,
+			USERREASON R
+		WHERE
+			P.PREGINUM = #{userId}
+			AND
+			P.PASSWORD = #{userPw}
+			AND
+			P.STATUSNUM = R.STATUSNUM
+	</select>
+
+	<select id="getIdByName" resultType="String" parameterType="String">
+		SELECT
+			S.SREGINUM
+		FROM
+			STUDENT S,
+			APPLICANT A
+		WHERE
+			S.APPLICANTSEQ = A.APPLICANTSEQ
+			AND
+			A.NAME = #{name}
+	
+	</select>
+	
+	<select id ="idFind" resultType="String" parameterType="String">
+		SELECT
+			S.SREGINUM
+		FROM
+			 APPLICANT A
+			,STUDENT S
+		WHERE
+			A.APPLICANTSEQ = S.APPLICANTSEQ
+			AND
+			A.EMAIL = #{arg0}
+			AND
+			A.NAME = #{arg1}		
+	</select>
+	
+	<select id ="pwFind" parameterType="String">
+		SELECT
+			S.SREGINUM
+		FROM
+			 APPLICANT A
+			,STUDENT S
+		WHERE
+			A.APPLICANTSEQ = S.APPLICANTSEQ
+			AND
+			S.SREGINUM = #{arg0}
+			AND
+			A.NAME = #{arg1}
+	</select>
+	
+	<update id="pwUpdate" parameterType="String">
+		UPDATE STUDENT
+		SET
+			PASSWORD = #{arg1}
+			UDATE = SYSDATE
+		WHERE
+			SREGINUM = #{arg0}		
+	</update>
+	
+	<update id="pwUpdateP" parameterType="String">
+		UPDATE PROFESSOR
+		SET
+			PASSWORD = #{arg1}
+			UDATE = SYSDATE
+		WHERE
+			PREGINUM = #{arg0}		
+	</update>
+	
+	<update id ="UpdateMyInfoP" parameterType="map">
+		UPDATE PROFESSOR
+	SET
+		 EMAIL = #{EMAIL}
+		,ADDRESS = #{ADDRESS}
+		,PHONENUM = #{TEL}
+	WHERE
+		PREGINUM = #{PREGINUM}
+	</update>
+
+	<update id ="UpdateMyInfoP1" parameterType="map">
+		UPDATE MAJOR_PROFESSOR
+	SET
+		 EMAIL = #{JEMAIL}
+		,TEL = #{JTEL}
+	WHERE
+		PREGINUM = #{PREGINUM}
+	</update>
+
+	<select id="getTotNotice" resultType="map" parameterType="String">
+		SELECT
+			 T.NOTICESEQ
+			,T.TITLE
+			,TO_CHAR(T.INDATE,'YYYY-MM-DD') AS INDATE
+		FROM
+			TOTNOTICE T
+		<if test="value != null">
+		WHERE
+			To_CHAR(T.INDATE,'YYYY') = #{value}
+		</if>
+	
+	</select>
+	
+	<select id="getnewsDetail" resultType="map" parameterType="String">
+		SELECT
+		 	 T.NOTICESEQ
+			,T.TITLE
+			,TO_CHAR(T.INDATE,'YYYY-MM-DD') AS INDATE
+			,T.CONTENTS
+			,A.NAME
+		FROM
+			TOTNOTICE T
+			,ADMIN A
+		WHERE
+			A.ADMINID = T.WRITER
+			AND
+			T.NOTICESEQ = #{post}
+	</select>
+	
+	<select id="getdayList" resultType="map">
+	<![CDATA[
+	SELECT 
+		DATESEQ
+		,STARTDATE
+		,ENDDATE
+		,ATIME
+		,NAME
+	FROM
+		(select 
+			DATESEQ
+			,TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STARTDATE
+			,TO_CHAR(ENDDATE,'YYYY-MM-DD') AS ENDDATE
+			,ABS(SYSDATE-STARTDATE) AS ATIME
+			,NAME
+			,ROWNUM
+	     FROM
+	     	SCHOOLEVENTS
+	     ORDER BY
+	    	ATIME ASC
+	)
+	WHERE
+		ROWNUM <= 5
+	
+	ORDER BY STARTDATE ASC
+	
+	          ]]>
+	</select>
+
+
+	
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.ExamMapper">
+
+<!-- 다음 문제 가기 -->
+	<select id="getQuestion1" parameterType="String" resultType="map">
+		SELECT
+			 L.NAME AS NAME
+			,L.DIVIDE AS DIVIDE
+			,Q.QUESTION AS QUESTION
+			,Q.QUESTION_SCORE AS QUESTION_SCORE
+			,Q.QUESTIONNUM AS QUESTIONNUM
+			,Q.EXAM_SEQ2 AS EXAMSEQ2
+            ,E.examseq as EXAMSEQ
+		from
+			examQUESTION Q,
+            exam E,
+            LECTURE L
+		WHERE
+			L.LECTURENUM = E.LECTURENUM
+			AND
+			E.EXAMSEQ = (SELECT Q2.EXAMSEQ FROM EXAMQUESTION Q2 WHERE EXAM_SEQ2 = #{EXAMSEQ2})
+			AND
+			Q.QUESTIONNUM = (SELECT TO_NUMBER(Q2.QUESTIONNUM)+1 FROM EXAMQUESTION Q2 WHERE EXAM_SEQ2 = #{EXAMSEQ2})
+			AND
+            E.EXAMSEQ = Q.EXAMSEQ
+	</select>
+
+<!-- 전문제로 가기 -->
+	<select id="getQuestion2" parameterType="String" resultType="map">
+		SELECT
+			 L.NAME AS NAME
+			,L.DIVIDE AS DIVIDE
+			,Q.QUESTION AS QUESTION
+			,Q.QUESTION_SCORE AS QUESTION_SCORE
+			,Q.QUESTIONNUM AS QUESTIONNUM
+			,Q.EXAM_SEQ2 AS EXAMSEQ2
+            ,E.examseq as EXAMSEQ
+		from
+			examQUESTION Q,
+            exam E,
+            LECTURE L
+		WHERE
+			L.LECTURENUM = E.LECTURENUM
+			AND
+			E.EXAMSEQ = (SELECT Q2.EXAMSEQ FROM EXAMQUESTION Q2 WHERE EXAM_SEQ2 = #{EXAMSEQ2})
+			AND
+			Q.QUESTIONNUM = (SELECT TO_NUMBER(Q2.QUESTIONNUM)-1 FROM EXAMQUESTION Q2 WHERE EXAM_SEQ2 = #{EXAMSEQ2})
+			AND
+            E.EXAMSEQ = Q.EXAMSEQ
+	</select>
+
+	<!-- 첫문제로 가기 -->
+	<select id="getQuestion0" parameterType="String" resultType="map">
+		SELECT
+			 L.NAME AS NAME
+			,L.DIVIDE AS DIVIDE
+			,Q.QUESTION AS QUESTION
+			,Q.QUESTION_SCORE AS QUESTION_SCORE
+			,Q.QUESTIONNUM AS QUESTIONNUM
+			,Q.EXAM_SEQ2 AS EXAMSEQ2
+            ,E.examseq as EXAMSEQ
+			,E.TIMELIMIT AS TIMELIMIT
+		from
+			examQUESTION Q,
+            exam E,
+            LECTURE L
+		WHERE
+			L.LECTURENUM = E.LECTURENUM
+			AND
+			E.EXAMSEQ = (SELECT Q2.EXAMSEQ FROM EXAMQUESTION Q2 WHERE EXAM_SEQ2 = #{EXAMSEQ2})
+			AND
+			Q.QUESTIONNUM = 1
+			AND
+            E.EXAMSEQ = Q.EXAMSEQ
+	</select>
+
+	<!-- ExamMain을 위해 데이터 가져옴 -->
+	<select id="startExam" parameterType="String" resultType="map">
+		SELECT
+			 E.EXAMSEQ AS EXAMSEQ<!-- 시험 고유 번호 -->
+			,E.LECTURENUM AS LECTURENUM<!-- 고유강의번호 -->
+			,E.EXAM_TYPE AS TYPE<!-- 중간/기말 -->
+			,E.TIMELIMIT AS TIMELIMIT<!-- 시험시간 -->
+			,L.NAME AS SUTITLE<!-- 강의명 -->
+			,L.DIVIDE AS DIVIDE<!-- 분반 -->
+			,P.NAME AS SUPROF<!-- 교수명 -->
+			,L.GRADE AS GRADE<!-- 학년 -->
+			,L.NAME AS NAME
+		from
+			EXAM E,
+			LECTURE L,
+			PROFESSOR P,
+			MAJOR_PROFESSOR M
+		WHERE
+			E.LECTURENUM = L.LECTURENUM
+			AND
+			M.MPSEQ = L.MPSEQ
+			AND
+			M.PREGINUM = P.PREGINUM			
+			AND
+			E.EXAMSEQ = #{examSeq}			
+	</select>
+
+
+	<!-- 답 저장 -->
+	<insert id="saveAnswer" parameterType="map">
+		insert into answer(
+			 ANSWSEQ
+			,ANSWER
+			,EXAM_SEQ2
+			,SREGINUM
+			,INTIME
+		) values(
+			 answseq.nextval
+			,#{ANSWER}
+			,#{EXAMSEQ2}
+			,#{SREGINUM}
+			,SYSDATE
+		)
+	</insert>
+	
+	<!-- 시험 리스트 받아오기 -->
+	<select id = "getExamList" parameterType="string">
+		SELECT
+			 E.examSeq AS EXAMSEQ
+			,E.LECTURENUM AS LECTURENUM
+			,E.EXAM_NUM AS EXAM_NUM<!-- 중간/기말 구분자 -->
+			,E.START_DATE AS START_DATE
+			,E.END_DATE AS END_DATE
+			,E.TIMELIMIT AS TIMELIMIT
+			,SYSDATE AS TODAY
+		FROM
+			EXAM E
+		WHERE
+			E.LECTURENUM = #{lecturenum}
+	</select>
+	
+</mapper>

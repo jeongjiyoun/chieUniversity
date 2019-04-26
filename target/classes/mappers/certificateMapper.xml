@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.CertificateMapper">
+
+	<select id="checkStatus" parameterType="String" resultType="HashMap">
+		SELECT
+			TO_CHAR(U.STATUSNUM) AS STATUSNUM
+			,U.STATUSNAME AS STATUSNAME
+		FROM
+			USERREASON U
+			,STUDENT S
+		WHERE
+			S.SREGINUM =#{sregiNum}
+			AND S.STATUSNUM = U.STATUSNUM
+	
+	</select>
+	
+	<select id="selectEnroll" parameterType="HashMap" resultType="HashMap">
+		SELECT
+			A.NAME AS NAME
+			,TO_CHAR(A.BIRTHDAY,'YYYY/MM/DD') AS BIRTHDATE
+			,S.SREGINUM AS SREGINUM
+			,(SELECT LISTAGG(M.NAME,',')WITHIN GROUP(ORDER BY SREGINUM) AS NAME FROM MAJOR M,STUDENTMAJOR SR 
+				WHERE
+				 	SR.SREGINUM=#{sregiNum} 
+				AND
+				 	SR.MAJORSEQ=M.MAJORSEQ
+			) AS MNAME
+			,(SELECT U.STATUSNAME FROM USERREASON U WHERE TO_CHAR(STATUSNUM)=#{statusNum}) AS STATUS
+			FROM
+				APPLICANT A,
+				STUDENT S
+			WHERE
+				S.SREGINUM=#{sregiNum}
+				AND
+				A.APPLICANTSEQ = S.APPLICANTSEQ
+			
+	</select>
+	
+	<select id="selectAbsence" parameterType="HashMap" resultType="HashMap">
+		SELECT
+			A.NAME AS NAME
+			,TO_CHAR(A.BIRTHDAY,'YYYY/MM/DD') AS BIRTHDATE
+			,S.SREGINUM AS SREGINUM
+			,(SELECT LISTAGG(M.NAME,',')WITHIN GROUP(ORDER BY SREGINUM) AS NAME FROM MAJOR M,STUDENTMAJOR SR 
+				WHERE
+				 	SR.SREGINUM=#{sregiNum} 
+				AND
+				 	SR.MAJORSEQ=M.MAJORSEQ
+			) AS MNAME
+			,(SELECT U.STATUSNAME FROM USERREASON U WHERE TO_CHAR(STATUSNUM)=#{statusNum}) AS STATUS
+			,TO_CHAR(SS.STARTDATE) AS STARTDATE
+			,TO_CHAR(SS.ENDDATE) AS ENDDATE
+			FROM
+				APPLICANT A,
+				STUDENT S,
+				STUDENT_STATUS_HISTORY SS
+			WHERE
+				S.SREGINUM=#{sregiNum}
+				AND
+				SS.SREGINUM=#{sregiNum}
+				AND
+				A.APPLICANTSEQ = S.APPLICANTSEQ
+				AND
+				TO_DATE(#{today},'YYYY/MM/DD') BETWEEN SS.STARTDATE AND SS.ENDDATE
+				
+	</select>
+	
+	<select id="selectAlumi" parameterType="HashMap" resultType="HashMap">
+		SELECT
+			AL.NAME AS NAME
+			,TO_CHAR(AL.BIRTHDAY,'YYYY/MM/DD') AS BIRTHDATE
+			,(SELECT LISTAGG(M.NAME,',')WITHIN GROUP(ORDER BY SREGINUM) AS NAME FROM MAJOR M,STUDENTMAJOR SR 
+				WHERE
+				 	SR.SREGINUM=#{sregiNum} 
+				AND
+				 	SR.MAJORSEQ=M.MAJORSEQ
+			) AS MNAME
+			,(SELECT U.STATUSNAME FROM USERREASON U WHERE TO_CHAR(STATUSNUM)=#{statusNum}) AS STATUS
+			,TO_CHAR(AL.GRADATE,'YYYY/MM/DD') AS GRADATE
+			,TO_CHAR(S.ENTERDATE,'YYYY/MM/DD') AS ENTERDATE
+			FROM
+				STUDENT S,
+				ALUMI AL
+			WHERE
+				S.SREGINUM=#{sregiNum}
+				AND
+				S.SREGINUM = AL.SREGINUM
+			
+	</select>
+	<select id="selectTranscript" parameterType="String" resultType="Transcript">
+	   SELECT
+	      SM.YEAR AS YEAR
+	      ,SM.SEMESTER AS SEMESTER
+	      ,L.NAME AS NAME
+	      ,S.SCORE_GRADE AS GRADE
+	      ,A.ASS_SEQ AS ASSSEQ
+	      ,S.SCORE_SEQ AS SCORESEQ
+	      ,L.CREDIT AS CREDIT
+	     FROM
+	     	SEMESTER SM
+	     	,LECTURE L
+	     	,SCORE S
+	     	,STUDENTMEMBER M LEFT OUTER JOIN ASSESSMENT A ON M.SMSEQ = A.SMSEQ
+	     WHERE
+	     	M.SREGINUM = #{sregiNum}
+	     	AND L.LECTURENUM = M.LECTURENUM
+	     	AND SM.SRSEQ = L.SRSEQ
+	     	AND M.SMSEQ = S.SMSEQ  
+	</select>
+	<select id="selectSInfo" parameterType="String" resultType="HashMap">
+		SELECT
+			A.NAME AS NAME
+			,TO_CHAR(A.BIRTHDAY,'YYYY/MM/DD') AS BIRTHDATE
+			,S.SREGINUM AS SREGINUM
+			,(SELECT LISTAGG(M.NAME,',')WITHIN GROUP(ORDER BY SREGINUM) AS NAME FROM MAJOR M,STUDENTMAJOR SR 
+				WHERE
+				 	SR.SREGINUM=#{sregiNum} 
+				AND
+				 	SR.MAJORSEQ=M.MAJORSEQ
+			) AS MNAME
+			,(SELECT U.STATUSNAME FROM USERREASON U WHERE U.STATUSNUM=S.STATUSNUM) AS STATUS
+			FROM
+				APPLICANT A,
+				STUDENT S
+			WHERE
+				S.SREGINUM=#{sregiNum}
+				AND
+				A.APPLICANTSEQ = S.APPLICANTSEQ
+	
+	</select>
+</mapper>

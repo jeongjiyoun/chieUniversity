@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+
+.Slogo{
+	width: 70px;
+	height: 70px;
+	background-color: transparent;
+}
+
+.Scomment{
+	height: 70px;	
+}
+
+#player{
+	min-height: 500px;
+}
+
+.con1{
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.margin10{
+	margin-bottom: 5px;
+	background-color: #06213F;
+	color: white;
+	font-size: 2rem;
+	min-height: 73px;
+}
+
+label{
+	font-size : 1.8em;
+}
+
+#checkMessage{
+	padding: 21px;
+    padding-top: 23px;
+	padding-left : 50px;
+}
+
+#btExText {
+	top: 100%;
+	transform: translateY(70%);
+	text-align: center;
+	color: white;
+	font-size: 1.8em;
+}
+
+#isWatching {
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(3); /* IE */
+  -moz-transform: scale(3); /* FF */
+  -webkit-transform: scale(3); /* Safari and Chrome */
+  -o-transform: scale(3); /* Opera */
+  padding: 5px;
+}
+
+
+
+</style>

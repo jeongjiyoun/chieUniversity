@@ -1,0 +1,438 @@
+@charset "UTF-8";
+
+
+.contents{
+	text-align: left;
+}
+
+.contents.pas2{
+	padding: 20px 15px;	
+}
+
+#facePass{
+	margin-top: 15px;
+}
+
+#snameIn{
+    margin-top: 15px;
+    }
+
+.table1{
+  width: 100%;
+	
+}
+
+.table1 th, .table1 td{
+  border-bottom: 1px solid #dee2e6;
+  padding: 0px;
+}
+
+.pwInput{
+	padding-left:15px;
+	width: 75%;
+	height: 40px;
+	float: left;
+	margin: 5px;
+}
+
+.btn_next{
+	background-color: #575757;
+}
+
+.stxt{
+	display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height : 120px;
+    padding: 12px;
+    color: #555;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+}
+
+.c_pw2{
+	margin-top: 10px;
+	margin-left: 6px;
+    color: rgb(22, 56, 93);
+    font-weight: 500;
+}
+
+.btn-admit{
+    border-radius: 2px;
+    width: 20%;
+    float: left;
+}
+
+.btn_cancel{
+	background-color: #575757;
+	width: 40%;
+	float: right
+}
+
+.samplePage{
+	padding: 12px; 
+	font-size: 1rem; 
+	border: 1px solid #ddd; 
+	background-color: #f5f5f5; 
+	display: block; 
+	margin-top: 5px; 
+	margin-bottom: 5px;
+}
+
+.cont1{
+	width: 15%;
+	background-color: rgb(240,240,240);
+	vertical-align: middle;
+}
+
+.cont2{
+	width: 25%;
+	vertical-align: middle;	
+}
+
+.myInfoTel{
+	width: 20%;
+	float: left;
+	text-align: center;
+	border: 1px solid #dee2e6;
+}
+
+.telSpan{
+	width: 10%;
+	float: left;
+}
+
+button {
+	width: 80%;
+	background-color: #06213F;
+	border: none;
+	border-radius: 10px;
+	color: #fff;
+	padding: 5px 0;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 20px;
+	margin: 5px;
+	float: right;
+	cursor: pointer;
+}
+
+
+.filebox label {
+  display: inline-block;
+  padding: .2em .75em;
+  color: #fff;
+  font-size: 15px;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #06213F;
+  cursor: pointer;
+  border-radius: .25em;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  margin-bottom: 0;
+}
+
+.filebox label:hover {
+  background-color: rgb(22,56,93);
+}
+
+.filebox label:active {
+  background-color: rgb(22,56,93);
+}
+
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+
+.btn_next{
+	width: 40%;
+	border-radius: 5px;
+}
+
+a:link { color: black; text-decoration: none;}
+ a:visited { color: black; text-decoration: none;}
+ a:hover { color: black; text-decoration: none;}
+
+#identi1{
+	width: 2%;
+}
+
+#identi2{
+	width: 2%;
+}
+
+.tdC{
+	text-align: left;
+	font-size: 1.1rem;
+}
+
+#btnSub{
+	background-color: #06213f;
+}
+
+#btnSub:hover{
+	background-color: #204875;
+}
+
+#boardFooter {
+	width: 100%;
+	height: 120px;
+	background-color: rgb(230, 230, 230);
+	text-align: right;
+	padding: 30px;
+	position: relative;
+	right: 0;
+}
+
+#logoCen {
+	width: 70px;
+	height: 70px;
+	position: absolute;
+	left: 41%;
+}
+
+#schoolLogoC{
+    text-align: center;
+    position: absolute;
+    left: 42%;
+}
+
+.consultM{
+	font-size: 1.3rem;
+	text-indent: 5px;
+}
+
+#startExam{
+    float: left;
+    margin-left: 10%;
+    }
+
+.consultC{
+	font-size: 1rem;
+	text-indent: 20px;
+	margin-bottom: 20px;
+}
+
+#btn-logout{
+	margin: 15px;
+	max-width: 20%;
+    width: 13%;
+}
+
+#fix-title {
+	position: fixed;
+	height: 10%;
+	width: 100%;
+	z-index: 999;
+	margin-left: -15px;
+	float: left;
+	border-bottom: white 0.1rem solid;
+}
+
+
+
+.btn-lg.bC {
+	color: white;
+	position: absolute;
+	top: 2.5%;
+	width: 15%;
+	border: 1.3px solid;
+	background-color: transparent;
+}
+
+.btn-lg.bCD {
+	color: white;
+	position: absolute;
+	top: 12%;
+	width: 15%;
+	border: 1.3px solid;
+	background-color: transparent;
+}
+
+
+.table.table-striped2{
+	width: 100%;
+	margin-bottom: 1rem;
+	color: #212529;
+}
+
+.tdT{
+	background-color: #f5f6f8;
+	width: 20%;
+}
+
+#fix-titleC{
+	position: fixed;
+	height: 10%;
+	width: 100%;
+	z-index: 999;
+	margin-left: -15px;
+	float: left;
+	min-height : 60px;
+	border-bottom: white 0.1rem solid;
+	display: block !important;
+	background-color: rgb(22, 56, 93);
+	width: 113.5%;
+	margin-top: -7.7px;
+	padding: 0px;
+}
+
+#hiddenImg {
+	width: 50%;
+	border: solid 0.3rem rgb(22, 44, 64);
+}
+
+#prof-span {
+	border-bottom: 1px solid rgb(170, 170, 170);
+	padding: 15px;
+	font-weight: 550;
+	font-size: 20px;
+}
+
+#fix-text {
+	font-size: 2.5rem;
+	font-weight: 550;
+	float: left;
+	padding-left: 3%;
+	color: white;
+	position: relative;
+	display: flex;
+	align-items: center;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#fix-logo {
+	margin: 0 auto;
+	margin-top: 7px;
+	position: relative;
+	display: flex;
+	float: left;
+	justify-content: center;
+	align-items: center;
+}
+
+#fix-logoDiv {
+	max-width: 20%;
+	width: 20%;
+	height: 100%;
+	float: left;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#copyRight {
+	font-size: 9px;
+}
+
+#sideLogo {
+	color: white;
+	font-weight: 560;
+	font-size: 1.5rem;
+}
+
+#schoolLogo {
+	width: 50px;
+	height: 50px;
+}
+
+#hiddenright{
+	margin-top: 9%;
+}
+
+#margin-del {
+	margin-left: -20px;
+	margin-right: -20px;
+/* 	top: 12%; */
+}
+
+#footer-board {
+	width: 100%;
+	height: 100px;
+	background-color: rgb(240, 240, 240);
+	text-align: right;
+	padding: 20px;
+}
+
+#conte {
+	max-width: 95%;
+	margin-bottom: 30px;
+	min-height: 700px;
+}
+
+#search-div {
+	margin-bottom: 20px;
+}
+
+#search-select {
+	float: right;
+	width: 200px;
+	height: 30px;
+	margin: 5px;
+}
+
+#search-btn {
+	float: right;
+    width: 10%;
+}
+
+td {
+	text-align: center;
+}
+
+@media (max-width: 992px) {
+
+  	#hiddenImg {
+    display: none !important;
+  }
+  
+  	#hiddenright {
+    width: 100%;
+  }
+  
+   #qTable{
+  	text-align: center;
+   }
+   
+   /* 
+   #cTable{
+   width: 100%;
+   text-align: center;
+   } */
+
+  	#margin-del {
+    top : 10%;
+  }
+  
+  	#hiddenleft {
+    display: none !important;
+  }
+}
+
+.timetableTable1{
+	width:5%; 
+	float: left; 
+
+}
+
+.timetableTable1 tr,td{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right : 10px;
+}
+
+.timetableTable2 tr,td{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}

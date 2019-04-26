@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.chie.mapper.ConsultMapper">
+
+<!-- Consult List 가져오기 학생버전 -->
+	<select id="selectList" resultType="map" parameterType="map">
+		SELECT
+			 C.counsel_seq as COUNSELSEQ
+			,P.name  as NAME
+			,T.NAME AS typeName
+			,To_char(C.coundate,'yyyy-mm-dd') as coundate
+			,To_char(C.coundate,'hh:mi') as countime
+			,C.isCounsel as iscounsel
+			,To_char(C.wdate,'yyyy-mm-dd') as wdate
+		FROM
+			Counsel C,
+			COUNSELTYPE T,
+			PROFESSOR P
+		WHERE
+			C.SREGINUM = #{sreginum}
+			AND
+			C.TYPENUM = T.TYPENUM
+			AND
+			P.PREGINUM = C.PREGINUM
+			<if test="type != null">
+			AND
+			C.ISCOUNSEL = #{type}
+			</if>
+		ORDER BY
+			COUNDATE DESC, COUNTIME DESC
+	</select>
+
+<!-- Consult List 가져오기 교수버전 -->
+	<select id="selectListP" resultType="map" parameterType="String">
+		SELECT
+			 C.counsel_seq as COUNSELSEQ
+			,A.name as SNAME
+			,P.name  as PNAME
+			,T.NAME AS typeName
+			,To_char(C.coundate,'yyyy-mm-dd') as coundate
+			,To_char(C.coundate,'hh:mi') as countime
+			,C.isCounsel as iscounsel
+			,To_char(C.wdate,'yyyy-mm-dd') as wdate
+			,C.wdate - SYSDATE AS WAITTIME
+		FROM
+			Counsel C,
+			COUNSELTYPE T,
+			Student S,
+			PROFESSOR P,
+            APPLICANT A
+		WHERE
+            A.APPLICANTSEQ = S.APPLICANTSEQ
+            AND
+			C.PREGINUM = #{arg0}
+			AND
+			C.TYPENUM = T.TYPENUM
+			AND
+			S.SREGINUM = C.SREGINUM
+			AND
+			P.PREGINUM = C.PREGINUM			
+			AND
+			C.TYPENUM = T.TYPENUM
+			<if test="arg1 != null">
+			AND
+			C.ISCOUNSEL = ${arg1}
+			</if>
+		ORDER BY
+			COUNDATE DESC, COUNTIME DESC
+	</select>
+	
+<!-- 화상 키 가져오기 -->	
+	<select id="getKey" parameterType="string" resultType="string">
+		SELECT
+			KEYNUM
+		FROM
+			COUNSEL
+		WHERE
+			counsel_seq = #{counselseq}
+	</select>
+	
+	<!-- 교수님이 취소 승인해줄 때 -->
+<update id="adminCancel" parameterType="string">
+	UPDATE
+    (
+			SELECT  
+				   CC.ISPERMITTED AS ISPERMITTED
+				   ,CC.WDATE AS WDATE
+			FROM
+				    COUNSEL C
+				   ,CANCEL_COUNSEL CC
+	 		WHERE  
+	 			   C.COUNSEL_SEQ = CC.COUNSEL_SEQ
+                   AND
+                   C.COUNSEL_SEQ = #{counselseq}
+	  	   	)
+	 SET
+		     WDATE = SYSDATE
+		    ,ISPERMITTED = 'T'
+
+</update>
+
+<!-- 상담신청 상세보기를 눌렀을 때 데이터 -->
+	<select id="selectCon" resultType="map" parameterType="map">
+		SELECT
+			 C.counsel_seq as COUNSELSEQ
+			,A.name as SNAME
+			,C.sreginum as SREGINUM
+			,TRUNC((S.SEMESTER/2)+1) AS GRADE
+			,T.NAME AS typeName
+			,To_char(C.wdate,'yyyy-mm-dd') as wdate
+			,To_char(C.coundate,'hh:mi') as coundate
+			,C.isCounsel as iscounsel
+			,C.INDATE as CDATE
+			,C.reason as reason
+			,C.ISPERMITTED AS ISPERMITTED
+			,C.keynum as key
+			,c.memo as memo
+		FROM
+			(SELECT
+				c.memo, C.COUNDATE, C.TYPENUM, C.counsel_seq, C.sreginum, C.wdate, C.isCounsel, CC.INDATE,
+                CC.REASON, CC.ISPERMITTED, C.KEYNUM
+            FROM COUNSEL C LEFT OUTER JOIN CANCEL_COUNSEL CC
+            ON C.COUNSEL_SEQ = CC.COUNSEL_SEQ) C,
+			COUNSELTYPE T,
+			Student S,
+            APPLICANT A
+		WHERE
+            A.APPLICANTSEQ = S.APPLICANTSEQ
+            AND
+			C.SREGINUM = #{loginId}
+			AND
+			C.TYPENUM = T.TYPENUM
+			AND
+			S.SREGINUM = C.SREGINUM
+			AND
+			C.COUNSEL_SEQ =#{counselseq}
+	</select>
+
+<!-- 상담신청 상세보기를 눌렀을 때 데이터 -->
+	<select id="selectConP" resultType="map" parameterType="map">
+		SELECT
+			 C.counsel_seq as COUNSELSEQ
+			,A.name as SNAME
+			,C.sreginum as SREGINUM
+			,TRUNC((S.SEMESTER/2)+1) AS GRADE
+			,T.NAME AS typeName
+			,To_char(C.wdate,'yyyy-mm-dd') as wdate
+			,To_char(C.coundate,'hh:mi') as coundate
+			,C.isCounsel as iscounsel
+			,C.INDATE as CDATE
+			,C.reason as reason
+			,C.ISPERMITTED AS ISPERMITTED
+			,C.keynum as key
+			,c.memo as memo
+		FROM
+			(SELECT
+				c.memo, C.COUNDATE, C.TYPENUM, C.counsel_seq, C.sreginum, C.wdate, C.isCounsel, CC.INDATE,
+                CC.REASON, CC.ISPERMITTED, C.KEYNUM, C.PREGINUM
+            FROM COUNSEL C LEFT OUTER JOIN CANCEL_COUNSEL CC
+            ON C.COUNSEL_SEQ = CC.COUNSEL_SEQ) C,
+			COUNSELTYPE T,
+			Student S,
+            APPLICANT A
+		WHERE
+            A.APPLICANTSEQ = S.APPLICANTSEQ
+            AND
+			C.PREGINUM = #{loginId}
+			AND
+			C.TYPENUM = T.TYPENUM
+			AND
+			S.SREGINUM = C.SREGINUM
+			AND
+			C.COUNSEL_SEQ =#{counselseq}
+	</select>
+
+	
+<!-- 상담시간 가져오기 -->
+	<select id="getConsultTime" parameterType ="String" resultType="string">
+       select
+			To_char(C.starttime,'hh24:mm') || ' ~ ' || To_char(C.endtime,'hh24:mm') as contime
+        from
+            countime C,
+            MAJOR_PROFESSOR M
+        WHERE
+            C.MPSEQ = M.MPSEQ
+            AND
+            M.PREGINUM = #{arg0}
+            AND
+            C.COUNDATE = #{arg1}
+	</select>
+
+<!-- 상담신청 -->
+	<insert id="insertConsult" parameterType="map">
+		insert into Counsel(
+			  COUNSEL_SEQ
+			, PREGINUM
+			, SREGINUM
+			, TYPENUM
+			, COUNDATE
+			, MEMO
+			, KEYNUM
+		) values(
+			 counsel_seq.nextval
+			,#{PREGINUM}
+			,#{SREGINUM}
+			,#{TYPENUM}
+			,TO_DATE(#{COUNDATE},'YYYY/MM/DD HH24:MI')
+			,#{MEMO}
+			,counKeySeq.nextVal
+		)
+	</insert>
+	
+<!-- 취소 신청 -->
+	<insert id="cancelApply" parameterType="string">
+		insert into CancelCounsel(
+			  CCSEQ
+			, COUNSEL_SEQ
+			, reason
+		) values(
+			 CCSEQ.nextval
+			,#{arg0}
+			,#{arg1}
+		)
+	</insert>
+
+<!-- 상태에 따라 입력 -->
+	<update id="updateCounsult" parameterType="map">
+		update counsel set
+		<choose>
+		<when test="TYPE='G'">
+				isCounsel = #{TYPE}
+		</when>
+		<when test="TYPE='C'">
+				isCounsel = #{TYPE},
+				ENDTIME = SYSDATE,
+				KEY = NULL
+		</when>
+		<when test="TYPE='F'">
+				isCounsel = #{TYPE}
+				KEY = NULL
+		</when>
+		</choose>
+		WHERE COUNSEL_SEQ = #{COUNSEL_SEQ}
+	</update>
+	
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.university.chie.mapper.BillMapper">
+	<select id="selectBill" resultType="map" parameterType="String">
+		SELECT 
+			ENSEQ
+			,TOTSCOLASHIP as totscolaship
+			,SUBTOTAL as subtotal
+			,TOTALCOST as totalcost 
+			,TOTLALCREDIT as TOTLALCREDIT
+			,ISPAYED
+            ,YEAR
+            ,SEMESTER
+		FROM
+			BILL,SEMESTER
+		WHERE
+			SREGINUM = #{loginId} and BILL.SRSEQ = SEMESTER.SRSEQ
+	</select>
+	
+	<select id="selectcost" resultType="Bill" parameterType="String">
+	SELECT 
+		totalcost
+	FROM
+			BILL
+		WHERE
+			SREGINUM = #{loginId} AND ISPAYED = 'F'	
+	</select>
+	
+	<update id="Billupdate"  parameterType="Bill">
+	update Bill
+	set 
+	ISPAYED = 'T'
+	where
+	SREGINUM = #{loginId} AND ISPAYED = 'F'	
+	</update>
+	
+	<select id="selectscholaship" resultType="map" parameterType="map">
+	SELECT 
+			YEAR
+            ,SEMESTER
+            ,SCHOLARSHIP
+			,MEMO
+		FROM
+			Scholarship,Bill,SEMESTER
+		WHERE
+			Bill.SREGINUM = #{loginId} and Bill.ENSEQ = Scholarship.ENSEQ and BILL.SRSEQ = SEMESTER.SRSEQ
+	</select>
+	
+</mapper>

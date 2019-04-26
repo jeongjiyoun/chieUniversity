@@ -1,0 +1,20 @@
+@charset "EUC-KR";
+
+.bStyle{
+	background-color: #06213F;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 5px;
+    float: right;
+    width : 100px;
+}
+
+.cont1{
+	text-align: center;
+}
