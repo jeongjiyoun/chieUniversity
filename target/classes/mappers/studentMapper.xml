@@ -57,7 +57,7 @@
 				ROWNUM<=1
             )
           ]]>
-	</select>
+	</select>	
 	
 	
 	<!-- LECTURE DETAIL -->
