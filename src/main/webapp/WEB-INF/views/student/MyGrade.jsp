@@ -215,7 +215,7 @@ function goAssessment(smseq){
           <br><br>
 			<input id="sreginum" type="hidden" value="${sessionScope.loginId}">
 			
-			学年 : <select name ="year" id="year">
+			学年 : <select name ="year" id="year" style="margin-right :20px;">
 				<option value="NULL">全学年</option>
 				<c:forEach items="${yList}" var="Year">
 				<option value="${Year}">${Year}</option>
@@ -230,7 +230,7 @@ function goAssessment(smseq){
 			</select>
 			<button id="reset" style="width: 127px;">新しい検索</button>
 			<br>
-			<hr class="one"></hr>
+			<br>
 			<table class="table table-striped" style="border : 1px solid #dee2e6; display: table;">
 			<thead>
 				<tr style="background-color: rgb(240, 240, 240);">
