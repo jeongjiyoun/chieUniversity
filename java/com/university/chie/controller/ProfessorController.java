@@ -95,21 +95,21 @@ public class ProfessorController {
 			map.put("SRSEQ", SRSEQ);
 		}
 		result = pdao.getSubjectListP(map);
-		tempCourse2 = pdao.getSubjectListP1(map);
-		
-		for (Map<String, String> map1 : result) {
-			String stime = "[";
-			for (Map<String, String> map2 : tempCourse2) {
-				if (map1.get("LECTURENUM").equals(map2.get("LECTURENUM"))) {
-					if (!stime.equals("[")) {
-						stime +="|";
-					}
-						stime += map2.get("STIME");
-				}
-				stime +="]";
-				map1.put("STIME", stime);
-			}
-		}
+//		tempCourse2 = pdao.getSubjectListP1(map);
+//		
+//		for (Map<String, String> map1 : result) {
+//			String stime = "[";
+//			for (Map<String, String> map2 : tempCourse2) {
+//				if (map1.get("LECTURENUM").equals(map2.get("LECTURENUM"))) {
+//					if (!stime.equals("[")) {
+//						stime +="|";
+//					}
+//						stime += map2.get("STIME");
+//				}
+//				stime +="]";
+//				map1.put("STIME", stime);
+//			}
+//		}
 		return result;
 	}
 	

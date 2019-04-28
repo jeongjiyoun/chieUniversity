@@ -7,6 +7,9 @@ public interface StudentMapper {
 
 	//LectureList
 	public ArrayList<Map<String, String>> getSubList(String loginId);
+
+	//LectureList Time
+	public ArrayList<Map<String, String>> getSubList1(String loginId);
 	
 	//LECTURE DETAIL
 	public Map<String, String> getSubjectDetail(String lecturenum);

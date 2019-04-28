@@ -19,6 +19,7 @@ public class StudentDao {
 	@Autowired
 	Inverter in;
 
+	//get LectureList data
 	public ArrayList<Map<String, String>> getSubList(String loginId) {
 		ArrayList<Map<String, String>> result = null;
 		StudentMapper mapper = session.getMapper(StudentMapper.class);
@@ -30,6 +31,20 @@ public class StudentDao {
 		}
 		return result;
 	}
+	
+	//get lectureList Time
+	public ArrayList<Map<String, String>> getSubList1(String loginId) {
+		ArrayList<Map<String, String>> result = null;
+		StudentMapper mapper = session.getMapper(StudentMapper.class);
+		try {
+			result = mapper.getSubList1(loginId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return result;
+		}
+		return result;
+	}
+
 	
 	// course LECTURE DETAIL
 		public Map<String, String> getSubjectDetail(String lecturenum){

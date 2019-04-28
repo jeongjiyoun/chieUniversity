@@ -5,7 +5,7 @@
 <mapper namespace="com.university.chie.mapper.StudentMapper">
 
 	<!-- LECTURE LIST -->
-	<select id = "getSubList" parameterType="string" resultType="map">
+<!-- 	<select id = "getSubList" parameterType="string" resultType="map">
 		<![CDATA[
 		SELECT
 		    L.NAME AS TITLE
@@ -37,7 +37,7 @@
 		    ,LECTURETYPE T
             ,SEMESTER E
 		WHERE
-		    S.SREGINUM = '1110332745'
+		    S.SREGINUM = #{loginId}
 		    AND
 		    L.LECTURENUM = S.LECTURENUM
 		    AND
@@ -58,7 +58,80 @@
             )
           ]]>
 	</select>	
-	
+ -->
+
+	<select id = "getSubList" parameterType="string" resultType="map">
+		<![CDATA[
+		SELECT
+		    L.NAME AS TITLE
+		    ,L.LECTURENUM AS LECTURENUM
+		    ,P.NAME AS PNAME
+		    ,P.PPICTURE AS PPICTURE
+		    ,L.IS_REAL_TIME AS ISREALTIME
+		    ,T.TYPENAME AS TYPENAME
+		FROM
+		     STUDENTMEMBER S
+		    ,LECTURE L
+		    ,MAJOR_PROFESSOR M
+		    ,PROFESSOR P
+		    ,LECTURETYPE T
+            ,SEMESTER E
+		WHERE
+		    S.SREGINUM = #{loginId}
+		    AND
+		    L.LECTURENUM = S.LECTURENUM
+		    AND
+		    L.MPSEQ = M.MPSEQ
+		    AND
+		    P.PREGINUM = M.PREGINUM
+		    AND
+		    L.SRSEQ = E.SRSEQ
+            AND
+            L.SRSEQ = (SELECT
+				K.SRSEQ 
+			FROM
+				(SELECT SE.SRSEQ FROM SEMESTER SE ORDER BY SRSEQ DESC) K
+			WHERE 
+				ROWNUM<=1
+            )
+          ]]>
+	</select>
+
+<select id = "getSubList1" parameterType="string" resultType="map">
+		<![CDATA[
+		SELECT
+			 L.LECTURENUM AS LECTURENUM
+ 			 ,T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		FROM
+		     STUDENTMEMBER S
+		    ,LECTURE L
+		    ,MAJOR_PROFESSOR M
+		    ,PROFESSOR P
+		    ,LECTURETIME T
+            ,SEMESTER E
+		WHERE
+		    S.SREGINUM = #{loginId}
+		    AND
+		    L.LECTURENUM = S.LECTURENUM
+		    AND
+		    L.MPSEQ = M.MPSEQ
+		    AND
+		    P.PREGINUM = M.PREGINUM
+		    AND
+		    T.LECTURENUM = L.LECTURENUM
+		    AND
+		    L.SRSEQ = E.SRSEQ
+            AND
+            L.SRSEQ = (SELECT
+				K.SRSEQ 
+			FROM
+				(SELECT SE.SRSEQ FROM SEMESTER SE ORDER BY SRSEQ DESC) K
+			WHERE 
+				ROWNUM<=1
+            )
+          ]]>
+	</select>	
+
 	
 	<!-- LECTURE DETAIL -->
 	<select id="getSubjectDetail" parameterType="String" resultType="map">

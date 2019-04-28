@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.university.chie.mapper.ProfessorMapper;
-import com.university.chie.mapper.StudentMapper;
 import com.university.chie.util.Inverter;
 
 @Repository

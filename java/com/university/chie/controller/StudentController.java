@@ -76,16 +76,56 @@ public class StudentController {
 	@RequestMapping(value="/courseList",method=RequestMethod.GET)
 	public String courseList(Model model, HttpSession session) {
 		ArrayList<Map<String, String>> subList = null;
+		ArrayList<Map<String, String>> tempCourse2 = null;
+		
 		if (((String)session.getAttribute("userType")).equals("P")) {
 			Map<String, String> map = new HashMap<>();
 			map.put("preginum", (String) session.getAttribute("loginId"));
 			subList = pdao.getSubjectListP(map);
+			
+//			tempCourse2 = pdao.getSubjectListP1(map);
+//			System.out.println(tempCourse2);
+//
+//			for (Map<String, String> map1 : subList) {
+//				String stime = "[";
+//				for (Map<String, String> map2 : tempCourse2) {
+//					if (map1.get("LECTURENUM").equals(map2.get("LECTURENUM"))) {
+//						if (!stime.equals("[")) {
+//							stime +="|";
+//						}
+//							stime += map2.get("STIME");
+//					}
+//					stime +="]";
+//					map1.put("STIME", stime);
+//				}
+//			}			
+			
 			model.addAttribute("semesterList", pdao.getSemesterData((String) session.getAttribute("loginId")));
 			model.addAttribute("subList", subList);
 			return "professor/courseList";
 		} else {
+			
 	 		subList = sdao.getSubList((String) session.getAttribute("loginId"));
-			model.addAttribute("subList", subList);
+//			tempCourse2 = sdao.getSubList1((String) session.getAttribute("loginId"));
+//
+//			for (Map<String, String> map1 : subList) {
+//				String stime = "[";
+//				for (Map<String, String> map2 : tempCourse2) {
+//					if (map1.get("LECTURENUM").equals(map2.get("LECTURENUM"))) {
+//						if (!stime.equals("[")) {
+//							stime +="|";
+//						}
+//							stime += map2.get("STIME");
+//					}
+//					stime +="]";
+//					map1.put("STIME", stime);
+//				}
+//			}			
+//			
+//	 		
+	 		
+	 		
+	 		model.addAttribute("subList", subList);
 			System.out.println(subList);
 			return "student/courseList";
 		}
