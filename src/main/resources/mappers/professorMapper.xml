@@ -235,7 +235,7 @@
 		    ,LECTURE L
 		    ,MAJOR_PROFESSOR M
 		    ,PROFESSOR P
-		    ,LECTURETYPE T
+		    ,LECTURETIME T
 		WHERE
 			P.PREGINUM = #{preginum}
 		    AND
@@ -243,15 +243,13 @@
 		    AND
 		    P.PREGINUM = M.PREGINUM
 		    AND
-		    T.TYPENUM = L.TYPENUM
+		    T.LECTURENUM = L.LECTURENUM
             AND
             L.SRSEQ = S.SRSEQ
         <if test="SRSEQ != null">
         	AND
         	S.SRSEQ = #{SRSEQ}
         </if>
-        ORDER BY
-            LECTURENUM ASC
 	</select>
  
  	

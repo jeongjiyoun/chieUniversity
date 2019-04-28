@@ -95,21 +95,22 @@ public class ProfessorController {
 			map.put("SRSEQ", SRSEQ);
 		}
 		result = pdao.getSubjectListP(map);
-//		tempCourse2 = pdao.getSubjectListP1(map);
-//		
-//		for (Map<String, String> map1 : result) {
-//			String stime = "[";
-//			for (Map<String, String> map2 : tempCourse2) {
-//				if (map1.get("LECTURENUM").equals(map2.get("LECTURENUM"))) {
-//					if (!stime.equals("[")) {
-//						stime +="|";
-//					}
-//						stime += map2.get("STIME");
-//				}
-//				stime +="]";
-//				map1.put("STIME", stime);
-//			}
-//		}
+		tempCourse2 = pdao.getSubjectListP1(map);
+		
+		for (Map<String, String> map1 : result) {
+			String stime = "[";
+			for (Map<String, String> map2 : tempCourse2) {
+				if (map1.get("LECTURENUM").equals(map2.get("LECTURENUM"))) {
+					if (!stime.equals("[")) {
+						stime +="|";
+					}
+						stime += map2.get("STIME");
+				}
+			}
+		stime +="]";
+		map1.put("STIME", stime);
+		stime = "";
+		}
 		return result;
 	}
 	
@@ -166,7 +167,6 @@ public class ProfessorController {
 			
 			String name = "http://10.10.15.161/FTP/Video/" + map.get("name");
 			map2.put("FILE_NAME", name);
-			System.out.println(name);
 		return map2;
 	}
 }
