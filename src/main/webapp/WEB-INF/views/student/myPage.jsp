@@ -134,9 +134,9 @@ a.bottomLine:hover{
     			<br>
     			<br>
     			<div class="notice">
-    			<span style="font-size: 1.8rem; color : rgb(5, 33, 63); font-weight: 480; margin-right: 20px;">お知らせ</span>
+    			<span id="totNoticeM">お知らせ</span>
     			<span style="position: relative; top: -6px; color : #727c87">|</span>
-    			<span style="font-size: 1.8rem; color : #62666a; font-weight: 480; margin-left:20px;">学校日程</span>
+    			<span id="daySchedule">学校日程</span>
     			<hr style="width: 90%;">
     			<div id="qTable">
 							<table style="width: 100%; border-collapse: separate; border-spacing: 0 10px;">
@@ -218,6 +218,8 @@ a.bottomLine:hover{
 </div>
 <script type="text/javascript">
 $(function(){
+	$("#daySchedule").on("click",goSchedule);
+	$("#totNoticeM").on("click",goNews);
 	$(".btn.btn-primary.btn").on("click", goSubject);
 	$("#btn-logout").on("click",logout);
 	// menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
@@ -234,6 +236,62 @@ $(function(){
 	$("tr").on("click",showNews);
     $("#register").on("click",registerPop);
 });
+
+function goNews(){
+	alert("!");
+	$("#qTable table tbody").html("");
+	$.ajax({
+		url:"getNews",
+		type:"get",
+		success:function(data){
+			printOutN(data);
+		}
+	});
+	$(this).css("color", "rgb(5, 33, 63)");
+	$("#daySchedule").css("color", "#62666a");
+}
+
+function goSchedule(){
+	alert("!");
+	$("#qTable table tbody").html("");
+	$.ajax({
+		url:"getSchedule",
+		type:"get",
+		success:function(data){
+			printOutS(data);
+		}
+	});
+	$(this).css("color", "rgb(5, 33, 63)");
+	$("#totNoticeM").css("color", "#62666a");
+}
+
+function printOutN(data){
+	var cont = "";
+	var count = 0;
+	$.each(data,function(index, item){
+		if(++count <=5){
+			cont+="<tr data-value='"+item.NOTICESEQ+"'>";
+			cont+='<td style="width: 20%;padding-top: 9px;">'+item.INDATE+'</td>';
+			cont+='<td style="width: 80%"><a class="bottomLine">'+item.TITLE+'</a></td>';
+			cont+='</tr>';
+		}
+	});
+	$("#qTable table tbody").html(cont);
+}
+
+function printOutS(data){
+	var cont = "";
+	var count = 0;
+	$.each(data,function(index, item){
+		if(++count<5){
+			cont+="<tr data-value='"+item.DATESEQ+"'>";
+			cont+='<td style="width: 30%;padding-top: 9px;">'+item.STARTDATE+'~'+item.ENDDATE+'</td>';
+			cont+='<td style="width: 70%"><a class="bottomLine">'+item.NAME+'</a></td>';
+			cont+='</tr>';
+		}
+	});
+	$("#qTable table tbody").html(cont);
+}
 
 function logout() {
     var con_test = confirm("ログアウトしますか。");

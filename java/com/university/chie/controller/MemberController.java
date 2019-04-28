@@ -107,6 +107,18 @@ public class MemberController {
 		return "Fail";
 	}
 
+	@RequestMapping(value="/getSchedule",method=RequestMethod.GET)
+	public @ResponseBody ArrayList<Map<String, String>> getSchedule(HttpSession session) {
+		ArrayList<Map<String, String>> result = md.getdayList();
+		return result;
+	}
+	
+	@RequestMapping(value="/getNews",method=RequestMethod.GET)
+	public @ResponseBody ArrayList<Map<String, String>> getNews(HttpSession session) {
+		ArrayList<Map<String, String>> result = md.getTotNotice(null);
+		return result;
+	}
+	
 	@RequestMapping(value="/UpdateMyinfo",method=RequestMethod.POST)
 	public @ResponseBody String UpdateMyInfo(HttpSession session, String name, String email, String address, String tel
 			,String jtel, String jmail) {
@@ -182,7 +194,6 @@ public class MemberController {
 		case "S":
 			ArrayList<Map<String,String>> subjectList = sdao.getSubList(loginId);
 			model.addAttribute("subjectList", subjectList);
-			System.out.println(subjectList);
 			model.addAttribute("newList", md.getTotNotice("2019"));
 			
 			ArrayList<Map<String,String>>stuList = sdao.getSubjectTime(loginId);
@@ -259,7 +270,6 @@ public class MemberController {
 			
 		case "P":
 			model.addAttribute("subjectList", pdao.getSubjectList(loginId));
-			System.out.println(pdao.getSubjectList(loginId));
 			model.addAttribute("newList", md.getTotNotice("2019"));
 
 			ArrayList<Map<String,String>>proList = pdao.getSubjectTime(loginId);
@@ -284,7 +294,6 @@ public class MemberController {
 					case "月":
 						if (sf1.parse(starttime).before(sf1.parse(etime)) && sf1.parse(endtime).after(sf1.parse(stime))) {
 							array1[i][0] = String.valueOf(map.get("LTSEQ"));
-							System.out.println(array1[i][0]);
 						} else {
 							if (array1[i][0] == null) {
 								array1[i][0] = " ";
@@ -293,7 +302,6 @@ public class MemberController {
 					case "火":
 						if (sf1.parse(starttime).before(sf1.parse(etime)) && sf1.parse(endtime).after(sf1.parse(stime))) {
 //							array1[i][1] = String.valueOf(map.get("LTSEQ"));
-//							System.out.println(array1[i][1]);
 //						} else {
 //							if (array1[i][1] == null) {
 								array1[i][1] = " ";
@@ -303,7 +311,6 @@ public class MemberController {
 					case "水":
 						if (sf1.parse(starttime).before(sf1.parse(etime)) && sf1.parse(endtime).after(sf1.parse(stime))) {
 							array1[i][2] = String.valueOf(map.get("LTSEQ"));
-							System.out.println(array1[i][2]);
 						} else {
 							if (array1[i][2] == null) {
 								array1[i][2] = " ";
@@ -313,7 +320,6 @@ public class MemberController {
 					case "木":
 						if (sf1.parse(starttime).before(sf1.parse(etime)) && sf1.parse(endtime).after(sf1.parse(stime))) {
 								array1[i][3] = String.valueOf(map.get("LTSEQ"));
-								System.out.println(array1[i][3]);
 						} else {
 							if (array1[i][3] == null) {
 								array1[i][3] = " ";
@@ -323,7 +329,6 @@ public class MemberController {
 					case "金":
 						if (sf1.parse(starttime).before(sf1.parse(etime)) && sf1.parse(endtime).after(sf1.parse(stime))) {
 							array1[i][4] = String.valueOf(map.get("LTSEQ"));
-							System.out.println(array1[i][4]);
 						} else {
 							if (array1[i][4] == null) {
 								array1[i][4] = " ";
