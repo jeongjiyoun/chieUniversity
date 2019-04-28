@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.university.chie.dao.BillDAO;
 import com.university.chie.vo.Bill;
@@ -26,7 +27,7 @@ public class BillController {
 		System.out.println(loginId);
 		ArrayList<Map<String, String>> result = dao.selectBill(loginId);
 		model.addAttribute("result", result);
-		System.out.println(result);
+		System.out.println("billController" +result);
 
 		return "student/registration";
 	}

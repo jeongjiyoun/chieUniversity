@@ -43,8 +43,23 @@
 	var totalcost = null;
 	
 	$(function() {
-		$("#check").on('click', check_module);
+		$("#check").on('click', appendCheck);
 	})
+	
+	function appendCheck(){
+		$.ajax({
+			type:'GET'
+			,url: 'registration'
+			,success : function(result){
+				var cont="<tr><td colspan='5'>( 全単位   "+result.TOTLALCREDIT+"X 7000円  "+result.TOTALCOST+") -奨学金  "+result.TOTSCOLASHIP+"<br>= 最終決済金額  "+result.SUBTOTAL+"</td><td><button id='check2'>決済</button></td></tr>";
+				$('tbody').after(cont);
+				
+			}
+		});
+		
+		$("#check2").on('click', check_module);
+		
+	}
 	function check_module() {
 		enseq = $(this).attr("data-value1");
 		totalcost = $(this).attr("data-value2");
