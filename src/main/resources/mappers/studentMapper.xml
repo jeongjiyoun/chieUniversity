@@ -81,6 +81,8 @@
 		    AND
 		    L.LECTURENUM = S.LECTURENUM
 		    AND
+		    T.TYPENUM = L.TYPENUM
+		    AND
 		    L.MPSEQ = M.MPSEQ
 		    AND
 		    P.PREGINUM = M.PREGINUM
