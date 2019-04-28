@@ -74,7 +74,7 @@ pageEncoding="utf-8"%>
         					
         				}else {
         					alert('성공');
-        					location.href='./showNotice?lnSeq='+data;
+        					location.href='showNotice?lnSeq='+data;
         				}
         			}
         		});
@@ -169,7 +169,7 @@ pageEncoding="utf-8"%>
             					tag.append('<tr>');
             					tag.append('<td>'+this.name+'</td>');
             					tag.append('<td>'+this.size+'</td>');
-            					tag.append("<td><button class='canclebut' id='"+this.name+"' onclick='delFile(e)'>cancle</button></td>");
+            					tag.append("<td><button class='canclebut' id='"+this.name+"' onclick='delFile()'>cancle</button></td>");
             					tag.append('</tr>');
             					return tag.toString();					
             				}
@@ -382,14 +382,14 @@ rel="stylesheet" type="text/css">
                         <!-- 내용 들어가는 부분 -->
 
 				
-				<%--                         <c:if test="${sessionScope.userType == 'P'}"> --%>
+				                        <c:if test="${sessionScope.userType == 'P'}">
                         <section id="SubjectNotice">
                            <h2>書く</h2>
                            <br>
                            <div id="noticeWriteS">
                              
                              
-                              <form action="submitNotice" method="post">
+                              <form id="submitNotice">
                               
                                  TITLE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="title" id="title"><br><br>
                                  
@@ -425,7 +425,7 @@ rel="stylesheet" type="text/css">
                         </form>
                      </div>
                   </section>
-				<%-- </c:if> --%>
+				 </c:if> 
          <br>
       </div>
    </div>
