@@ -25,7 +25,7 @@
             AND
             P.STATUSNUM LIKE '7%'
 	</select>
-	
+
 	<select id="getMovieListP" parameterType="String" resultType="map">
 		SELECT
 			 C.TITLE AS TITLE
@@ -36,8 +36,8 @@
 		WHERE
 			C.LECTURENUM = #{lecturenum}
 	</select>
-	
-	<!-- Get mySubject For courseList-->
+
+	<!-- Get my Subjects For courseList-->
 	<select id="getSubjectList" parameterType="String" resultType="map">
 		SELECT
 		    L.NAME
@@ -52,7 +52,7 @@
 		   M.PREGINUM = #{preginum}
 	</select>
 
-<!-- Get mySubject For timetable -->
+<!-- Get my Subjects For timetable -->
 	<select id="getSubjectListT" parameterType="String" resultType="map">
 	<![CDATA[
 		SELECT
@@ -147,7 +147,7 @@
             C.COURSESEQ = #{courseseq}
 	</select>
 
-	<select id="getSubjectListP" parameterType="map" resultType="map">
+<!-- 	<select id="getSubjectListP" parameterType="map" resultType="map">
 		    SELECT
 		     L.NAME AS TITLE
 		    ,L.LECTURENUM AS LECTURENUM
@@ -192,7 +192,69 @@
         ORDER BY
             LECTURENUM ASC
 	</select>
-	
+ -->
+ 
+ 	<select id="getSubjectListP" parameterType="map" resultType="map">
+		    SELECT
+		     L.NAME AS TITLE
+		    ,L.LECTURENUM AS LECTURENUM
+		    ,S.YEAR || '年' || S.SEMESTER AS SEMESTER
+		    ,L.IS_REAL_TIME AS ISREALTIME
+		    ,T.TYPENAME AS TYPENAME
+		FROM
+		     SEMESTER S
+		    ,LECTURE L
+		    ,MAJOR_PROFESSOR M
+		    ,PROFESSOR P
+		    ,LECTURETYPE T
+		WHERE
+			P.PREGINUM = #{preginum}
+		    AND
+		    L.MPSEQ = M.MPSEQ
+		    AND
+		    P.PREGINUM = M.PREGINUM
+		    AND
+		    T.TYPENUM = L.TYPENUM
+            AND
+            L.SRSEQ = S.SRSEQ
+        <if test="SRSEQ != null">
+        	AND
+        	S.SRSEQ = #{SRSEQ}
+        </if>
+        ORDER BY
+            LECTURENUM ASC
+	</select>
+ 
+ 
+ 	<select id="getSubjectListP1" parameterType="map" resultType="map">
+		    SELECT
+		     L.LECTURENUM AS LECTURENUM
+		    ,T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		FROM
+		     SEMESTER S
+		    ,LECTURE L
+		    ,MAJOR_PROFESSOR M
+		    ,PROFESSOR P
+		    ,LECTURETYPE T
+		WHERE
+			P.PREGINUM = #{preginum}
+		    AND
+		    L.MPSEQ = M.MPSEQ
+		    AND
+		    P.PREGINUM = M.PREGINUM
+		    AND
+		    T.TYPENUM = L.TYPENUM
+            AND
+            L.SRSEQ = S.SRSEQ
+        <if test="SRSEQ != null">
+        	AND
+        	S.SRSEQ = #{SRSEQ}
+        </if>
+        ORDER BY
+            LECTURENUM ASC
+	</select>
+ 
+ 	
 	<select id="getMovieP" parameterType="String" resultType="map">
 		SELECT
 			 C.ENDDATE AS ENDDATE

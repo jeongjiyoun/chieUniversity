@@ -92,7 +92,18 @@ public class ProfessorDAO {
 		return result;
 	}
 
-	
+	public ArrayList<Map<String, String>> getSubjectListP1(Map<String, String> map){
+		ArrayList<Map<String, String>> result = null;
+		ProfessorMapper mapper = session.getMapper(ProfessorMapper.class);
+		try {
+			result = mapper.getSubjectListP1(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return result;
+		}
+		return result;		
+	}
+
 	public ArrayList<Map<String, String>> getMovieP(String lecturenum) {
 		ArrayList<Map<String, String>> result = null;
 		ProfessorMapper mapper = session.getMapper(ProfessorMapper.class);

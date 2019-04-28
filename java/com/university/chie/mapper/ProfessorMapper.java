@@ -16,7 +16,9 @@ public interface ProfessorMapper {
 	public ArrayList<String> getSemesterData(String preginum);
 
 	public ArrayList<Map<String, String>> getSubjectListP(Map<String, String> map);
-
+	
+	public ArrayList<Map<String, String>> getSubjectListP1(Map<String, String> map);
+	
 	public ArrayList<Map<String, String>> getMovieP(String lecturenum);
 	
 	public Map<String, String> getSubjectManageP(String courseseq);
