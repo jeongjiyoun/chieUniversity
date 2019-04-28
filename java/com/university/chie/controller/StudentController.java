@@ -105,7 +105,6 @@ public class StudentController {
 			model.addAttribute("subList", subList);
 			return "professor/courseList";
 		} else {
-			
 	 		subList = sdao.getSubList((String) session.getAttribute("loginId"));
 			tempCourse2 = sdao.getSubList1((String) session.getAttribute("loginId"));
 
