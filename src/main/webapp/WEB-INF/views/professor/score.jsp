@@ -566,7 +566,7 @@ rel="stylesheet" type="text/css">
 							</div>
 
 							
-							<div style="float : right;">
+							<div>
 									
 <!-- 									[点数整列基準] -->
 									<select name="type" id="type" style="float : left; margin-left: 20px; OVERFLOW-Y: AUTO;
