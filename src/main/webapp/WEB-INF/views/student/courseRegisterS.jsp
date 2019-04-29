@@ -248,7 +248,7 @@ function output(data){
 	
 	<c:if test="${credit>=15&&credit<=24}">
 	<tr>
-		<td style="color: navy;padding-left: 48px;">現在単位 :　${credit}単位</td>
+		<td style="color: blue;padding-left: 48px;">現在単位 :　${credit}単位</td>
 	</tr>
 	
 	</c:if>
