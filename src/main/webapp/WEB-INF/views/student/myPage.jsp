@@ -307,6 +307,7 @@ function showNews(){
 
 function goSubject(){
 	var subjectNum = $(this).attr("data-value");
+	
 	location.href="/subjectDetail?lecturenum="+subjectNum;
 }
 
