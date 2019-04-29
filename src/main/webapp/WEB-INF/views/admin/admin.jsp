@@ -41,7 +41,7 @@ pageEncoding="utf-8"%>
       <c:if test="${message != null}">
             <div class = "message" id ="mesDiv">${message}</div>
             </c:if>
-            <c:if test = "${message == null }">
+            <c:if test = "${message == null }"> 
             <div class = "message haveText"></div>
             </c:if>
             <input type="submit" value="ログイン" style="margin-bottom:7px;background-color: #760023;text-align: center;color: white;">

@@ -170,13 +170,18 @@ pageEncoding="utf-8"%>
 <script type="text/javascript">
 	var time = 0;
 	var running = 1;
- 	var timeLimit = $("#timeLimit").val();
 
   $(function(){
     $("#btnExit").on("click",btnExit);
     $("#btnsubmit").on("click",btnsubmit);
   });
 
+  function btnExit(){
+	  alert("講義評価を取り消します");
+	  self.close();
+	}
+
+  //if click btnsubmit;
   function btnsubmit(){
 	var fidelity = $("input[name='fidelity']:checked").val();
 	var professionality = $("input[name='professionality']:checked").val();
@@ -184,8 +189,8 @@ pageEncoding="utf-8"%>
 	var fidlityReason = $("#fidlityReason").val();
 	var professionalityReason = $("#professionalityReason").val();
 	var understandingReason = $("#understandingReason").val();
-	
-// 	!= null &&
+
+	//if all answer is filled
 	if (fidelity != null && professionality!= null && understanding != null && fidlityReason != null 
 			&& professionalityReason != null && understandingReason != null) {
 		$("#myForm").submit();

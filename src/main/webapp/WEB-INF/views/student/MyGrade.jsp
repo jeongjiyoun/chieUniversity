@@ -205,21 +205,17 @@ function goAssessment(smseq){
     <div class="col-sm-1"></div>
     <div class="col-sm-2" id="hiddenleft"></div>
     <div class="col-sm-9" id="hiddenright">
-
-      <section>
-        <h2>成績確認</h2>
-        <hr>
-        <br>
-      </section>
-      <section style="margin-top: 30px;">
+			<h1>成績確認</h1>
+			<hr style="width: 95%;">
+			<br>
+				<h4>講義評価をしてから成績を確認することができます。</h4>
+				<br>
         <div class="row placeholders">
           <div class="col-xs-12 col-sm-11 placeholder">
+          <br><br>
+			<input id="sreginum" type="hidden" value="${sessionScope.loginId}">
 			
-			<script type="text/javascript">
-			</script>
-	<input id="sreginum" type="hidden" value="${sessionScope.loginId}">
-			
-			学年 : <select name ="year" id="year">
+			学年 : <select name ="year" id="year" style="margin-right :20px;">
 				<option value="NULL">全学年</option>
 				<c:forEach items="${yList}" var="Year">
 				<option value="${Year}">${Year}</option>
@@ -235,10 +231,6 @@ function goAssessment(smseq){
 			<button id="reset" style="width: 127px;">新しい検索</button>
 			<br>
 			<br>
-			<br>
-			<P style="font-size : 20px;">講義評価をしてこそ成績が出ます。</P>
-			<br>
-			<hr class="one"></hr>
 			<table class="table table-striped" style="border : 1px solid #dee2e6; display: table;">
 			<thead>
 				<tr style="background-color: rgb(240, 240, 240);">
@@ -255,10 +247,15 @@ function goAssessment(smseq){
 			</table>
           </div>
         </div>
-      </section>
     </div>
   </div>
 </div>
+	<div id="boardFooter" style="position: absolute;">
+ © ChiE Online University <br>
+ Tel : 03-3344-4444 &nbsp &nbsp Fax : 03-3344-5555 &nbsp &nbsp board@chie.ac.kr <br>
+ <p id="copyRight"> COPYRIGHTⒸ ChiE Online University <p>
+ </div>
+
 </body>
 
 </html>

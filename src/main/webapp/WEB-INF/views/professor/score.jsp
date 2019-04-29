@@ -6,7 +6,7 @@ pageEncoding="utf-8"%>
 <html lang="kr">
 
 <head>
-	<title>Score</title>
+	<title>成績</title>
 	<script src="resources/jquery-3.3.1.min.js"></script>
 	  <link href="https://fonts.googleapis.com/earlyaccess/notosansjp.css" rel="stylesheet">
   <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -461,12 +461,6 @@ function chart(){
 <link href="<c:url value="/resources/css/sb-admin-2.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.css"/>" rel="stylesheet">
 
-
-<!-- Title Page-->
-<title>subjectHome</title>
-
-
-
 <!-- 미세 커스텀 조정 -->
 <link href="<c:url value="/resources/css/boardCss.css" />"
 rel="stylesheet" type="text/css">
@@ -504,7 +498,7 @@ rel="stylesheet" type="text/css">
 					</a>
 				</div>
 			</div>
-			<div id="fix-text">Professor CoursePage</div>
+			<div id="fix-text">成績入力</div>
 		</div>
 
 		<div class="row" id="margin-del">
@@ -566,7 +560,7 @@ rel="stylesheet" type="text/css">
 							</div>
 
 							
-							<div style="float : right;">
+							<div>
 									
 <!-- 									[点数整列基準] -->
 									<select name="type" id="type" style="float : left; margin-left: 20px; OVERFLOW-Y: AUTO;
