@@ -159,7 +159,7 @@ function output(data){
 		result+="<td class='real'>"+item.REAL+"</td>";
 		result+="<td class='sTime'>"+item.STIME+"</td>";
 		result+="<td class='grade'>"+item.GRADE+"</td>";
-		result+="<td class='fileName'>"+item.FILENAME+"</td>";
+		result+="<td class='fileName'><button type='button' style='background-color:white;color:blue;' id='"+item.FILENAME+"'>ダウンロード</button></td>";
 		result+="</tr>";
 	})
 	$("#resultTable").append(result);
