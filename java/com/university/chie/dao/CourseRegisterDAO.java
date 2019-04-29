@@ -110,6 +110,19 @@ public class CourseRegisterDAO {
 		return result;
 	}
 	
+	public ArrayList<HashMap<String,String>> selectCourseMajorT(HashMap<String,String> majorInfo){
+		ArrayList<HashMap<String,String>> result = null;
+		CourseRegisterMapper mapper = session.getMapper(CourseRegisterMapper.class);
+		try {
+			result = mapper.selectCourseMajorT(majorInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return result;
+	}
+	
 	public ArrayList<HashMap<String,String>> selectKeyWord(HashMap<String,String> key){
 		ArrayList<HashMap<String,String>> result = null;
 		CourseRegisterMapper mapper = session.getMapper(CourseRegisterMapper.class);

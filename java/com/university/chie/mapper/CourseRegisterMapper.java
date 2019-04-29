@@ -19,6 +19,8 @@ public interface CourseRegisterMapper {
 	
 	public ArrayList<HashMap<String,String>> selectCourseMajor(HashMap<String,String> majorInfo);
 	
+	public ArrayList<HashMap<String,String>> selectCourseMajorT(HashMap<String,String> majorInfo);
+	
 	public ArrayList<HashMap<String,String>> selectKeyWord(HashMap<String,String> key);
 	
 	public HashMap<String,String> selectLectureInfo(String lectureNum);
