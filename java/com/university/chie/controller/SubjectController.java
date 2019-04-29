@@ -88,10 +88,12 @@ public class SubjectController {
 		logger.debug("page: {}, search: {}", page, search);
 		//���߿� session���� �� �޾Ƽ� lectureNum�ֱ�
 				String lectureNum=(String) session.getAttribute("lectureNum");
+				System.out.println("번호:"+lectureNum);
 		HashMap<String, String> t = new HashMap<>();
 		t.put("lectureNum", lectureNum);
 		t.put("search",search);
 		int total = dao.getTotalNotice(t);
+		System.out.println(total);
 		
 		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
 		
@@ -99,6 +101,7 @@ public class SubjectController {
 		noti.put("lectureNum", lectureNum);
 		noti.put("search",search);
 		List<Lecture_Notice> nList = dao.selectAllNoticeL(noti, navi.getStartRecord(), navi.getCountPerPage());
+		System.out.println(nList);
 		model.addAttribute("nList",nList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("search",search);
@@ -529,7 +532,7 @@ public class SubjectController {
 		notice.setContents(multipartRequest.getParameter("contents"));
 		notice.setTitle(multipartRequest.getParameter("title"));
 		notice.setPregiNum(pregiNum);
-		notice.setLectureNum("1");
+		notice.setLectureNum((String)session.getAttribute("lectureNum"));
 		
 		if(dao.insertNotice(notice)==0) {
 			return null;

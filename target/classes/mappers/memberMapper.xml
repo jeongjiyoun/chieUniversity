@@ -175,7 +175,8 @@
 		WHERE
 			To_CHAR(T.INDATE,'YYYY') = #{value}
 		</if>
-	
+		ORDER BY
+			T.INDATE DESC
 	</select>
 	
 	<select id="getnewsDetail" resultType="map" parameterType="String">

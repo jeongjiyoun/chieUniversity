@@ -189,7 +189,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="boardFooter" style="position: absolute; bottom: -55%;">
+		<div id="boardFooter" style="position: absolute; margin-top: 20px;">
   © ChiE Online University <br>
   Tel : 03-3344-4444 &nbsp &nbsp Fax : 03-3344-5555 &nbsp &nbsp board@chie.ac.kr <br>
   <p id="copyRight"> COPYRIGHTⒸ ChiE Online University <p>

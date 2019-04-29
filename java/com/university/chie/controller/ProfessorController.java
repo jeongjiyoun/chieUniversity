@@ -26,22 +26,6 @@ public class ProfessorController {
 	@Autowired
 	ProfessorDAO pdao;
 	
-	
-	@RequestMapping(value="/goPmyPage",method=RequestMethod.GET)
-	public String goPmyPage() {
-		return "professor/myPage";
-	}
-	
-	@RequestMapping(value="/PcourseList",method=RequestMethod.GET)
-	public String PcourseList() {
-		return "professor/courseList";
-	}
-	
-	@RequestMapping(value="/PconsultList",method=RequestMethod.GET)
-	public String PconsultList() {
-		return "professor/consult/consultList";
-	}
-	
 	@RequestMapping(value="/courseMake",method=RequestMethod.GET)
 	public String courseMake() {
 		return "professor/courseMake";
