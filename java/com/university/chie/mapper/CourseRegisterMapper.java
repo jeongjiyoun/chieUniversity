@@ -15,6 +15,8 @@ public interface CourseRegisterMapper {
 	
 	public ArrayList<HashMap<String,String>> selectCourseType(HashMap<String,String> type);
 	
+	public ArrayList<HashMap<String,String>> selectCourseTypeT(HashMap<String,String> type);
+	
 	public ArrayList<HashMap<String,String>> selectCourseMajor(HashMap<String,String> majorInfo);
 	
 	public ArrayList<HashMap<String,String>> selectKeyWord(HashMap<String,String> key);

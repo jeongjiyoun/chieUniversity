@@ -32,11 +32,6 @@
 	
 	
 	<select id="selectCourseType" parameterType="HashMap" resultType="HashMap">
-		SELECT
-			L.TYPENUM AS TYPENUM
-			,LT.TYPENAME AS TYPENAME
-			,
-
 		 SELECT 
 		 	LE.TYPENUM AS TYPENUM
 		 	,Y.TYPENAME AS TYPENAME
@@ -48,17 +43,6 @@
 		 	,LE.OCCUPANCY AS OCCUPANCY
 		 	,(SELECT COUNT(SUSEQ) FROM SIGNUP S WHERE S.LECTURENUM = LE.LECTURENUM) AS COUNT
 		 	,LE.IS_REAL_TIME AS REAL
-		 	,(SELECT SUBSTR(XMLAGG(XMLELEMENT(A,', ' || STIME) ORDER BY STIME).EXTRACT('//text()'), 2) STIME 
-		 		FROM (
-		 			SELECT
-		 				T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
-		 				,T.LECTURENUM AS LECTURENUM
-		 			FROM
-		 				LECTURETIME T
-		 			WHERE
-		 				LE.SRSEQ = #{srSeq} AND T.lecturenum = LE.LECTURENUM AND LE.TYPENUM =#{typeNum}
-		 				)
-		 		GROUP BY LECTURENUM) AS STIME
 		 	,LE.GRADE AS GRADE
 		 	,LE.FILENAME AS FILENAME
 		FROM
@@ -71,6 +55,30 @@
 			AND LE.TYPENUM = Y.TYPENUM
 		 
             
+	</select>
+	
+	<select id="selectCourseTypeT" parameterType="HashMap" resultType="HashMap">
+	<![CDATA[
+		SELECT
+			 LE.LECTURENUM AS LECTURENUM
+ 			 ,T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		FROM
+		    LECTURETIME T
+		    ,LECTURE LE
+		    ,PROFESSOR P
+		    ,MAJOR_PROFESSOR M
+		    , LECTURETYPE Y
+            
+		WHERE
+			LE.SRSEQ = #{srSeq} 
+			AND T.lecturenum = LE.LECTURENUM 
+			AND LE.TYPENUM =#{typeNum}
+			AND LE.MPSEQ = M.MPSEQ 
+			AND M.PREGINUM = P.PREGINUM
+			AND LE.TYPENUM = Y.TYPENUM
+		   
+          ]]>
+		 	
 	</select>
 	
 	<select id="selectCourseMajor" parameterType="HashMap" resultType="HashMap">
