@@ -112,11 +112,12 @@ rel="stylesheet" type="text/css">
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div id="prof-span">
-			<img class="img-fluid img-profile rounded-circle mx-auto mb-2"
-			id="hiddenImg" src="<c:url value="/resources/img/profile.jpg" />">
-			<br> <span> チョンチギョン </span>
-		</div>
+						<div id="prof-span">
+					<a href="MyPage"><img
+						class="img-fluid img-profile rounded-circle mx-auto mb-2"
+						id="hiddenImg" src="${sessionScope.PICNAME}"><br> <span>
+							${sessionScope.loginName} </span></a>
+							</div>
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent"
 		style="font-family: Saira Extra Condensed;">
