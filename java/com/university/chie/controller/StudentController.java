@@ -99,7 +99,7 @@ public class StudentController {
 				stime +="]";
 				map1.put("STIME", stime);
 				stime = "";
-			}			
+			}
 			
 			model.addAttribute("semesterList", pdao.getSemesterData((String) session.getAttribute("loginId")));
 			model.addAttribute("subList", subList);

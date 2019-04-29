@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.university.chie.dao.CourseRegisterDAO;
 import com.university.chie.dao.MemberDAO;
 import com.university.chie.dao.ProfessorDAO;
 import com.university.chie.dao.StudentDao;
