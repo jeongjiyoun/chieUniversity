@@ -147,7 +147,7 @@ function goAssessment(smseq){
 
 <body>
 
-  <div class="container-fluid">
+  <div class="container-fluid" style="min-height: 716px;">
     <header>
       <div class="d-none d-lg-block" id="fix-title">
         <div id="fix-logoDiv">

@@ -86,7 +86,7 @@ pageEncoding="utf-8"%>
 				<tr>
 					<c:forEach items="${time1}" var="time2"  begin = "0" step = "1" end ="4">
 						<c:choose>
-						<c:when test="${time2 != ' '}">
+						<c:when test="${!(time2 == ' '|| time2 == ''||time2 == null)}">
 						<td style="width: 20%; background-color: skyblue;">${time2}</td>
 						</c:when>
 						<c:otherwise>
