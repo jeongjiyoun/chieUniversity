@@ -169,7 +169,7 @@ pageEncoding="utf-8"%>
             					tag.append('<tr>');
             					tag.append('<td>'+this.name+'</td>');
             					tag.append('<td>'+this.size+'</td>');
-            					tag.append("<td><button class='canclebut' id='"+this.name+"' onclick='delFile(this)'>cancle</button></td>");
+            					tag.append("<td><button class='cancelbut' id='"+this.name+"' onclick='delFile(this)'>cancel</button></td>");
             					tag.append('</tr>');
             					return tag.toString();					
             				}
@@ -228,7 +228,7 @@ pageEncoding="utf-8"%>
                 margin-left:10px;
                 margin-right:5px;
             }
-            button.canclebut{
+            button.cancelbut{
             	float:inherit;
             	width:40%;
             	padding:2px;
