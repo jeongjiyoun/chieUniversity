@@ -123,7 +123,7 @@ pageEncoding="utf-8"%>
                       </div>
                       <div class="col-2">
                         <div class="input-group">
-                          <label class="label">相談理由</label>
+                          <label class="label">変更理由</label>
                           <div class="rs-select2 js-select-simple select--no-search">
                             <select name="typeNum" id="typeNum">
                               <option value="10">家庭事情</option>
@@ -145,9 +145,10 @@ pageEncoding="utf-8"%>
                           <label class="label">申し込む学期</label>
                           <div class="rs-select2 js-select-simple select--no-search">
                             <select name="semester" id="semester">
-                            <c:forEach items="${semesterList}" var="semester"></c:forEach>
-                              <option value="10">家庭事情</option>
-                              <option value="20">学業関連</option>
+                              <option value="1">1学期</option>
+                              <option value="2">2学期</option>
+                              <option value="3">１年１学期</option>
+                              <option value="4">2年</option>
                             </select>
                             <div class="select-dropdown"></div>
                           </div>
@@ -155,10 +156,11 @@ pageEncoding="utf-8"%>
                       </div>
                       <div class="col-2">
                         <div class="input-group">
-                          <label class="label">時間</label>
+                          <label class="label">今学期の包含有無</label>
                           <div class="rs-select2 js-select-simple select--no-search">
                             <select name="conTime" id="conTime">
-                              <option value="1" selected="selected">教授と相談日を先に選んでください</option>
+                              <option value="1" selected="selected">有(今学期を含め、休学)</option>
+                              <option value="2">無(来学期から休学)</option>
                             </select>
                             <div class="select-dropdown"></div>
                           </div>
@@ -166,13 +168,12 @@ pageEncoding="utf-8"%>
                       </div>
                     </div>
                     <div class="input-group input-group-big">
-                      <label class="label">相当理由:</label>
+                      <label class="label">変更理由:</label>
                       <textarea class="input--style-1" rows="1" cols="1"
-                      style="height: 160px;" placeholder="相談したい内容" id="memo"
+                      style="height: 160px;" placeholder="具体的な理由を書いてください。" id="memo"
                       name="memo" required="required">${memo}</textarea>
                     </div>
-                    <button class="btn-submit m-t-0" id="btnSub" type="button">相談
-                    申し込み</button>
+                    <button class="btn-submit m-t-0" id="btnSub" type="button">申し込み</button>
                   </form>
                 </div>
               </div>
@@ -193,12 +194,6 @@ pageEncoding="utf-8"%>
   <script src="/resources/vendor/jquery-validate/jquery.validate.min.js"></script>
   <script src="/resources/vendor/datepicker/moment.min.js"></script>
   <script src="/resources/vendor/datepicker/daterangepicker.js"></script>
-
-<!--   <script src="/resources/vendor/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script> -->
-<%--   <script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"/>"></script> --%>
-
-  <!-- Plugin JavaScript -->
-<%--   <script  src="<c:url value="/resources/vendor/jquery-easing/jquery.easing.min.js"/>"></script> --%>
 
   <!-- Custom scripts for this template -->
   <script  src="<c:url value="/resources/js/resume.min.js"/>"></script>
@@ -259,21 +254,20 @@ pageEncoding="utf-8"%>
       var coundate = $("#coundate").val();
       var conTime = $("#conTime option:selected").val();
       var memo = $("#memo").val();
-      if (preginum == null || preginum.length < 1) {
-			alert("教授を選択してください");
-	  }else if(typeName.length<1){		  
-			alert("相談タイプを選択してください");
-	  }else if(coundate.length<1){		  
-			alert("相談日子を選択してください");
-	  }else if(conTime.length<1){		  
-			alert("相談時間を選択してください");
-	  }else if(memo.length<1){  
-			alert("相談理由を入力してください");
-	  }else {
-		  $("#consultForm").submit();
-	  }
+//       if (preginum == null || preginum.length < 1) {
+// 			alert("教授を選択してください");
+// 	  }else if(typeName.length<1){		  
+// 			alert("相談タイプを選択してください");
+// 	  }else if(coundate.length<1){		  
+// 			alert("相談日子を選択してください");
+// 	  }else if(conTime.length<1){		  
+// 			alert("相談時間を選択してください");
+// 	  }else if(memo.length<1){  
+// 			alert("相談理由を入力してください");
+// 	  }else {
+		  $("#statusForm").submit();
+// 	  }
     }
   </script>
 </body>
-
 </html>

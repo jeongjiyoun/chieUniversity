@@ -131,9 +131,9 @@
 		UPDATE STUDENT
 		SET
 			PASSWORD = #{arg1}
-			UDATE = SYSDATE
+			,UDATE = SYSDATE
 		WHERE
-			SREGINUM = #{arg0}		
+			SREGINUM = #{arg0}
 	</update>
 	
 	<update id="pwUpdateP" parameterType="String">

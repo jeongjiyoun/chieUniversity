@@ -188,24 +188,6 @@ public class StudentController {
 		return "student/statusChange";
 	}
 	
-	@RequestMapping(value="/passwordChange",method=RequestMethod.GET)
-	public String passwordChange(Model model, HttpSession session) {
-		String date="";
-		System.out.println((String) session.getAttribute("userType"));
-		switch ((String) session.getAttribute("userType")) {
-		case "S":
-			date = sdao.getUDATE((String) session.getAttribute("loginId"));
-			break;
-		case "P":
-			date = pdao.getUDATEP((String) session.getAttribute("loginId"));
-			break;
-		default:
-			break;
-		}
-		model.addAttribute("date", date);
-		return "student/passwordChange/passwordChange";
-	}
-
 	@RequestMapping(value="/UpdateMyInfo",method=RequestMethod.POST)
 	public @ResponseBody String UpdateMyInfo(HttpSession session, String name, String email, String address, String tel) {
 		Map<String, String> map = new HashMap<>();
@@ -222,9 +204,9 @@ public class StudentController {
 		return "redirect:/MyInformation";
 	}
 	
+	//간단하게 그림 파일 올려서 링크 되돌려받기.
 	@RequestMapping(value="/upLoadPicture",method=RequestMethod.POST)
 	public @ResponseBody String upLoadPicture(HttpSession session, MultipartFile ex_file) {
-			//간단하게 그림 파일 올려서 링크 되돌려받기.
 			String savedfile = "";
 			String filePath = "D:\\FTP\\Face\\origin";
 			
@@ -233,8 +215,14 @@ public class StudentController {
 			}
 			
 			String name = "http://10.10.15.161/FTP/Face/origin/" + savedfile;
+			System.out.println(name);
 		    return name;
 	}
-
+	
+	@RequestMapping(value="/statusForm",method=RequestMethod.GET)
+	public String statusForm() {
+		return "redirect:/leaveOfAbsence";
+	}
+	
 }
 

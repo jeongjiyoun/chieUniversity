@@ -204,8 +204,7 @@ $(function() {
             ,contentType: false
 	        ,data : formData
 	        ,success : function(resp){
-	        	alert(resp);
-	  			faceInfo.src = resp;
+	  			$("#faceInfo").src = resp;
 	  			fileName = resp;
 	        }
 	    	,error : function(){

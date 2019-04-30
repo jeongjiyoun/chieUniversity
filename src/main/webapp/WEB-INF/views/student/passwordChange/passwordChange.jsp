@@ -75,7 +75,7 @@ pageEncoding="utf-8"%>
   }
 
   function btnApply(){
-	  location.href="passwordChage_step2"
+	  location.href="passwordChange_step2"
   }
 </script>
 
