@@ -252,13 +252,6 @@ pageEncoding="utf-8"%>
 <meta name="viewport"
 content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- font -->
-<link
-href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700"
-rel="stylesheet">
-<link
-href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i"
-rel="stylesheet">
 
 <link
 href="<c:url value="/resources/vendor/fontawesome-free/css/all.min.css"/>"
@@ -277,14 +270,14 @@ rel="stylesheet">
 <!-- Title Page-->
 <title>お知らせ</title>
 
-<!-- Icons font CSS *-->
+<!-- Icons font CSS * -->
 <link
 href="/resources/vendor/mdi-font/css/material-design-iconic-font.min.css"
 rel="stylesheet" media="all">
 <link href="/resources/vendor/font-awesome-4.7/css/font-awesome.min.css"
 rel="stylesheet" media="all">
 
-<!-- Font special for pages-->
+<!-- Font special for pages -->
 <link
 href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
 rel="stylesheet">
@@ -352,14 +345,14 @@ rel="stylesheet" type="text/css">
          aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
       </button>
-      <div id="prof-span">
-         <img class="img-fluid img-profile rounded-circle mx-auto mb-2"
-         id="hiddenImg" src="<c:url value="/resources/img/profile.jpg" />">
-         <br> <span> チョンチギョン </span>
-      </div>
+<div id="prof-span">
+					<a href="MyPage"><img
+						class="img-fluid img-profile rounded-circle mx-auto mb-2"
+						id="hiddenImg" src="${sessionScope.PICNAME}"><br> <span>
+							${sessionScope.loginName} </span></a>
+							</div>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent"
-      style="font-family: Saira Extra Condensed;">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
          <li class="nav-item"><a class="nav-link js-scroll-trigger"
             href="goSubjectHome">HOME</a></li>

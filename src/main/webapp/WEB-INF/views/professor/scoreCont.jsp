@@ -65,9 +65,9 @@ function init(){
 }
 
 function output1(scorePCT){
-	var cont ="<tr><td style='border :1px solid #dee2e6;'>宿題１</td><td style='border :1px solid #dee2e6;'>"+scorePCT.ASSIGNMENT1_PCT+"&#37;</td><td style='border :1px solid #dee2e6;'>宿題２"+scorePCT.ASSIGNMENT2_PCT+"&#37;</td>";
-	cont+="<td style='border :1px solid #dee2e6;'>試験１</td><td style='border :1px solid #dee2e6;'>"+scorePCT.SCORE1_PCT+"&#37;</td><td style='border :1px solid #dee2e6;'>試験２"+scorePCT .SCORE2_PCT+"&#37;</td>";
-	cont+="<td style='border :1px solid #dee2e6;'>出席</td><td>"+scorePCT.ATTENDSCORE_PCT+"&#37;</td><td style='border :1px solid #dee2e6;'>その他"+scorePCT.ETCSCORE_PCT+"&#37;</td></tr>";
+	var cont ="<tr><td style='border :1px solid #dee2e6;'>宿題１</td><td style='border :1px solid #dee2e6;'>"+scorePCT.ASSIGNMENT1_PCT+"&#37;</td><td style='border :1px solid #dee2e6;'>宿題２</td><td style='border :1px solid #dee2e6;'>"+scorePCT.ASSIGNMENT2_PCT+"&#37;</td>";
+	cont+="<td style='border :1px solid #dee2e6;'>試験１</td><td style='border :1px solid #dee2e6;'>"+scorePCT.SCORE1_PCT+"&#37;</td><td style='border :1px solid #dee2e6;'>試験２</td><td style='border :1px solid #dee2e6;'>"+scorePCT .SCORE2_PCT+"&#37;</td>";
+	cont+="<td style='border :1px solid #dee2e6;'>出席</td><td>"+scorePCT.ATTENDSCORE_PCT+"&#37;</td><td style='border :1px solid #dee2e6;'>その他</td><td style='border :1px solid #dee2e6;'>"+scorePCT.ETCSCORE_PCT+"&#37;</td></tr>";
 	$("#pctTable").html(cont);
 	
 	assignment1_pct =scorePCT.ASSIGNMENT1_PCT;
