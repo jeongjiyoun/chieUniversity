@@ -155,7 +155,7 @@
     function startCheck(){
      intervalTimer = setInterval(function() {
        capture();
-     }, 1000*6);
+     }, 1000*20);
 //   }, 1000*60*10);
     }
 
@@ -185,7 +185,7 @@
      var content = "<label style='font-size: xx-large; color : white'>顔面認識に失敗しました。出席確認にご協力お願いします。 &nbsp &nbsp<input type='checkbox' id = 'isWatching'></label>";
      $("#checkMessage").html(content);
      $("#isWatching").change(checkPass);
-     exitTimer = setTimeout("btnExit()", 1000*5);
+     exitTimer = setTimeout("btnExit()", 1000*10);
    }
 
     function checkPass(){
