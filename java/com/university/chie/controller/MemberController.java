@@ -91,6 +91,7 @@ public class MemberController {
 					System.out.println("sucess");
 					break;
 				}
+				checked = true;
 		}
 		
 		//맞는 정보 로그인시키기

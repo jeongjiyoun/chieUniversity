@@ -166,8 +166,12 @@ public class CongnitiveService {
 
 	// faceId 결과값을 자르는 메서드
 	public String cutString(String imgId) {
-		String temp1 = imgId.split(":")[6];
-		String result = temp1.substring(2, 38);
-		return result;
+		try {
+			String temp1 = imgId.split(":")[6];
+			String result = temp1.substring(2, 38);
+			return result;
+		} catch (Exception e) {
+			return "";
+		}
 	}
 }

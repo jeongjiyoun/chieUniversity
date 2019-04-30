@@ -232,7 +232,7 @@ public class StudentController {
 				savedfile = FileService.saveFile(ex_file, filePath);
 			}
 			
-			String name = "http://10.10.16.70/FTP/Face/origin/" + savedfile;
+			String name = "http://10.10.15.161/FTP/Face/origin/" + savedfile;
 		    return name;
 	}
 
