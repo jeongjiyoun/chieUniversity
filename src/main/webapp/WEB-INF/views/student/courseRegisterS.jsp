@@ -12,6 +12,18 @@ pageEncoding="utf-8"%>
 
 var srSeq;
 
+$(function(){
+	$(".syllabus").on("click", syllabus);
+})
+
+function syllabus(){
+	alert("!");
+	var url = $(this).attr("data-value");
+	alert(url);
+		var url = "/fileWatch?url=" + $(this).attr("data-value");
+		window.open(url, '_blank', 'height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes, location=no, menubar=no,scrollbars=no', false);
+}
+
 function schedulePop(){
 	//var score_seq = $(this).attr("data-value");
 	var url;
@@ -159,11 +171,12 @@ function output(data){
 		result+="<td class='real'>"+item.REAL+"</td>";
 		result+="<td class='sTime'>"+item.STIME+"</td>";
 		result+="<td class='grade'>"+item.GRADE+"</td>";
-		result+="<td class='fileName'><button type='button' style='background-color:white;color:blue;' id='"+item.FILENAME+"'>ダウンロード</button></td>";
+		result+="<td class='fileName'><button type='button' style='background-color:white;color:blue;' class='syllabus' data-value='"+item.FILENAME+"'>ダウンロード</button></td>";
 		result+="</tr>";
 	})
 	$("#resultTable").append(result);
-	$(".lectureNum").on("click",registerCourse);	
+	$(".lectureNum").on("click",registerCourse);
+	$(".syllabus").on("click", syllabus);
 }
 </script>
 <style type="text/css">

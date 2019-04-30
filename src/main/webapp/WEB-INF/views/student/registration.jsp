@@ -56,8 +56,9 @@
 				alert("??");
 				$.each(result,function(index, item){	
 					if (item.ENSEQ==enSeq) {
-				cont="<tr><td colspan='4'>( 全単位   "+item.TOTLALCREDIT+"X 7000円  ="+item.TOTALCOST+") -奨学金  "+item.TOTSCOLASHIP+"<br>= 最終決済金額  "+item.SUBTOTAL+"</td><td><button>口座決済</button></td><td><button id='#'>カード決済</button></td></tr>";
-		
+						cont="<tr><td colspan='4'>( 全単位   "+item.TOTLALCREDIT+"X 7000円  ="+item.TOTALCOST+") -奨学金  "+item.TOTSCOLASHIP+"<br>";
+						cont+='= 最終決済金額  '+item.SUBTOTAL+'</td><td style="width: 15%; text-align: center"><button style="width: 95%;">口座決済</button>';
+						cont+='</td><td style="width: 15%; text-align: center" ><button style="width: 95%;"id="check2">カード決済</button></td></tr>';
 					}
 			});
 			$('tbody').after(cont);
@@ -258,6 +259,7 @@
 											<td style="width: 20%; text-align: center"></td>
 											<td style="width: 10%; text-align: center"></td>
 											<td style="width: 20%; text-align: center"></td>
+											<td style="width: 15%; text-align: center"></td>
 											<td style="width: 15%; text-align: center"></td>
 											<td style="width: 15%; text-align: center"></td>
 										</tr>

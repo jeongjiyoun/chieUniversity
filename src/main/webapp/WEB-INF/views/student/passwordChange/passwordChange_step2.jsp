@@ -56,7 +56,7 @@ pageEncoding="utf-8"%>
 		            <br>
 		                <span class="c_pw2">
 		                    <input name="sname" class= "pwInput" type="text" placeholder="名前" id="snameIn">
-							<button type="button" class= "btn-admit" id="faceLogin">認識ページへ</button>
+							<button type="button" class= "btn-admit" id="faceLogin" style="margin-top: 15px;">認識ページへ</button>
 		                </span>
 		            </span>
 		            <span style="color: red; margin-left: 30px;" id="message"></span>
@@ -106,7 +106,7 @@ pageEncoding="utf-8"%>
 	       type : 'POST',
 	       success : function(result) {
 		       if(result){
-	 			 location.href="passwordChage_step3"
+	 			 location.href="passwordChange_step3"
 		       } else {
 			     $("#message").html("情報を確認してください。");
 			   }

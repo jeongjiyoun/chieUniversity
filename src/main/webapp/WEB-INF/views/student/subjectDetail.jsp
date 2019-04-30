@@ -47,7 +47,6 @@
     </header>
     <div class="row" id="margin-del">
 
-
 			<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top"
 				id="sideNav">
 				<a class="navbar-brand js-scroll-trigger" style="margin-top: 15px;"
@@ -176,9 +175,11 @@
 														var="openDate" /> <%-- 시작날짜 --%> <fmt:formatDate
 														value="${movie.ENDDATE}" pattern="yyyy-MM-dd HH:mm"
 														var="closeDate" /> <%-- 마감날짜 --%> <%-- 			<c:if test="${openDate <= nowDate && closeDate >= nowDate}"> --%>
+													<c:if test="${index.count==8}">
 													<button class="btn btn-primary btn-sm watch"
 														style="width: 80%;" data-value="${movie.COURSESEQ}">見る</button>
-													<%-- 			</c:if> --%></td>
+													</c:if>
+<%-- 																</c:if></td> --%>
 												<td>${movie.MTIME}</td>
 												<td>${movie.ATIME}</td>
 												<td style="border-right: none;"><c:if

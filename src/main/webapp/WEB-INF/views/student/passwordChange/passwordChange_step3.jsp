@@ -46,10 +46,10 @@ pageEncoding="utf-8"%>
 		        <div class="contents pas2">
 		            <div class="txt2">変更するパスワードを入力してください
 			            <div class="stxt" style="height: 190px;">
-			            	<span class="u_txt_big"><span style="width: 10px; height : 10px;"></span>現在の統合パスワードで本人確認</span>
+			            	<span class="u_txt_big"><span style="width: 10px; height : 10px;"></span>新しいパスワードに変更</span>
 			            		<div class="c_pw2">
 				                    <input name="pw" class= "pwInput" type="password" placeholder="変更するパスワード" id="pw1">
-			                    <input name="pw2" class= "pwInput" type="text" placeholder="パスワード確認" id="pw2">
+			                    <input name="pw2" class= "pwInput" type="password" placeholder="パスワード確認" id="pw2">
 								<button type="button" class= "btn-admit" id="pwchange">パスワード変更</button>
 			                    </div>
 			                    <span style="float: right; font-size: 1rem; margin-right: 209px;">特殊文字と半角英大小字と数字で3つ混ざって6～10字でください</span>
@@ -86,7 +86,7 @@ pageEncoding="utf-8"%>
 	  var password = $("#pw1").val();
 	  var pw2 = $("#pw2").val();
 	  
-	  if (!pwreg.test(pw1)) {
+	  if (pwreg.test(pw1)) {
 		   $("#message").html("パスワードの規則に当てはめて入力してください。")
 		   return false;
 	  }

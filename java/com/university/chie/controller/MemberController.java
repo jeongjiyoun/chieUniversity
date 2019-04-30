@@ -63,14 +63,34 @@ public class MemberController {
 		return "main/login";
 	}
 
-	@RequestMapping(value = "/passwordChage_step2", method = RequestMethod.GET)
+
+	//password Change
+	@RequestMapping(value="/passwordChange",method=RequestMethod.GET)
+	public String passwordChange(Model model, HttpSession session) {
+		String date="";
+		System.out.println((String) session.getAttribute("userType"));
+		switch ((String) session.getAttribute("userType")) {
+		case "S":
+			date = sdao.getUDATE((String) session.getAttribute("loginId"));
+			break;
+		case "P":
+			date = pdao.getUDATEP((String) session.getAttribute("loginId"));
+			break;
+		default:
+			break;
+		}
+		model.addAttribute("date", date);
+		return "student/passwordChange/passwordChange";
+	}
+		
+	@RequestMapping(value = "/passwordChange_step2", method = RequestMethod.GET)
 	public String passwordChage_step2() {
-		return "student/passwordChange/passwordChage_step2";
+		return "student/passwordChange/passwordChange_step2";
 	}
 
-	@RequestMapping(value = "/passwordChage_step3", method = RequestMethod.GET)
+	@RequestMapping(value = "/passwordChange_step3", method = RequestMethod.GET)
 	public String passwordChage_step3() {
-		return "student/passwordChange/passwordChage_step3";
+		return "student/passwordChange/passwordChange_step3";
 	}
 	
 	@RequestMapping(value = "/faceLogin", method = RequestMethod.POST)
@@ -182,8 +202,6 @@ public class MemberController {
 			return "main/login";
 		}
 	}
-	
-
 	
 	//내 강의실 가기
 	@RequestMapping(value = "/MyPage", method = RequestMethod.GET)
