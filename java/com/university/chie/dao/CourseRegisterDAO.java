@@ -84,6 +84,19 @@ public class CourseRegisterDAO {
 		return result;
 	}
 	
+	public ArrayList<HashMap<String,String>> selectCourseTypeT(HashMap<String,String> type){
+		ArrayList<HashMap<String,String>> result = null;
+		CourseRegisterMapper mapper = session.getMapper(CourseRegisterMapper.class);
+		try {
+			result = mapper.selectCourseTypeT(type);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return result;
+	}
+	
 	public ArrayList<HashMap<String,String>> selectCourseMajor(HashMap<String,String> majorInfo){
 		ArrayList<HashMap<String,String>> result = null;
 		CourseRegisterMapper mapper = session.getMapper(CourseRegisterMapper.class);
@@ -97,11 +110,37 @@ public class CourseRegisterDAO {
 		return result;
 	}
 	
+	public ArrayList<HashMap<String,String>> selectCourseMajorT(HashMap<String,String> majorInfo){
+		ArrayList<HashMap<String,String>> result = null;
+		CourseRegisterMapper mapper = session.getMapper(CourseRegisterMapper.class);
+		try {
+			result = mapper.selectCourseMajorT(majorInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return result;
+	}
+	
 	public ArrayList<HashMap<String,String>> selectKeyWord(HashMap<String,String> key){
 		ArrayList<HashMap<String,String>> result = null;
 		CourseRegisterMapper mapper = session.getMapper(CourseRegisterMapper.class);
 		try {
 			result = mapper.selectKeyWord(key);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<HashMap<String,String>> selectKeyWordT(HashMap<String,String> key){
+		ArrayList<HashMap<String,String>> result = null;
+		CourseRegisterMapper mapper = session.getMapper(CourseRegisterMapper.class);
+		try {
+			result = mapper.selectKeyWordT(key);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

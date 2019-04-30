@@ -56,7 +56,7 @@ function typeSearch(){
 				
 				output(data);
 			}else {
-				alert('failed');
+				alert('申請失敗！');
 			}
 		}
 		
@@ -83,7 +83,7 @@ function majorSearch(){
 				if(data!=""){
 					output(data);
 				} else {
-					alert('failed');
+					alert('申請失敗！');
 				}
 			}
 		});
@@ -112,7 +112,7 @@ function keywordSearch(){
 				if(data!=""){
 					output(data);
 				} else {
-					alert('failed');
+					alert('申請失敗！');
 				}
 			}
 		});
@@ -159,7 +159,7 @@ function output(data){
 		result+="<td class='real'>"+item.REAL+"</td>";
 		result+="<td class='sTime'>"+item.STIME+"</td>";
 		result+="<td class='grade'>"+item.GRADE+"</td>";
-		result+="<td class='fileName'>"+item.FILENAME+"</td>";
+		result+="<td class='fileName'><button type='button' style='background-color:white;color:blue;' id='"+item.FILENAME+"'>ダウンロード</button></td>";
 		result+="</tr>";
 	})
 	$("#resultTable").append(result);
@@ -248,7 +248,7 @@ function output(data){
 	
 	<c:if test="${credit>=15&&credit<=24}">
 	<tr>
-		<td style="color: navy;padding-left: 48px;">現在単位 :　${credit}単位</td>
+		<td style="color: blue;padding-left: 48px;">現在単位 :　${credit}単位</td>
 	</tr>
 	
 	</c:if>

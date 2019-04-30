@@ -224,11 +224,11 @@ button{
     
     </section>
     <br>
-	<%-- <c:if test="${sessionScope.userType=='P'}"> --%>
+	<c:if test="${sessionScope.userType=='P'}">
     <form action="writeNotice">
     <button>write</button>
     </form>
-   <%--  </c:if> --%>
+    </c:if>
      <br>
 
      
