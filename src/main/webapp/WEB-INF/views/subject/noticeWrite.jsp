@@ -69,11 +69,11 @@ pageEncoding="utf-8"%>
         			cache : false,
         			success : function(data) {
         				if(data==null) {
-        					alert('실패');
+        					alert('失敗！');
         					
         					
         				}else {
-        					alert('성공');
+        					//alert('성공');
         					location.href='showNotice?lnSeq='+data;
         				}
         			}
@@ -90,7 +90,7 @@ pageEncoding="utf-8"%>
         		
         		// tr을 삭제하기 위해
         		$(e).parents('tr').remove();
-        		alert('삭제 완료!');		
+        		//alert('삭제 완료!');		
         	}
         	
         	

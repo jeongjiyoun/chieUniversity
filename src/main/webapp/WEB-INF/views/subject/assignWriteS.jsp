@@ -68,7 +68,7 @@ pageEncoding="utf-8"%>
         			cache : false,
         			success : function(data) {
         				if(data) {
-        					alert('success');
+        					//alert('success');
         					location.href='./showAssign?assSeq='+assSeq;
         					
         				}else {
@@ -87,7 +87,7 @@ pageEncoding="utf-8"%>
         		
         		// tr을 삭제하기 위해
         		$(e).parents('tr').remove();
-        		alert('삭제 완료!');		
+        		//alert('삭제 완료!');		
         	}
         	
         	

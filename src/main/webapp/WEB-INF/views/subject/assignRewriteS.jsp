@@ -110,9 +110,9 @@ pageEncoding="utf-8"%>
         				if(data){
         					// tr을 삭제하기 위해
         	        		$(e).parents('tr').remove();
-        	        		alert('삭제성공');	
+        	        		//alert('삭제성공');	
         				} else {
-        					alert('삭제실패!');
+        					alert('削除失敗!');
         				}
         			}
         			

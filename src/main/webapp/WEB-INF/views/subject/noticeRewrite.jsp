@@ -91,7 +91,7 @@ pageEncoding="utf-8"%>
         		
         		// tr을 삭제하기 위해
         		$(e).parents('tr').remove();
-        		alert('削除完了!');		
+        		//alert('削除完了!');		
         	}
         	
         	function delFile2(e) {
@@ -110,7 +110,7 @@ pageEncoding="utf-8"%>
         				if(data){
         					// tr을 삭제하기 위해
         	        		$(e).parents('tr').remove();
-        	        		alert('削除完了!');	
+        	        		//alert('削除完了!');	
         				} else {
         					alert('削除失敗!');
         				}
