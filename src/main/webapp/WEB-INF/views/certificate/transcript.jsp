@@ -79,15 +79,14 @@ document.oncontextmenu = function(e){
  */
 </script>
 <style>
-
-	body{
+@media print{
+	#sett{
 		border: 3px solid;
    		border-style: double;
     	margin-left: 3%;
     	margin-right: 3%;
     	margin: 3%;
-    	
-    	
+
     	}
 
     
@@ -96,6 +95,8 @@ document.oncontextmenu = function(e){
     	background-size: 37%;
     	background-repeat: no-repeat;
     	background-position: center;
+    	webkit-print-color-adjust:exact;
+    	
     
     }
  
@@ -103,10 +104,14 @@ document.oncontextmenu = function(e){
 		column-count: 2;
 		column-rule: 1px solid;
 		column-rule-style: solid;
-		margin:10%;
+		margin-top:15%;
+		margin-left:5%;
+		margin-right:5%;
+		margin-bottom:10%;
 		border: 2px solid;
    		padding: 2%;
    		background: rgba(256,256,256,0.4);
+   		webkit-print-color-adjust:exact;
 	}
 	
 	
@@ -138,12 +143,91 @@ document.oncontextmenu = function(e){
 		margin-left: auto;
 		margin-right: auto;
 	}
+	
+	#print{
+		display: none;
+	}
+	
+	}
+	
+	#sett{
+		border: 3px solid;
+   		border-style: double;
+    	margin-left: 3%;
+    	margin-right: 3%;
+    	margin: 3%;
+
+    	}
+
+    
+    .logo{
+    	background-image: url(resources/img/logo.png);
+    	background-size: 37%;
+    	background-repeat: no-repeat;
+    	background-position: center;
+    	webkit-print-color-adjust:exact;
+    	
+    
+    }
+ 
+	.multi{
+		column-count: 2;
+		column-rule: 1px solid;
+		column-rule-style: solid;
+		margin-top:15%;
+		margin-left:5%;
+		margin-right:5%;
+		margin-bottom:10%;
+		border: 2px solid;
+   		padding: 2%;
+   		background: rgba(256,256,256,0.4);
+   		webkit-print-color-adjust:exact;
+	}
+	
+	
+	#sInfoTa{
+		
+		position: absolute;
+		margin-right: 3%;
+		margin-left: 3%;
+		left: -27px;
+		
+	}
+	td.sInfo{
+		width:200px;
+		text-align: right;
+	}
+	td.sInfo2{
+		width:200px;
+		text-align: left;
+	}
+	#title{
+		font-size: 32px;
+		margin: 3%;
+	}
+	#first{
+		column-count: 1;
+	}
+	#grade{
+		text-align:left;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	#print{
+		float:right;
+		background-color: navy;
+		color: white;
+	}
+	
 
 </style>
 
 </head>
 <body>
-	
+	<button type="submit" id="print" onclick="printArea();">PRINT</button>
+<br><br>
+<div id="sett">
 	<div id="first">
 	<center>
 	<div id="title">
@@ -222,5 +306,13 @@ document.oncontextmenu = function(e){
 
 	</div>
 	</div>
+	</div>
+<script type="text/javascript">
+	function printArea(printThis){
+	
+	window.print();
+	
+}
+</script>
 </body>
 </html>
