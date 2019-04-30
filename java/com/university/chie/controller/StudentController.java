@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -100,7 +99,7 @@ public class StudentController {
 				map1.put("STIME", stime);
 				stime = "";
 			}
-			
+
 			model.addAttribute("semesterList", pdao.getSemesterData((String) session.getAttribute("loginId")));
 			model.addAttribute("subList", subList);
 			return "professor/courseList";
@@ -128,14 +127,14 @@ public class StudentController {
 			return "student/courseList";
 		}
 	}
-	
+
 	@RequestMapping(value="/goAssessment",method=RequestMethod.GET)
 	public String goAssessment(String smSeq, Model model) {
 			model.addAttribute("assessment",sdao.getAssessmentInfo(smSeq));
 			return "student/assessment";
 	}
 	
-	@RequestMapping(value="/assessProfessor",method=RequestMethod.GET)
+	@RequestMapping(value="/assessProfessor",method=RequestMethod.POST)
 	public String assessProfessor(String smseq, String fidelity, String fidlityReason,
 			String professionality, String professionalityReason, String understanding,
 			String understandingReason) {
@@ -149,9 +148,9 @@ public class StudentController {
 			map.put("UNDERSTANDING_REASON", understandingReason);
 			System.out.println(map);
 			sdao.assessProfessor(map);
-			return "redirect:/MyGrade";
+			return "student/thanks";
 	}
-	
+
 	
 	@RequestMapping(value="/subjectDetail",method=RequestMethod.GET)
 	public String subjectDetail(String lecturenum, Model model, HttpSession session) {
@@ -233,7 +232,7 @@ public class StudentController {
 				savedfile = FileService.saveFile(ex_file, filePath);
 			}
 			
-			String name = "http://10.10.16.70/FTP/Face/origin/" + savedfile;
+			String name = "http://10.10.15.161/FTP/Face/origin/" + savedfile;
 		    return name;
 	}
 

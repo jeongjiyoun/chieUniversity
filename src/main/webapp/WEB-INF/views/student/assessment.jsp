@@ -51,7 +51,7 @@ pageEncoding="utf-8"%>
         </div>
       </div>
 <div class="table-responsive" style="overflow-x: hidden;overflow-y: auto; height: 60%;">
-	<form id="myForm" action="assessProfessor">
+	<form id="myForm" action="assessProfessor" method="post">
 	  <input type="hidden" name ="smseq" value="${assessment.SMSEQ}">
       <table class="table table-striped">
       		<thead>
@@ -194,7 +194,7 @@ pageEncoding="utf-8"%>
 	if (fidelity != null && professionality!= null && understanding != null && fidlityReason != null 
 			&& professionalityReason != null && understandingReason != null) {
 		$("#myForm").submit();
-		self.close();
+// 		self.close();
 	} else{
 		alert("入力を残した部分を確認してください。");
 	}

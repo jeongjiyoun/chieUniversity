@@ -136,6 +136,7 @@ pageEncoding="utf-8"%>
 	    });
   }
 
+  //SHOW LAST PAGE
   function examLast(){
 	  $("#exam_Seq2").remove();
 	  $("#answer").remove();
@@ -148,6 +149,7 @@ pageEncoding="utf-8"%>
 	  $("#btnNext").remove();
   }
 
+  //SHOW TEST QUESTION
   function showQuestion(resp){
 	  	var ques = resp.QUESTION + " (" + resp.QUESTION_SCORE + "点)"
 	  	$("#exam_Seq2").val(resp.EXAMSEQ2);
@@ -156,6 +158,7 @@ pageEncoding="utf-8"%>
 	    document.getElementById('questionScore').innerHTML = ques;
   }
   
+  //CALCULATE TIME FOR TEST
   function calcuTime(Etime){
 	   var mins = Math.floor(Etime%60);
 	   var hour = Math.floor(Etime/60);
@@ -171,6 +174,7 @@ pageEncoding="utf-8"%>
 	   document.getElementById('timeO').innerHTML = result;
   }
 
+  //TEST IN TIME
   function startTime(){
    if(running == 1){
 	   setTimeout(function(){
@@ -186,6 +190,7 @@ pageEncoding="utf-8"%>
     }
   }
 
+  //COUNTING WORDS
   function countingWords(){
    document.getElementById("sp01").innerHTML= document.getElementById("question").value.length;
  }
