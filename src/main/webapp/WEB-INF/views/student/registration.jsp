@@ -42,6 +42,14 @@
 	var enseq = null;
 	var totalcost = null;
 	
+	
+	function logout() {
+		var con_test = confirm("ログアウトしますか。");
+		if (con_test == true) {
+			location.href = "/logout";
+		}
+	}
+	
 	$(function() {
 		$("#check").on('click', appendCheck);
 	})
@@ -53,18 +61,18 @@
 			type:'GET'
 			,url: 'registInfo'
 			,success : function(result){
-				alert("??");
 				$.each(result,function(index, item){	
 					if (item.ENSEQ==enSeq) {
 						cont="<tr><td colspan='4'>( 全単位   "+item.TOTLALCREDIT+"X 7000円  ="+item.TOTALCOST+") -奨学金  "+item.TOTSCOLASHIP+"<br>";
 						cont+='= 最終決済金額  '+item.SUBTOTAL+'</td><td style="width: 15%; text-align: center"><button style="width: 95%;">口座決済</button>';
-						cont+='</td><td style="width: 15%; text-align: center" ><button style="width: 95%;"id="check2">カード決済</button></td></tr>';
+						cont+='</td><td style="width: 15%; text-align: center" ><button style="width: 95%;"class="check2" data-value1="'+item.ENSEQ;
+						cont+='"data-value2='+item.SUBTOTAL+'>カード決済</button></td></tr>';
 					}
 			});
 			$('tbody').after(cont);
+			$(".check2").on('click', check_module);
 				}
 		});
-		$("#check2").on('click', check_module);
 	}
 	
 	function check_module() {
@@ -75,7 +83,7 @@
 			pay_method : 'card',
 			merchant_uid : 'merchant_' + new Date().getTime(),
 			name : '授業料決済',
-			amount : 1//totalcost,
+			amount : totalcost,
 		}, function(rsp) {
 			if (rsp.success) {
 				var uri = "action";
@@ -278,21 +286,5 @@
  Tel : 03-3344-4444 &nbsp &nbsp Fax : 03-3344-5555 &nbsp &nbsp board@chie.ac.kr <br>
  <p id="copyRight"> COPYRIGHTⒸ ChiE Online University <p>
  </div>
-	<script type="text/javascript">
-		function logout() {
-			var con_test = confirm("ログアウトしますか。");
-			if (con_test == true) {
-				location.href = "/logout";
-			}
-		}
-
-		$(function() {
-			$(".btn.btn-primary.btn").on("click", goSubject);
-		});
-
-		function goSubject() {
-			var subjectNum = $(this).attr("data-value");
-		}
-	</script>
 </body>
 </html>
