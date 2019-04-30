@@ -56,7 +56,7 @@ function typeSearch(){
 				
 				output(data);
 			}else {
-				alert('failed');
+				alert('申請失敗！');
 			}
 		}
 		
@@ -83,7 +83,7 @@ function majorSearch(){
 				if(data!=""){
 					output(data);
 				} else {
-					alert('failed');
+					alert('申請失敗！');
 				}
 			}
 		});
@@ -112,7 +112,7 @@ function keywordSearch(){
 				if(data!=""){
 					output(data);
 				} else {
-					alert('failed');
+					alert('申請失敗！');
 				}
 			}
 		});

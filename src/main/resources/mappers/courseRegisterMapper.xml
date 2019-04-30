@@ -139,19 +139,6 @@
 			,L.OCCUPANCY AS OCCUPANCY
             ,(SELECT COUNT(SUSEQ) FROM SIGNUP S WHERE S.LECTURENUM = L.LECTURENUM) AS COUNT
 			,L.IS_REAL_TIME AS REAL
-			,(SELECT SUBSTR(XMLAGG(XMLELEMENT(A,', ' || STIME) ORDER BY STIME).EXTRACT('//text()'), 2) STIME
-		        FROM (
-		        SELECT
- 					T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
-		            ,T.LECTURENUM AS LECTURENUM
-		        FROM
-		            LECTURETIME T
-		        WHERE
-		        	L.SRSEQ = #{srSeq}
-		        	AND
-		            T.lecturenum = L.LECTURENUM
-		        )
-		        GROUP BY LECTURENUM) AS STIME
 			,L.GRADE AS GRADE
 			,L.FILENAME AS FILENAME
 		FROM
@@ -163,6 +150,26 @@
             AND M.PREGINUM = P.PREGINUM
             AND L.TYPENUM = Y.TYPENUM
             
+	</select>
+	<select id="selectKeyWordT" parameterType="HashMap" resultType="HashMap">
+		<![CDATA[
+				SELECT
+ 					T.DAY || ' ' || T.STARTTIME || '~' || T.ENDTIME AS STIME
+		            ,T.LECTURENUM AS LECTURENUM
+		        FROM
+		            LECTURETIME T
+		            ,LECTURE L
+		            ,PROFESSOR P
+		            ,MAJOR_PROFESSOR M
+		            ,LECTURETYPE Y
+		       WHERE
+		       		 ${option} LIKE '%' ||#{search}|| '%'
+            		AND L.SRSEQ = #{srSeq}
+            		AND L.MPSEQ = M.MPSEQ
+           			AND M.PREGINUM = P.PREGINUM
+           			AND L.TYPENUM = Y.TYPENUM
+		        	AND T.lecturenum = L.LECTURENUM
+	]]>
 	</select>
 	
 	<select id="selectLectureInfo" parameterType="String" resultType="HashMap">

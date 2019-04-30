@@ -23,6 +23,8 @@ public interface CourseRegisterMapper {
 	
 	public ArrayList<HashMap<String,String>> selectKeyWord(HashMap<String,String> key);
 	
+	public ArrayList<HashMap<String,String>> selectKeyWordT(HashMap<String,String> key);
+	
 	public HashMap<String,String> selectLectureInfo(String lectureNum);
 	
 	public int checkRegister(HashMap<String,String> check);

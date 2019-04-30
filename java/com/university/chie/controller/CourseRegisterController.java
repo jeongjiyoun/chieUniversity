@@ -258,12 +258,26 @@ public class CourseRegisterController {
 		key.put("srSeq", srSeq);
 		System.out.println(key);
 		ArrayList<HashMap<String, String>> result = dao.selectKeyWord(key);
-		for (HashMap<String, String> hashMap : result) {
-			if (hashMap.get("REAL").equals("F")) {
-				hashMap.put("STIME", "");
+		ArrayList<HashMap<String,String>> resultT = dao.selectKeyWordT(key);
+		for (Map<String, String> map1 : result) {
+			if(map1.get("REAL").equals("F")) {
+				map1.put("STIME","");
+			} else {
+				
+			String stime = "";
+			for (Map<String, String> map2 : resultT) {
+				if (map1.get("LECTURENUM").equals(map2.get("LECTURENUM"))) {
+					if (!stime.equals("")) {
+						stime +=",";
+					}
+						stime += map2.get("STIME");
+				}
+			}
+			stime +="";
+			map1.put("STIME", stime);
+			stime = "";
 			}
 		}
-
 		return result;
 	}
 
