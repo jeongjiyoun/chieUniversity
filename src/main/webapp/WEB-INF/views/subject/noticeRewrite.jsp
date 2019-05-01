@@ -91,7 +91,7 @@ pageEncoding="utf-8"%>
         		
         		// tr을 삭제하기 위해
         		$(e).parents('tr').remove();
-        		alert('削除完了!');		
+        		//alert('削除完了!');		
         	}
         	
         	function delFile2(e) {
@@ -110,7 +110,7 @@ pageEncoding="utf-8"%>
         				if(data){
         					// tr을 삭제하기 위해
         	        		$(e).parents('tr').remove();
-        	        		alert('削除完了!');	
+        	        		//alert('削除完了!');	
         				} else {
         					alert('削除失敗!');
         				}
@@ -197,7 +197,7 @@ pageEncoding="utf-8"%>
             					tag.append('<tr>');
             					tag.append('<td>'+this.name+'</td>');
             					tag.append('<td>'+this.size+'</td>');
-            					tag.append("<td><button class='canclebut' id='"+this.name+"' onclick='delFile(this)'>cancle</button></td>");
+            					tag.append("<td><button class='cancelbut' id='"+this.name+"' onclick='delFile(this)'>cancel</button></td>");
             					tag.append('</tr>');
             					return tag.toString();					
             				}
@@ -256,7 +256,7 @@ pageEncoding="utf-8"%>
                 margin-left:10px;
                 margin-right:5px;
             }
-            button.canclebut{
+            button.cancelbut{
             	float:inherit;
             	width:40%;
             	padding:2px;
@@ -286,13 +286,7 @@ pageEncoding="utf-8"%>
 <meta name="viewport"
 content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- font -->
-<link
-href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700"
-rel="stylesheet">
-<link
-href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i"
-rel="stylesheet">
+
 
 <link
 href="<c:url value="/resources/vendor/fontawesome-free/css/all.min.css"/>"
@@ -318,13 +312,6 @@ rel="stylesheet" media="all">
 <link href="/resources/vendor/font-awesome-4.7/css/font-awesome.min.css"
 rel="stylesheet" media="all">
 
-<!-- Font special for pages-->
-<link
-href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
-rel="stylesheet">
-<link
-href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
-rel="stylesheet">
 
 <!-- Vendor CSS *-->
 <link href="/resources/vendor/select2/select2.min.css" rel="stylesheet"
@@ -386,14 +373,14 @@ rel="stylesheet" type="text/css">
          aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
       </button>
-      <div id="prof-span">
-         <img class="img-fluid img-profile rounded-circle mx-auto mb-2"
-         id="hiddenImg" src="<c:url value="/resources/img/profile.jpg" />">
-         <br> <span> チョンチギョン </span>
-      </div>
+			<div id="prof-span">
+					<a href="MyPage"><img
+						class="img-fluid img-profile rounded-circle mx-auto mb-2"
+						id="hiddenImg" src="${sessionScope.PICNAME}"><br> <span>
+							${sessionScope.loginName} </span></a>
+							</div>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent"
-      style="font-family: Saira Extra Condensed;">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
          <li class="nav-item"><a class="nav-link js-scroll-trigger"
             href="goSubjectHome">HOME</a></li>

@@ -68,7 +68,7 @@ pageEncoding="utf-8"%>
         			cache : false,
         			success : function(data) {
         				if(data) {
-        					alert('success');
+        					//alert('success');
         					location.href='./showAssign?assSeq='+assSeq;
         					
         				}else {
@@ -87,7 +87,7 @@ pageEncoding="utf-8"%>
         		
         		// tr을 삭제하기 위해
         		$(e).parents('tr').remove();
-        		alert('삭제 완료!');		
+        		//alert('삭제 완료!');		
         	}
         	
         	
@@ -165,7 +165,7 @@ pageEncoding="utf-8"%>
             					tag.append('<tr>');
             					tag.append('<td>'+this.name+'</td>');
             					tag.append('<td>'+this.size+'</td>');
-            					tag.append("<td><button class='canclebut' id='"+this.name+"' onclick='delFile(this)'>cancle</button></td>");
+            					tag.append("<td><button class='cancelbut' id='"+this.name+"' onclick='delFile(this)'>cancel</button></td>");
             					tag.append('</tr>');
             					return tag.toString();					
             				}
@@ -224,7 +224,7 @@ pageEncoding="utf-8"%>
                 margin-left:10px;
                 margin-right:5px;
             }
-            button.canclebut{
+            button.cancelbut{
             	float:inherit;
             	width:40%;
             	padding:2px;
