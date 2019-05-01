@@ -231,7 +231,7 @@
 
 		function watch() {
 			var courseNum = $(this).attr("data-value");
-			var url = 'watch2?coursenum=' + courseNum;
+			var url = 'watch?coursenum=' + courseNum;
 			window.open(url, '_blank', 'height=' + screen.height + ',width='
 					+ screen.width
 					+ 'fullscreen=yes, location=no, menubar=no,scrollbars=no',

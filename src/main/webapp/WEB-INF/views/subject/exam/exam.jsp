@@ -33,7 +33,7 @@ pageEncoding="utf-8"%>
       <div class="d-none d-lg-block" id="fix-titleC">
         <img id="logoCen" src="<c:url value="/resources/img/logo.png" />">
 	<span style="width:22%; color: white; position: absolute; top: 16%; height: 84%; font-size: 2rem; margin-left: 35px;">残り時間  <span id="timeO"></span></span>
-	<span style="color: white; position: absolute; top: 16%; right: 16%; height: 84%; font-size: 2rem; margin-left: 35px;">${test.NAME} (${test.DIVIDE})</span>
+	<span style="color: white; position: absolute; top: 16%; right: 16%; height: 84%; font-size: 2rem; margin-left: 35px;">自動車電気工学(1)</span>
       </div>
     </header>
     <div class="row">
@@ -192,7 +192,7 @@ pageEncoding="utf-8"%>
 
   //COUNTING WORDS
   function countingWords(){
-   document.getElementById("sp01").innerHTML= document.getElementById("question").value.length;
+   document.getElementById("sp01").innerHTML= document.getElementById("answer").value.length;
  }
 
   function btnExit(){
