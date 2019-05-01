@@ -79,20 +79,19 @@ document.oncontextmenu = function(e){
  */
 </script>
 <style type="text/css">
-	@page {
-
-size: A4;
-
-margin: 0;
-
+@page{
+	size:A4;
+	margin: 0;
 }
+@media print{
+	
 
-
-	.logo{
+	#logo{
 		background-image: url(resources/img/logo.png);
     	background-size: 40%;
     	background-repeat: no-repeat;
     	background-position: center;
+    	webkit-print-color-adjust:exact;
 	}
 	#certiName{
 		margin: 5%;
@@ -109,7 +108,49 @@ margin: 0;
 		margin-right: 5%;
 		
 	}
-	#logo{
+	#border{
+		margin-top: 5%;
+		margin-bottom: 5%;
+		margin-left: 10%;
+		margin-right: 10%;
+		padding-top: 3%;
+		padding-bottom: 3%;
+		border: 6px solid;
+		border-style:double;
+		background: rgba(256,256,256,0.5);
+		webkit-print-color-adjust:exact;
+	}
+	#date{
+		font-size: 19px;
+	}
+	
+	#print{
+		display: none;
+	}
+}
+
+
+#logo{
+		background-image: url(resources/img/logo.png);
+    	background-size: 40%;
+    	background-repeat: no-repeat;
+    	background-position: center;
+    	webkit-print-color-adjust:exact;
+	}
+	#certiName{
+		margin: 5%;
+    	font-size: 35px;
+	}
+	tr{
+		margin:3%;
+	}
+	td{
+		text-align:right;
+	}
+	table{
+		border-spacing: 0 30px;
+		margin-right: 5%;
+		
 	}
 	#border{
 		margin-top: 5%;
@@ -121,22 +162,25 @@ margin: 0;
 		border: 6px solid;
 		border-style:double;
 		background: rgba(256,256,256,0.5);
+		webkit-print-color-adjust:exact;
 	}
 	#date{
 		font-size: 19px;
 	}
+	#print{
+		float:right;
+		background-color: navy;
+		color: white;
+	}
 	
-	@page a4sheet {
-		size:21.ocm 29.7cm
-	}
-	.a4{
-		page:a4sheet;
-		page-break-after:always
-	}
+	
 </style>
 </head>
 <body>
-<div class="logo" id="logo">
+<button type="submit" id="print" onclick="printArea();">PRINT</button>
+<br><br>
+<div id="all">
+<div id="logo">
 <div id="border">
 <div id="certiName">
 	<center>
@@ -214,6 +258,8 @@ margin: 0;
 <!-- .logo -->
 
 <script type="text/javascript">
+
+
 const canvasEl = document.getElementById('logo');
 const width = 849;
 const height = 633;
@@ -242,6 +288,11 @@ function submitImage(imageData) {
    });
     type = null;
   }
+  
+function printArea(printThis){
+	
+	window.print();
+}
 
 </script>
 </body>
