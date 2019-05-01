@@ -154,6 +154,7 @@ public class StudentController {
 	
 	@RequestMapping(value="/subjectDetail",method=RequestMethod.GET)
 	public String subjectDetail(String lecturenum, Model model, HttpSession session) {
+			lecturenum="020";
 			session.setAttribute("lectureNum", lecturenum);
 			Map<String, String> subject = sdao.getSubjectDetail(lecturenum);
 			model.addAttribute("subject",subject);
