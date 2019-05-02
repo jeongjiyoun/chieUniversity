@@ -88,7 +88,7 @@ button{
 			<div class="d-none d-lg-block" id="fix-title" style="margin-left: 0;">
 				<div id = "fix-logoDiv">
 					<div id = "fix-logo">
-						<a href="#">
+						<a href="goHome">
 							<img id = "schoolLogo" src="<c:url value="/resources/img/logo.png" />"alt="">
 							<span id="sideLogo">
 								知恵通信大学
@@ -110,12 +110,12 @@ button{
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
-					<div id="prof-span">
-						<img class="img-fluid img-profile rounded-circle mx-auto mb-2" id = "hiddenImg"src="<c:url value="/resources/img/profile.jpg" />"alt=""><br>
-						<span>
-							チョンチギョン
-						</span>
-					</div>
+				<div id="prof-span">
+					<a href="MyPage"><img
+						class="img-fluid img-profile rounded-circle mx-auto mb-2"
+						id="hiddenImg" src="${sessionScope.PICNAME}"><br> <span>
+							${sessionScope.loginName} </span></a>
+							</div>
 					
 					<div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-family: Saira Extra Condensed;">
 						<ul class="navbar-nav">

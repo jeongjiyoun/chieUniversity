@@ -90,7 +90,7 @@ rel="stylesheet" type="text/css">
 		<div class="d-none d-lg-block" id="fix-title">
 			<div id="fix-logoDiv">
 				<div id="fix-logo">
-					<a href="#"> <img id="schoolLogo"
+					<a href="goHome"> <img id="schoolLogo"
 						src="<c:url value="/resources/img/logo.png" />" alt=""> <span
 						id="sideLogo"> 知恵通信大学 </span>
 					</a>

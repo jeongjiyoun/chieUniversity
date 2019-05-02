@@ -304,13 +304,13 @@ rel="stylesheet" media="all">
 <link href="/resources/vendor/font-awesome-4.7/css/font-awesome.min.css"
 rel="stylesheet" media="all">
 
-<!-- Font special for pages-->
-<link
-href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
-rel="stylesheet">
-<link
-href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
-rel="stylesheet">
+<!-- <!-- Font special for pages--> -->
+<!-- <link -->
+<!-- href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" -->
+<!-- rel="stylesheet"> -->
+<!-- <link -->
+<!-- href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" -->
+<!-- rel="stylesheet"> -->
 
 <!-- Vendor CSS *-->
 <link href="/resources/vendor/select2/select2.min.css" rel="stylesheet"
@@ -350,7 +350,7 @@ rel="stylesheet" type="text/css">
       <div class="d-none d-lg-block" id="fix-title">
          <div id="fix-logoDiv">
             <div id="fix-logo">
-               <a href="#"> <img id="schoolLogo"
+               <a href="goHome"> <img id="schoolLogo"
                   src="<c:url value="/resources/img/logo.png" />" alt=""> <span
                   id="sideLogo"> 知恵通信大学 </span>
                </a>
@@ -372,11 +372,12 @@ rel="stylesheet" type="text/css">
          aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
       </button>
-      <div id="prof-span">
-         <img class="img-fluid img-profile rounded-circle mx-auto mb-2"
-         id="hiddenImg" src="<c:url value="/resources/img/profile.jpg" />">
-         <br> <span> チョンチギョン </span>
-      </div>
+				<div id="prof-span">
+					<a href="MyPage"><img
+						class="img-fluid img-profile rounded-circle mx-auto mb-2"
+						id="hiddenImg" src="${sessionScope.PICNAME}"><br> <span>
+							${sessionScope.loginName} </span></a>
+							</div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent"
       style="font-family: Saira Extra Condensed;">
