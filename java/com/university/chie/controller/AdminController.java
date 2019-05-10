@@ -25,7 +25,7 @@ public class AdminController {
 	public String admin() {
 		return "admin/admin";
 	}
-	//홈으로 가는거 임시방편 
+	//admin 홈으로 가는거 임시방편 
 	@RequestMapping(value = "/adminHome", method = RequestMethod.GET)
 	public String adminHome() {
 		return "admin/adminhome";

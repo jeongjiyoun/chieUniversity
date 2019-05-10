@@ -37,7 +37,6 @@ public class CourseRegisterController {
 	// check register period
 	@RequestMapping(value = "/schedulePop", method = RequestMethod.GET)
 	public String timetable(HttpSession session, Model model) throws ParseException {
-		// 마지막에 만들것
 		String sregiNum = (String) session.getAttribute("loginId");
 
 		ArrayList<HashMap<String, String>> stuList = new ArrayList<>();
